@@ -12,12 +12,14 @@
 #include <vector>
 #include <map>
 
-static bool endsWith(const std::string& str, const std::string& suffix)
+using namespace std;
+
+static bool endsWith(const string& str, const string& suffix)
 {
     return str.size() >= suffix.size() && 0 == str.compare(str.size()-suffix.size(), suffix.size(), suffix);
 }
 
-static bool startsWith(const std::string& str, const std::string& prefix)
+static bool startsWith(const string& str, const string& prefix)
 {
     return str.size() >= prefix.size() && 0 == str.compare(0, prefix.size(), prefix);
 }
@@ -28,9 +30,15 @@ namespace html2md {
 // Main class: HTML to Markdown converter
 class Converter {
  public:
+  explicit Converter(string &html) {
+        *this = Converter(&html);
+  }
+
   ~Converter() = default;
 
-  static std::string Convert(std::string *html) {
+  string Convert() { return Convert2Md(); }
+
+  static string Convert(string *html) {
     auto *instance = new Converter(html);
     auto md = instance->Convert2Md();
     delete instance;
@@ -45,7 +53,7 @@ class Converter {
     ReplaceAll(&html_, "&rarr;", "→");
 
 
-    std::regex exp("<!--(.*?)-->");
+    regex exp("<!--(.*?)-->");
     html_ = regex_replace(html_, exp, "");
   }
 
@@ -64,6 +72,7 @@ class Converter {
 
     ReplaceAll(&md_, "&quot;", "\"");
     ReplaceAll(&md_, "&lt;", "<");
+    ReplaceAll(&md_, "&gt;", ">");
   }
 
   Converter* AppendToMd(char ch) {
@@ -118,7 +127,6 @@ class Converter {
   static constexpr const char *kAttrinuteAlign = "align";
 
   static constexpr const char *kTagAnchor = "a";
-  static constexpr const char *kTagBold = "b";
   static constexpr const char *kTagBreak = "br";
   static constexpr const char *kTagCode = "code";
   static constexpr const char *kTagDiv = "div";
@@ -134,16 +142,25 @@ class Converter {
   static constexpr const char *kTagPre = "pre";
   static constexpr const char *kTagScript = "script";
   static constexpr const char *kTagSpan = "span";
-  static constexpr const char *kTagStrong = "strong";
-  static constexpr const char *kTagStrighthrought = "del";
   static constexpr const char *kTagStyle = "style";
   static constexpr const char *kTagTemplate = "template";
   static constexpr const char *kTagTitle = "title";
   static constexpr const char *kTagUnorderedList = "ul";
   static constexpr const char *kTagImg = "img";
-  static constexpr const char *kTagItalic = "em";
-  static constexpr const char *kTagUnderline = "u";
   static constexpr const char *kTagSeperator = "hr";
+
+  // Text format
+  static constexpr const char *kTagBold = "b";
+  static constexpr const char *kTagStrong = "strong";
+  static constexpr const char *kTagItalic = "em";
+  static constexpr const char *kTagItalic2 = "i";
+  static constexpr const char *kTagCitation = "cite";
+  static constexpr const char *kTagDefinition = "dfn";
+  static constexpr const char *kTagUnderline = "u";
+  static constexpr const char *kTagStrighthrought = "del";
+  static constexpr const char *kTagStrighthrought2 = "s";
+
+  static constexpr const char *kTagBlockquote = "blockquote";
 
   // Header
   static constexpr const char *kTagHeader1 = "h1";
@@ -161,7 +178,7 @@ class Converter {
 
   u_int16_t index_ch_in_html_ = 0;
 
-  std::vector<std::string> dom_tags_;
+  vector<string> dom_tags_;
 
   bool is_in_tag_ = false;
   bool is_closing_tag_ = false;
@@ -174,31 +191,33 @@ class Converter {
   bool is_in_ordered_list_ = false;
   int index_li = 0;
 
-  char prev_ch_in_md_, prev_prev_ch_in_md_ = 0;
+  short index_blockquote = 0;
+
+  char prev_ch_in_md_ = 0, prev_prev_ch_in_md_ = 0;
   char prev_ch_in_html_ = 'x';
 
-  std::string html_;
+  string html_;
 
   u_int16_t offset_lt_;
-  std::string current_tag_;
-  std::string prev_tag_;
+  string current_tag_;
+  string prev_tag_;
 
-  std::string current_attribute_;
-  std::string current_attribute_value_;
+  string current_attribute_;
+  string current_attribute_value_;
 
-  std::string current_href_;
-  std::string current_title_;
+  string current_href_;
+  string current_title_;
 
-  std::string current_alt_;
-  std::string current_src_;
+  string current_alt_;
+  string current_src_;
 
   // Line which separates header from data
-  std::string tableLine;
+  string tableLine;
 
   size_t chars_in_curr_line_ = 0;
   u_int16_t char_index_in_tag_content = 0;
 
-  std::string md_;
+  string md_;
   size_t md_len_ = 0;
 
   // Tag: base class for tag types
@@ -396,7 +415,7 @@ class Converter {
 
       ++converter->index_li;
 
-      std::string num = std::to_string(converter->index_li);
+      string num = to_string(converter->index_li);
       num += ". ";
       converter->AppendToMd(num.c_str());
     }
@@ -430,7 +449,9 @@ class Converter {
 
   struct TagParagraph : Tag {
     void OnHasLeftOpeningTag(Converter* converter) override {
-        converter->AppendToMd('\n');
+      if (converter->prev_tag_ != kTagBlockquote) converter->AppendToMd('\n');
+
+      converter->AppendToMd(Repeat("> ", converter->index_blockquote).c_str());
     }
     void OnHasLeftClosingTag(Converter* converter) override {
       if (!converter->md_.empty()) converter->AppendToMd('\n');
@@ -531,9 +552,7 @@ class Converter {
 
   struct TagSeperator : Tag {
       void OnHasLeftOpeningTag(Converter* converter) override {
-          converter->AppendToMd('\n');
-          converter->AppendToMd(Repeat("-", 3).c_str());
-          converter->AppendToMd('\n');
+          converter->AppendToMd("\n---\n");
       }
       void OnHasLeftClosingTag(Converter* converter) override {
       }
@@ -572,7 +591,7 @@ class Converter {
       void OnHasLeftOpeningTag(Converter* converter) override {
           auto align = converter->ExtractAttributeFromTagLeftOf(kAttrinuteAlign);
 
-          std::string line = "| ";
+          string line = "| ";
 
           if (align == "left" || align == "center")
               line += ':';
@@ -589,7 +608,6 @@ class Converter {
           converter->AppendToMd("| ");
       }
       void OnHasLeftClosingTag(Converter* converter) override {
-          // converter->AppendToMd('\n');
       }
   };
 
@@ -598,13 +616,27 @@ class Converter {
           if (converter->prev_prev_ch_in_md_ != '|') converter->AppendToMd("| ");
       }
       void OnHasLeftClosingTag(Converter* converter) override {
-          // converter->AppendToMd('\n');
       }
   };
 
-  std::map<std::string, Tag*> tags_;
+  struct TagBlockquote : Tag {
+    void OnHasLeftOpeningTag(Converter* converter) override {
+      ++converter->index_blockquote;
 
-  explicit Converter(std::string *html) : html_(*html) {
+      if (converter->index_blockquote > 1) converter->AppendToMd("> \n");
+    }
+    void OnHasLeftClosingTag(Converter* converter) override {
+      --converter->index_blockquote;
+
+      if (converter->index_blockquote > 0) {
+        converter->AppendToMd("> \n");
+      }
+    }
+  };
+
+  map<string, Tag*> tags_;
+
+  explicit Converter(string *html) : html_(*html) {
     PrepareHtml();
 
     // non-printing tags
@@ -643,9 +675,20 @@ class Converter {
     auto *bold = new TagBold();
     tags_[kTagBold] = bold;
     tags_[kTagStrong] = bold;
-    tags_[kTagItalic] = new TagItalic();
+
+    auto *italic = new TagItalic();
+    tags_[kTagItalic] = italic;
+    tags_[kTagItalic2] = italic;
+    tags_[kTagDefinition] = italic;
+    tags_[kTagCitation] = italic;
+
     tags_[kTagUnderline] = new TagUnderline();
-    tags_[kTagStrighthrought] = new TagStrikethrought();
+
+    auto *strikethrough = new TagStrikethrought();
+    tags_[kTagStrighthrought] = strikethrough;
+    tags_[kTagStrighthrought2] = strikethrough;
+
+    tags_[kTagBlockquote] = new TagBlockquote();
 
     // Tables
     tags_[kTagTable] = new TagTable();
@@ -655,24 +698,24 @@ class Converter {
   }
 
   // Trim from start (in place)
-  static void LTrim(std::string *s) {
+  static void LTrim(string *s) {
     (*s).erase(
         (*s).begin(),
-        std::find_if(
+        find_if(
             (*s).begin(),
             (*s).end(),
-            std::not1(std::ptr_fun<int, int>(std::isspace))));
+            not1(ptr_fun<int, int>(isspace))));
   }
 
   // Trim from end (in place)
-  Converter * RTrim(std::string *s, bool trim_only_blank = false) {
+  Converter * RTrim(string *s, bool trim_only_blank = false) {
     (*s).erase(
-        std::find_if(
+        find_if(
             (*s).rbegin(),
             (*s).rend(),
             trim_only_blank
-              ? std::not1(std::ptr_fun<int, int>(std::isblank))
-              : std::not1(std::ptr_fun<int, int>(std::isspace))
+              ? not1(ptr_fun<int, int>(isblank))
+              : not1(ptr_fun<int, int>(isspace))
         )
             .base(),
         (*s).end());
@@ -681,7 +724,7 @@ class Converter {
   }
 
   // Trim from both ends (in place)
-  Converter * Trim(std::string *s) {
+  Converter * Trim(string *s) {
     LTrim(s);
     RTrim(s);
 
@@ -690,9 +733,9 @@ class Converter {
 
   // 1. trim all lines
   // 2. reduce consecutive newlines to maximum 3
-  void TidyAllLines(std::string *str) {
+  void TidyAllLines(string *str) {
     auto lines = Explode(*str, '\n');
-    std::string res;
+    string res;
 
     int amount_newlines = 0;
 
@@ -716,16 +759,16 @@ class Converter {
     *str = res;
   }
 
-  static int ReplaceAll(std::string *haystack,
-                        const std::string &needle,
-                        const std::string &replacement) {
+  static int ReplaceAll(string *haystack,
+                        const string &needle,
+                        const string &replacement) {
     // Get first occurrence
     size_t pos = (*haystack).find(needle);
 
     int amount_replaced = 0;
 
     // Repeat until end is reached
-    while (pos != std::string::npos) {
+    while (pos != string::npos) {
       // Replace this occurrence of sub string
       (*haystack).replace(pos, needle.size(), replacement);
 
@@ -739,20 +782,23 @@ class Converter {
   }
 
   // Split given string by given character delimiter into vector of strings
-  static std::vector<std::string> Explode(std::string const &str,
+  static vector<string> Explode(string const &str,
                                           char delimiter) {
-    std::vector<std::string> result;
-    std::istringstream iss(str);
+    vector<string> result;
+    istringstream iss(str);
 
-    for (std::string token; std::getline(iss, token, delimiter);)
-      result.push_back(std::move(token));
+    for (string token; getline(iss, token, delimiter);)
+      result.push_back(move(token));
 
     return result;
   }
 
   // Repeat given amount of given string
-  static std::string Repeat(const std::string &str, size_t amount) {
-    std::string out;
+  static string Repeat(const string &str, size_t amount) {
+    if (amount == 1) return str;
+    else if (amount == 0) return "";
+
+    string out;
 
     for (u_int16_t i = 0; i < amount; i++) {
       out += str;
@@ -761,28 +807,26 @@ class Converter {
     return out;
   }
 
-  std::string ExtractAttributeFromTagLeftOf(const std::string& attr) {
-    char ch = ' ';
-
+  string ExtractAttributeFromTagLeftOf(const string& attr) {
     // Extract the whole tag from current offset, e.g. from '>', backwards
     auto tag = html_.substr(offset_lt_, index_ch_in_html_ - offset_lt_);
 
     // locate given attribute
     auto offset_attr = tag.find(attr);
 
-    if (offset_attr == std::string::npos) return "";
+    if (offset_attr == string::npos) return "";
 
     // locate attribute-value pair's '='
     auto offset_equals = tag.find('=', offset_attr);
 
-    if (offset_equals == std::string::npos) return "";
+    if (offset_equals == string::npos) return "";
 
     // locate value's surrounding quotes
     auto offset_double_quote = tag.find('"', offset_equals);
     auto offset_single_quote = tag.find('\'', offset_equals);
 
-    bool has_double_quote = offset_double_quote != std::string::npos;
-    bool has_single_quote = offset_single_quote != std::string::npos;
+    bool has_double_quote = offset_double_quote != string::npos;
+    bool has_single_quote = offset_single_quote != string::npos;
 
     if (!has_double_quote && !has_single_quote) return "";
 
@@ -810,11 +854,11 @@ class Converter {
       offset_opening_quote = offset_single_quote;
     }
 
-    if (offset_opening_quote == std::string::npos) return "";
+    if (offset_opening_quote == string::npos) return "";
 
     offset_closing_quote = tag.find(wrapping_quote, offset_opening_quote + 1);
 
-    if (offset_closing_quote == std::string::npos) return "";
+    if (offset_closing_quote == string::npos) return "";
 
     return tag.substr(
         offset_opening_quote + 1,
@@ -834,9 +878,9 @@ class Converter {
   }
 
   // Main character iteration of parser
-  std::string Convert2Md() {
+  string Convert2Md() {
     for (char ch : html_) {
-        ++index_ch_in_html_;
+      ++index_ch_in_html_;
 
       if (!is_in_tag_
           && ch == '<') {
@@ -968,13 +1012,13 @@ class Converter {
     return true;
   }
 
-  static bool TagContainsAttributesToHide(std::string *tag) {
-    return (*tag).find(" aria=\"hidden\"") != std::string::npos
-        || (*tag).find("display:none") != std::string::npos
-        || (*tag).find("visibility:hidden") != std::string::npos
-        || (*tag).find("opacity:0") != std::string::npos
+  static bool TagContainsAttributesToHide(string *tag) {
+    return (*tag).find(" aria=\"hidden\"") != string::npos
+        || (*tag).find("display:none") != string::npos
+        || (*tag).find("visibility:hidden") != string::npos
+        || (*tag).find("opacity:0") != string::npos
         || (*tag).find("Details-content--hidden-not-important")
-            != std::string::npos;
+            != string::npos;
   }
 
   Converter* ShortenMarkdown(int chars = 1) {
@@ -1001,7 +1045,17 @@ class Converter {
       return false;
     }
 
-    if (ch == '\n') return true;
+    if (ch == '\n') {
+      if (prev_tag_ == kTagBlockquote && current_tag_ == kTagParagraph) {
+        md_ += "\n";
+        chars_in_curr_line_ = 0;
+        AppendToMd(Repeat("> ", index_blockquote).c_str());
+      }
+
+      return true;
+    }
+
+    // if (ch == '\n') return true;
 
     if (IsInIgnoredTag()
         || current_tag_ == kTagLink) {
@@ -1031,7 +1085,7 @@ class Converter {
     ++chars_in_curr_line_;
     ++char_index_in_tag_content;
 
-    if (chars_in_curr_line_ > 80) {
+    if (chars_in_curr_line_ > 80  && !is_in_table_) {
       if (ch == ' ') { // If the next char is - it will become a list
         md_ += "\n";
         chars_in_curr_line_ = 0;
@@ -1045,7 +1099,7 @@ class Converter {
 
   // Replace previous space (if any) in current markdown line by newline
   bool ReplacePreviousSpaceInLineByNewline() {
-    if (current_tag_ == kTagParagraph && prev_tag_ != kTagCode && prev_tag_!= kTagPre) return false;
+    if (current_tag_ == kTagParagraph && (prev_tag_ != kTagCode && prev_tag_!= kTagPre) || is_in_table_) return false;
 
     UpdateMdLen();
     auto offset = md_len_ - 1;
@@ -1066,7 +1120,7 @@ class Converter {
     return false;
   }
 
-  static bool IsIgnoredTag(const std::string &tag) {
+  static bool IsIgnoredTag(const string &tag) {
     return (tag[0] == '-'
         || kTagTemplate == tag
         || kTagStyle == tag
@@ -1081,7 +1135,7 @@ class Converter {
     auto len = dom_tags_.size();
 
     for (int i = 0; i < len; ++i) {
-      std::string tag = dom_tags_[i];
+      string tag = dom_tags_[i];
 
       if (kTagPre == tag
           || kTagTitle == tag) return false;
@@ -1094,7 +1148,7 @@ class Converter {
 };  // Converter
 
 // Static wrapper for simple invocation
-std::string Convert(std::string html) {
+string Convert(string html) {
   return html2md::Converter::Convert(&html);
 }
 

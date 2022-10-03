@@ -1,10 +1,11 @@
-cmake_minimum_required(VERSION 3.9)
-project(html2md)
+cmake_minimum_required(VERSION 3.12)
+project("html2md" VERSION 0.0.1
+             DESCRIPTION "A header-only c++ library that converts HTML to Markdown."
+             HOMEPAGE_URL "https://github.com/software-made-easy/html2md")
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include_directories(${CMAKE_SOURCE_DIR})
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/)
-
-add_executable(html2md example.cpp html2md.hpp)
+add_executable(html2md cli/main.cpp html2md.hpp)
