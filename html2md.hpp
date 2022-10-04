@@ -73,6 +73,8 @@ class Converter {
     ReplaceAll(&md_, "&quot;", "\"");
     ReplaceAll(&md_, "&lt;", "<");
     ReplaceAll(&md_, "&gt;", ">");
+
+    ReplaceAll(&md_, "\t\t  ", "\t\t");
   }
 
   Converter* AppendToMd(char ch) {
@@ -103,6 +105,10 @@ class Converter {
     }
 
     return this;
+  }
+
+  Converter* AppendToMd(const string &s) {
+    return AppendToMd(s.c_str());
   }
 
   // Append ' ' if:
@@ -186,6 +192,7 @@ class Converter {
   bool is_in_pre_ = false;
   bool is_in_code_ = false;
   bool is_in_table_ = false;
+  bool is_in_list_ = false;
 
   // relevant for <li> only, false = is in unordered list
   bool is_in_ordered_list_ = false;
@@ -262,12 +269,12 @@ class Converter {
         converter->ShortenMarkdown();
       } else {
         converter->AppendToMd("](")
-                 ->AppendToMd(converter->current_href_.c_str());
+                 ->AppendToMd(converter->current_href_);
 
         // If title is set append it
         if (!converter->current_title_.empty()) {
             converter->AppendToMd(" \"")
-                     ->AppendToMd(converter->current_title_.c_str())
+                     ->AppendToMd(converter->current_title_)
                      ->AppendToMd('"');
         }
 
@@ -335,6 +342,8 @@ class Converter {
     void OnHasLeftOpeningTag(Converter* converter) override {
         if (converter->is_in_table_) converter->AppendToMd("<br>");
         else if (converter->md_len_ > 0) converter->AppendToMd("  \n");
+
+        converter->AppendToMd(Repeat("> ", converter->index_blockquote));
     }
     void OnHasLeftClosingTag(Converter* converter) override {
     }
@@ -417,7 +426,7 @@ class Converter {
 
       string num = to_string(converter->index_li);
       num += ". ";
-      converter->AppendToMd(num.c_str());
+      converter->AppendToMd(num);
     }
     void OnHasLeftClosingTag(Converter* converter) override {
     }
@@ -433,25 +442,33 @@ class Converter {
 
   struct TagOrderedList : Tag {
     void OnHasLeftOpeningTag(Converter* converter) override {
-        converter->is_in_ordered_list_ = true;
-        converter->index_li = 0;
+      converter->is_in_list_ = true;
+      converter->is_in_ordered_list_ = true;
+      converter->index_li = 0;
 
       converter->ReplacePreviousSpaceInLineByNewline();
 
       converter->AppendToMd('\n');
     }
     void OnHasLeftClosingTag(Converter* converter) override {
-        converter->is_in_ordered_list_ = false;
+      converter->is_in_list_ = false;
+      converter->is_in_ordered_list_ = false;
 
-        converter->AppendToMd('\n');
+      converter->AppendToMd('\n');
     }
   };
 
   struct TagParagraph : Tag {
     void OnHasLeftOpeningTag(Converter* converter) override {
-      if (converter->prev_tag_ != kTagBlockquote) converter->AppendToMd('\n');
+      if (converter->is_in_list_ && converter->prev_tag_ == kTagParagraph)
+        converter->AppendToMd("\n\t");
+      else if (!converter->is_in_list_ && converter->index_blockquote == 0)
+        converter->AppendToMd('\n');
 
-      converter->AppendToMd(Repeat("> ", converter->index_blockquote).c_str());
+      if (converter->index_blockquote > 0) {
+        converter->AppendToMd("> \n");
+        converter->AppendToMd(Repeat("> ", converter->index_blockquote));
+      }
     }
     void OnHasLeftClosingTag(Converter* converter) override {
       if (!converter->md_.empty()) converter->AppendToMd('\n');
@@ -466,12 +483,23 @@ class Converter {
 
       if (converter->prev_prev_ch_in_md_ != '\n') converter->AppendToMd("\n");
 
-      converter->AppendToMd("```");
+      if (converter->index_blockquote != 0) {
+        converter->AppendToMd(Repeat("> ", converter->index_blockquote));
+        converter->ShortenMarkdown();
+      }
+
+      if (converter->is_in_list_ && converter->prev_tag_ != kTagParagraph) converter->ShortenMarkdown(2);
+
+      if (converter->is_in_list_ || converter->index_blockquote != 0)
+        converter->AppendToMd("\t\t");
+      else
+        converter->AppendToMd("```");
     }
     void OnHasLeftClosingTag(Converter* converter) override {
       converter->is_in_pre_ = false;
 
-      converter->AppendToMd("```\n");
+      if (!converter->is_in_list_ && converter->index_blockquote == 0)
+        converter->AppendToMd("```\n");
     }
   };
 
@@ -480,25 +508,24 @@ class Converter {
       converter->is_in_code_ = true;
 
       if (converter->is_in_pre_) {
-          // Remove space
-          if (converter->prev_ch_in_md_ == ' ') converter->ShortenMarkdown();
+        // Remove space
+        if (converter->prev_ch_in_md_ == ' ') converter->ShortenMarkdown();
 
-          auto code = converter->ExtractAttributeFromTagLeftOf(kAttributeClass);
-          if (!code.empty()) {
-              code.erase(0, 9); // remove language-
-              converter->AppendToMd(code.c_str());
-          }
-          converter->AppendToMd('\n');
+        if (converter->is_in_list_ || converter->index_blockquote != 0) return;
 
-          return;
-      };
-
-      converter->AppendToMd('`');
+        auto code = converter->ExtractAttributeFromTagLeftOf(kAttributeClass);
+        if (!code.empty()) {
+          code.erase(0, 9); // remove language-
+          converter->AppendToMd(code);
+        }
+        converter->AppendToMd('\n');
+      }
+      else converter->AppendToMd('`');
     }
     void OnHasLeftClosingTag(Converter* converter) override {
       converter->is_in_code_ = false;
 
-      if (converter->is_in_pre_) return;
+      if (converter->is_in_pre_ || converter->is_in_list_) return;
 
       if (converter->prev_ch_in_md_ == ' ') converter->ShortenMarkdown();
 
@@ -526,12 +553,16 @@ class Converter {
 
   struct TagUnorderedList : Tag {
     void OnHasLeftOpeningTag(Converter* converter) override {
+      converter->is_in_list_ = true;
+
       if (converter->prev_ch_in_md_ != '\n') converter->AppendToMd("\n");
 
       if (converter->prev_prev_ch_in_md_ != '\n') converter->AppendToMd("\n");
     }
     void OnHasLeftClosingTag(Converter* converter) override {
-        converter->AppendToMd('\n');
+      converter->is_in_list_ = false;
+
+      converter->AppendToMd('\n');
     }
   };
 
@@ -540,9 +571,9 @@ class Converter {
           if (converter->prev_tag_ != kTagAnchor) converter->ReplacePreviousSpaceInLineByNewline();
 
           converter->AppendToMd("![")
-                   ->AppendToMd(converter->ExtractAttributeFromTagLeftOf(kAttributeAlt).c_str())
+                   ->AppendToMd(converter->ExtractAttributeFromTagLeftOf(kAttributeAlt))
                    ->AppendToMd("](")
-                   ->AppendToMd(converter->ExtractAttributeFromTagLeftOf(kAttributeSrc).c_str())
+                   ->AppendToMd(converter->ExtractAttributeFromTagLeftOf(kAttributeSrc))
                    ->AppendToMd(")");
       }
       void OnHasLeftClosingTag(Converter* converter) override {
@@ -581,7 +612,7 @@ class Converter {
               if (!endsWith(converter->md_, "\n")) converter->AppendToMd('\n');
 
               converter->tableLine.append("|\n");
-              converter->AppendToMd(converter->tableLine.c_str());
+              converter->AppendToMd(converter->tableLine);
               converter->tableLine.clear();
           }
       }
@@ -623,14 +654,10 @@ class Converter {
     void OnHasLeftOpeningTag(Converter* converter) override {
       ++converter->index_blockquote;
 
-      if (converter->index_blockquote > 1) converter->AppendToMd("> \n");
+      if (converter->index_blockquote == 1) converter->AppendToMd('\n');
     }
     void OnHasLeftClosingTag(Converter* converter) override {
       --converter->index_blockquote;
-
-      if (converter->index_blockquote > 0) {
-        converter->AppendToMd("> \n");
-      }
     }
   };
 
@@ -725,8 +752,11 @@ class Converter {
 
   // Trim from both ends (in place)
   Converter * Trim(string *s) {
-    LTrim(s);
-    RTrim(s);
+    if (!startsWith(*s, "\t"))
+      LTrim(s);
+
+    if (!endsWith(*s, "  "))
+      RTrim(s);
 
     return this;
   }
@@ -740,9 +770,7 @@ class Converter {
     int amount_newlines = 0;
 
     for (auto line : lines) {
-      // Don't trim if it's a line break
-      if (!endsWith(line, "  "))
-        Trim(&line);
+      Trim(&line);
 
       if (line.empty()) {
         if (amount_newlines < 2 && !res.empty()) {
@@ -1049,7 +1077,7 @@ class Converter {
       if (prev_tag_ == kTagBlockquote && current_tag_ == kTagParagraph) {
         md_ += "\n";
         chars_in_curr_line_ = 0;
-        AppendToMd(Repeat("> ", index_blockquote).c_str());
+        AppendToMd(Repeat("> ", index_blockquote));
       }
 
       return true;

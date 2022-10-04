@@ -30,13 +30,13 @@ See the included [example.cpp](example.cpp)
 
 ## Supported Tags
 
-The following table lists the HTML tags supported by html2md:
+The following table lists the supported HTML tags:
 
 
 | Tag | Description | Comment |
 | - | - | - |
 | `a` | Anchor or link | Supports the `href` and `name` attributes. |
-| `b` | Bold | Same as `strong` |
+| `b` | Bold | |
 | `blockquote` | Indented paragraph | |
 | `br` | Line break | |
 | `cite` | Inline citation | Same as `i`. |
