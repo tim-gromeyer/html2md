@@ -70,7 +70,7 @@ class Converter {
     ReplaceAll(&md_, " [ ", " [");
     ReplaceAll(&md_, "\n[ ", "\n[");
 
-    ReplaceAll(&md_, "&quot;", "\"");
+    ReplaceAll(&md_, "&quot;", R"(\")");
     ReplaceAll(&md_, "&lt;", "<");
     ReplaceAll(&md_, "&gt;", ">");
 
@@ -340,8 +340,11 @@ class Converter {
 
   struct TagBreak : Tag {
     void OnHasLeftOpeningTag(Converter* converter) override {
-        if (converter->is_in_table_) converter->AppendToMd("<br>");
-        else if (converter->md_len_ > 0) converter->AppendToMd("  \n");
+        if (converter->is_in_table_) {
+          if (converter->prev_ch_in_md_ == ' ') converter->ShortenMarkdown();
+
+          converter->AppendToMd("<br>");
+        } else if (converter->md_len_ > 0) converter->AppendToMd("  \n");
 
         converter->AppendToMd(Repeat("> ", converter->index_blockquote));
     }
@@ -415,7 +418,8 @@ class Converter {
 
   struct TagListItem : Tag {
     void OnHasLeftOpeningTag(Converter* converter) override {
-      if (converter->prev_ch_in_md_ != '\n') converter->AppendToMd("\n");
+      if (converter->prev_ch_in_md_ != '\n' &&
+          converter->prev_prev_ch_in_md_ != '-') converter->AppendToMd("\n");
 
       if (!converter->is_in_ordered_list_) {
         converter->AppendToMd("- ");
@@ -525,7 +529,7 @@ class Converter {
     void OnHasLeftClosingTag(Converter* converter) override {
       converter->is_in_code_ = false;
 
-      if (converter->is_in_pre_ || converter->is_in_list_) return;
+      if (converter->is_in_pre_) return;
 
       if (converter->prev_ch_in_md_ == ' ') converter->ShortenMarkdown();
 
@@ -555,6 +559,8 @@ class Converter {
     void OnHasLeftOpeningTag(Converter* converter) override {
       converter->is_in_list_ = true;
 
+      if (converter->prev_prev_ch_in_md_ == '-' && converter->prev_ch_in_md_ == ' ') return;
+
       if (converter->prev_ch_in_md_ != '\n') converter->AppendToMd("\n");
 
       if (converter->prev_prev_ch_in_md_ != '\n') converter->AppendToMd("\n");
@@ -568,7 +574,7 @@ class Converter {
 
   struct TagImage : Tag {
       void OnHasLeftOpeningTag(Converter* converter) override {
-          if (converter->prev_tag_ != kTagAnchor) converter->ReplacePreviousSpaceInLineByNewline();
+          if (converter->prev_tag_ != kTagAnchor) converter->AppendToMd('\n');
 
           converter->AppendToMd("![")
                    ->AppendToMd(converter->ExtractAttributeFromTagLeftOf(kAttributeAlt))
@@ -1113,7 +1119,7 @@ class Converter {
     ++chars_in_curr_line_;
     ++char_index_in_tag_content;
 
-    if (chars_in_curr_line_ > 80  && !is_in_table_) {
+    if (chars_in_curr_line_ > 80  && !is_in_table_ && !is_in_list_) {
       if (ch == ' ') { // If the next char is - it will become a list
         md_ += "\n";
         chars_in_curr_line_ = 0;
