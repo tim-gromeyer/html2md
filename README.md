@@ -3,22 +3,25 @@
 ## Table of Contents
 
 - [What does it do](#what-does-it-do)
-- [Usage Example](#usage-example)
+- [Use this library](#use-this-library)
 - [Supported Tags](#supported-tags)
 - [License](#license)
 
 
 ## What does it do
 
-html2md is a rudimentary solution for HTML to Markdown conversion, implemented as a C++ single header.  
+html2md is designed to convert HTML to Markdown. It is fast and lightweight but has no options yet.
 
 Also the project is a good example for efficient abstraction of logical decision trees via strategy pattern.
 
 
-### Usage Example
+### Use this library
+
+First, **add the files** `include/html2md.h` and `src/html2md.cpp` **to your build**.
+Then follow the example below.
 
 ```c++
-#include <html2md.hpp>
+#include <html2md.h>
 
 //...
 

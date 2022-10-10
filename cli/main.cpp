@@ -1,9 +1,10 @@
+#include <cstring>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <string>
 
-#include "html2md.hpp"
+#include "html2md.h"
 
 using namespace std;
 
@@ -13,7 +14,7 @@ constexpr const char *description = " [Options]\n\n"
                                     "  -h, --help\tDisplays this help information.\n"
                                     "  -o, --output\tSets the output file.\n"
                                     "  -i, --input\tSets the input file or text.\n"
-                                    "  -p, --print\tPrint Markdown(overrides -o).";
+                                    "  -p, --print\tPrint Markdown(overrides -o).\n";
 
 
 int main(int argc, const char* argv[])
@@ -87,6 +88,7 @@ int main(int argc, const char* argv[])
   }
 
   ofstream out(outFile);
+  out.open(outFile);
   if (!out.is_open()) {
     cout << html << endl;
     return 0;
