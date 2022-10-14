@@ -2,10 +2,10 @@
 
 ## Table of Contents
 
-- [What does it do](#what-does-it-do)
-- [Use this library](#use-this-library)
-- [Supported Tags](#supported-tags)
-- [License](#license)
+- [What does it do](#autotoc_md2)
+- [Use this library](#autotoc_md3)
+- [Supported Tags](#autotoc_md4)
+- [License](#autotoc_md5)
 
 
 ## What does it do

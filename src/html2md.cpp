@@ -49,8 +49,7 @@ static int ReplaceAll(std::string *haystack,
 }
 
 // Split given std::string by given character delimiter into vector of std::strings
-static std::vector<std::string> Explode(std::string const &str,
-                                        char delimiter) {
+static std::vector<std::string> Explode(std::string const &str, char delimiter) {
   vector<std::string> result;
   std::stringstream iss(str);
 
@@ -537,6 +536,10 @@ bool Converter::ReplacePreviousSpaceInLineByNewline() {
   } while (offset > 0);
 
   return false;
+}
+
+bool Converter::ok() {
+    return !(is_in_code_ || is_in_list_ || is_in_table_ || index_blockquote > 0);
 }
 
 }

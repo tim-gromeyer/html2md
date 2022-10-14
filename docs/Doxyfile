@@ -1,0 +1,24 @@
+PROJECT_NAME           = "html2md"
+PROJECT_BRIEF          = "Simple and fast HTML to Markdown converter"
+
+INPUT                  = ../include index.md
+USE_MDFILE_AS_MAINPAGE = index.md
+
+GENERATE_TREEVIEW      = YES
+DISABLE_INDEX          = NO
+EXTRACT_ALL            = YES
+
+HTML_HEADER            = doxygen-awesome-css/doxygen-custom/header.html
+
+HTML_EXTRA_STYLESHEET  = doxygen-awesome-css/doxygen-awesome.css \
+                         doxygen-awesome-css/doxygen-custom/custom.css \
+                         doxygen-awesome-css/doxygen-awesome-sidebar-only.css \
+                         doxygen-awesome-css/doxygen-awesome-sidebar-only-darkmode-toggle.css \
+                         doxygen-awesome-css/doxygen-custom/custom-alternative.css
+
+HTML_EXTRA_FILES       = doxygen-awesome-css/doxygen-awesome-darkmode-toggle.js \
+                         doxygen-awesome-css/doxygen-awesome-fragment-copy-button.js \
+                         doxygen-awesome-css/doxygen-awesome-paragraph-link.js \
+                         doxygen-awesome-css/doxygen-custom/toggle-alternative-theme.js \
+                         doxygen-awesome-css/doxygen-awesome-interactive-toc.js
+
