@@ -13,7 +13,7 @@
 <!-- END opengraph metadata -->
 <title>html2md: html2md::Converter Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
-<link rel="icon" type="image/svg+xml" href="logo.drawio.svg"/>
+<link rel="icon" type="image/svg+xml" href=""/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
 <script type="text/javascript" src="doxygen-awesome-darkmode-toggle.js"></script>
@@ -134,9 +134,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab0ed226860a2957641e79faf240221dd"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhtml2md_1_1Converter.html#ab0ed226860a2957641e79faf240221dd">Convert2Md</a> ()</td></tr>
 <tr class="memdesc:ab0ed226860a2957641e79faf240221dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert HTML into Markdown.  <a href="classhtml2md_1_1Converter.html#ab0ed226860a2957641e79faf240221dd">More...</a><br /></td></tr>
 <tr class="separator:ab0ed226860a2957641e79faf240221dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abfd88808b6238ab7f23137a66f8db527"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhtml2md_1_1Converter.html#abfd88808b6238ab7f23137a66f8db527">PrepareHtml</a> ()</td></tr>
-<tr class="memdesc:abfd88808b6238ab7f23137a66f8db527"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prepares the HTML, automatically called by the Constructor.  <a href="classhtml2md_1_1Converter.html#abfd88808b6238ab7f23137a66f8db527">More...</a><br /></td></tr>
-<tr class="separator:abfd88808b6238ab7f23137a66f8db527"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ac3a82f2337183aa66714fad70f92ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhtml2md_1_1Converter.html#a0ac3a82f2337183aa66714fad70f92ca">CleanUpMarkdown</a> ()</td></tr>
 <tr class="memdesc:a0ac3a82f2337183aa66714fad70f92ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cleans up the Converted Markdown(called automatically).  <a href="classhtml2md_1_1Converter.html#a0ac3a82f2337183aa66714fad70f92ca">More...</a><br /></td></tr>
 <tr class="separator:a0ac3a82f2337183aa66714fad70f92ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -158,8 +155,24 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class for converting HTML to Markdown. </p>
-<p>This class converts HTML to Markdown. There is also a static wrapper for this class (see <a class="el" href="namespacehtml2md.html#a87188c94ab5a63ff7c5ad95891b6ba27" title="Static wrapper around the Converter class.">html2md::Convert</a>). </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<p>This class converts HTML to Markdown. There is also a static wrapper for this class (see <a class="el" href="namespacehtml2md.html#a87188c94ab5a63ff7c5ad95891b6ba27" title="Static wrapper around the Converter class.">html2md::Convert</a>).</p>
+<h2><a class="anchor" id="autotoc_md0"></a>
+Usage example</h2>
+<p>Option 1: Use the class:</p>
+<div class="fragment"><div class="line">std::string html = <span class="stringliteral">&quot;&lt;h1&gt;example&lt;/h1&gt;&quot;</span>;</div>
+<div class="line"><a class="code" href="classhtml2md_1_1Converter.html">html2md::Converter</a> c(html);</div>
+<div class="line"><span class="keyword">auto</span> md = c.Convert2Md();</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordflow">if</span> (!c.ok()) std::cout &lt;&lt; <span class="stringliteral">&quot;There was something wrong in the HTML\n&quot;</span>;</div>
+<div class="line">std::cout &lt;&lt; md; <span class="comment">// # example</span></div>
+<div class="ttc" id="aclasshtml2md_1_1Converter_html"><div class="ttname"><a href="classhtml2md_1_1Converter.html">html2md::Converter</a></div><div class="ttdoc">Class for converting HTML to Markdown.</div><div class="ttdef"><b>Definition:</b> html2md.h:88</div></div>
+</div><!-- fragment --><p>Option 2: Use the static wrapper:</p>
+<div class="fragment"><div class="line">std::string html = <span class="stringliteral">&quot;&lt;h1&gt;example&lt;/h1&gt;&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">auto</span> md = <a class="code" href="namespacehtml2md.html#a87188c94ab5a63ff7c5ad95891b6ba27">html2md::Convert</a>(html);</div>
+<div class="line">std::cout &lt;&lt; md;</div>
+<div class="ttc" id="anamespacehtml2md_html_a87188c94ab5a63ff7c5ad95891b6ba27"><div class="ttname"><a href="namespacehtml2md.html#a87188c94ab5a63ff7c5ad95891b6ba27">html2md::Convert</a></div><div class="ttdeci">std::string Convert(std::string &amp;html)</div><div class="ttdoc">Static wrapper around the Converter class.</div><div class="ttdef"><b>Definition:</b> html2md.h:825</div></div>
+</div><!-- fragment --> </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a59f30b7e973ece20c0d48434207c17a1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a59f30b7e973ece20c0d48434207c17a1">&#9670;&nbsp;</a></span>Converter()</h2>
 
@@ -191,7 +204,8 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<p>This is the default initzializer. It prepares the HTML for you by calling PrepareHTML(). </p>
+<dl class="section note"><dt>Note</dt><dd>Don't pass anything else than HTML, otherwise the output will be a mess!</dd></dl>
+<p>This is the default initzializer. </p>
 
 </div>
 </div>
@@ -241,8 +255,8 @@ Public Member Functions</h2></td></tr>
 <p>Appends a ' ' in certain cases. </p>
 <dl class="section return"><dt>Returns</dt><dd>Copy of the instance with(maybe) the appended space.</dd></dl>
 <p>This function appends ' ' if:</p><ul>
-<li>md does not end w/ '**'</li>
-<li>md does not end w/ '<br  />
+<li>md does not end with '**'</li>
+<li>md does not end with '<br  />
 ' </li>
 </ul>
 
@@ -267,7 +281,7 @@ Public Member Functions</h2></td></tr>
 <p>Append a char to the Markdown. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">ch</td><td>- the char to append. </td></tr>
+    <tr><td class="paramname">ch</td><td>The char to append. </td></tr>
   </table>
   </dd>
 </dl>
@@ -294,7 +308,7 @@ Public Member Functions</h2></td></tr>
 <p>Append a char* to the Markdown. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">str</td><td>- the char* to append. </td></tr>
+    <tr><td class="paramname">str</td><td>The char* to append. </td></tr>
   </table>
   </dd>
 </dl>
@@ -329,7 +343,7 @@ Public Member Functions</h2></td></tr>
 <p>Append a string to the Markdown. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">s</td><td>- the string to append. </td></tr>
+    <tr><td class="paramname">s</td><td>The string to append. </td></tr>
   </table>
   </dd>
 </dl>
@@ -395,25 +409,6 @@ Public Member Functions</h2></td></tr>
 
 <p>Checks if everything was closed properly(in the HTML). </p>
 <dl class="section return"><dt>Returns</dt><dd>Returns false if there is a unclosed tag. </dd></dl>
-
-</div>
-</div>
-<a id="abfd88808b6238ab7f23137a66f8db527"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abfd88808b6238ab7f23137a66f8db527">&#9670;&nbsp;</a></span>PrepareHtml()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void html2md::Converter::PrepareHtml </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Prepares the HTML, automatically called by the Constructor. </p>
 
 </div>
 </div>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['html2md_2eh_16',['html2md.h',['../html2md_8h.html',1,'']]]
+  ['changelog_2emd_17',['CHANGELOG.md',['../CHANGELOG_8md.html',1,'']]]
 ];

@@ -25,11 +25,13 @@
 var NAVTREE =
 [
   [ "html2md", "index.html", [
-    [ "Table of Contents", "index.html#autotoc_md1", null ],
     [ "What does it do", "index.html#autotoc_md2", null ],
     [ "Use this library", "index.html#autotoc_md3", null ],
     [ "Supported Tags", "index.html#autotoc_md4", null ],
     [ "License", "index.html#autotoc_md5", null ],
+    [ "Change log", "md_CHANGELOG.html", [
+      [ "Note", "md_CHANGELOG.html#autotoc_md7", null ]
+    ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [

@@ -8,6 +8,5 @@ var classhtml2md_1_1Converter =
     [ "AppendToMd", "classhtml2md_1_1Converter.html#ab03b3b36c67a704a9de09d1fd826680b", null ],
     [ "CleanUpMarkdown", "classhtml2md_1_1Converter.html#a0ac3a82f2337183aa66714fad70f92ca", null ],
     [ "Convert2Md", "classhtml2md_1_1Converter.html#ab0ed226860a2957641e79faf240221dd", null ],
-    [ "ok", "classhtml2md_1_1Converter.html#ac2847e653ae33f182d574998d997d0e3", null ],
-    [ "PrepareHtml", "classhtml2md_1_1Converter.html#abfd88808b6238ab7f23137a66f8db527", null ]
+    [ "ok", "classhtml2md_1_1Converter.html#ac2847e653ae33f182d574998d997d0e3", null ]
 ];
