@@ -1,17 +1,19 @@
 PROJECT_NAME           = "html2md"
 PROJECT_BRIEF          = "Simple and fast HTML to Markdown converter"
 
-INPUT                  = include/ docs/index.md
+INPUT                  = include/ docs/index.md CHANGELOG.md
 USE_MDFILE_AS_MAINPAGE = docs/index.md
 
 RECURSIVE              = YES
 ENABLE_PREPROCESSING   = YES
 
+MARKDOWN_SUPPORT       = YES
 HTML_OUTPUT            = doc
 GENERATE_LATEX         = NO
 
 GENERATE_TREEVIEW      = YES
 DISABLE_INDEX          = NO
+FULL_SIDEBAR           = NO
 EXTRACT_ALL            = YES
 
 HTML_HEADER            = docs/doxygen-awesome-css/doxygen-custom/header.html
@@ -27,4 +29,15 @@ HTML_EXTRA_FILES       = docs/doxygen-awesome-css/doxygen-awesome-darkmode-toggl
                          docs/doxygen-awesome-css/doxygen-awesome-paragraph-link.js \
                          docs/doxygen-awesome-css/doxygen-custom/toggle-alternative-theme.js \
                          docs/doxygen-awesome-css/doxygen-awesome-interactive-toc.js
+
+# Transparent background for graphs
+HAVE_DOT               = YES
+DOT_IMAGE_FORMAT       = svg
+DOT_TRANSPARENT        = YES
+
+
+# Tests
+TOC_EXPAND             = YES
+TOC_INCLUDE_HEADINGS   = 5
+
 
