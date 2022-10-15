@@ -16,8 +16,8 @@ jobs:
         
     - name: Install Doxygen
       run: |
-        apt-get update
-        apt-get install doxygen -y
+        sudo apt-get update
+        sudo apt-get install doxygen -y
 
     - name: Run Doxygen
       run: |
