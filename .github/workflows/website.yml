@@ -9,7 +9,7 @@ on:
   
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v2
@@ -17,7 +17,7 @@ jobs:
     - name: Install Doxygen
       run: |
         sudo apt-get update
-        sudo apt-get install doxygen -y
+        sudo apt-get install doxygen graphviz -y
 
     - name: Run Doxygen
       run: |
