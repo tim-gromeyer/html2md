@@ -1,0 +1,31 @@
+name: Doxygen Action
+
+on:
+  push:
+    branches-ignore:
+      - master
+    tags-ignore:
+      - '*'
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+        
+    - name: Install Doxygen
+      run: |
+        apt-get update
+        apt-get install doxygen -y
+
+    - name: Run Doxygen
+      run: |
+        doxygen docs/Doxyfile
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./doc
+

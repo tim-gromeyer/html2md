@@ -4,6 +4,12 @@ PROJECT_BRIEF          = "Simple and fast HTML to Markdown converter"
 INPUT                  = include/ docs/index.md
 USE_MDFILE_AS_MAINPAGE = docs/index.md
 
+RECURSIVE              = YES
+ENABLE_PREPROCESSING   = YES
+
+HTML_OUTPUT            = doc
+GENERATE_LATEX         = NO
+
 GENERATE_TREEVIEW      = YES
 DISABLE_INDEX          = NO
 EXTRACT_ALL            = YES

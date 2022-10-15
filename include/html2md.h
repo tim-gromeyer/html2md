@@ -13,8 +13,9 @@
  * \brief html2md namespace
  *
  * The html2md namespace provides:
- * 1. The Converter() class
- * 2. The utils namespace
+ * 1. The Converter class
+ * 2. Static wrapper around Converter class
+ * 3. String utils
  */
 namespace html2md {
 
@@ -25,57 +26,26 @@ namespace html2md {
  * - startsWith
  * - endsWith
  * - ReplaceAll
- * - Explode aka split
+ * - Split
  * - Repeat
  */
 namespace utils {
 
-/*!
- * \brief Checks if the string str starts with prefix.
- * \param str The string to check
- * \param prefix Beginning of str
- * \return Returns true when the string str starts with prefix
- */
 static bool startsWith(const std::string& str, const std::string& prefix);
 
-/*!
- * \brief Checks if the string str ends with suffix
- * \param str The string to check
- * \param suffix End of str
- * \return Returns true when the string str ends with suffix
- */
 static bool endsWith(const std::string& str, const std::string& suffix);
 
-/*!
- * \brief ReplaceAll
- * \param haystack
- * \param needle
- * \param replacement
- * \return
- */
 static int ReplaceAll(std::string *haystack,
                       const std::string &needle,
                       const std::string &replacement);
 
 // Split given std::string by given character delimiter into vector of std::strings
-/*!
- * \brief Explode
- * \param str
- * \param delimiter
- * \return
- */
-static std::vector<std::string> Explode(std::string const &str, char delimiter);
+static std::vector<std::string> Split(std::string const &str, char delimiter);
 
 // Repeat given amount of given std::string
-/*!
- * \brief Repeat
- * \param str
- * \param amount
- * \return
- */
 static std::string Repeat(const std::string &str, size_t amount) {
-  if (amount == 1) return str;
-  else if (amount == 0) return "";
+  if (amount == 0) return "";
+  else if (amount == 1) return str;
 
   std::string out;
 
@@ -88,9 +58,10 @@ static std::string Repeat(const std::string &str, size_t amount) {
 }
 
 /*!
- * \brief The Converter class.
+ * \brief Class for converting HTML to Markdown
  *
- * This class is used to convert HTML into Markdown.
+ * This class converts HTML to Markdown.
+ * There is also a static wrapper for this class (see html2md::Convert).
  */
 class Converter {
  public:

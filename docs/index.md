@@ -62,18 +62,15 @@ The following table lists the supported HTML tags:
 | `img`        | Image              | Supports the `src` and `alt` attributes.   |
 | `li`         | List item          |                                            |
 | `meta`       | Meta-information   | Ignored.                                   |
-| `ol`         | Ordered list       |                                            |
+| `ol`         | Ordered list       | Don't use other lists in this list.        |
 | `p`          | Paragraph          |                                            |
 | `pre`        | Preformatted text  | Works only with `code`.                    |
 | `s`          | Strikethrough      | Same as `del`.                             |
 | `span`       | Grouped elements   |                                            |
 | `strong`     | Strong             | Same as `b`.                               |
 | `table`      | Table              |                                            |
-| `tbody`      | Table body         | Does nothing.                              |
 | `td`         | Table data cell    | Uses `align` from `th`.                    |
-| `tfoot`      | Table footer       | Does nothing.                              |
 | `th`         | Table header cell  | Supports the `align` attribute.            |
-| `thead`      | Table header       | Does nothing.                              |
 | `title`      | Document title     | Same as `h1`.                              |
 | `tr`         | Table row          |                                            |
 | `u`          | Underlined         | Uses HTML.                                 |

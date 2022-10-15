@@ -49,7 +49,7 @@ static int ReplaceAll(std::string *haystack,
 }
 
 // Split given std::string by given character delimiter into vector of std::strings
-static std::vector<std::string> Explode(std::string const &str, char delimiter) {
+static std::vector<std::string> Split(std::string const &str, char delimiter) {
   vector<std::string> result;
   std::stringstream iss(str);
 
@@ -227,7 +227,7 @@ Converter* Converter::Trim(std::string *s) {
 }
 
 void Converter::TidyAllLines(std::string *str) {
-  auto lines = Explode(*str, '\n');
+  auto lines = Split(*str, '\n');
   std::string res;
 
   int amount_newlines = 0;
@@ -412,7 +412,7 @@ bool Converter::OnHasLeftTag() {
                    ? false
                    : TagContainsAttributesToHide(&current_tag_);
 
-  current_tag_ = Explode(current_tag_, ' ')[0];
+  current_tag_ = Split(current_tag_, ' ')[0];
 
   char_index_in_tag_content = 0;
 
