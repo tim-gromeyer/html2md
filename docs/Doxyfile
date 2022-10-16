@@ -15,6 +15,7 @@ GENERATE_TREEVIEW      = YES
 DISABLE_INDEX          = NO
 FULL_SIDEBAR           = NO
 EXTRACT_ALL            = YES
+TREEVIEW_WIDTH         = 335
 
 HTML_HEADER            = docs/doxygen-awesome-css/doxygen-custom/header.html
 
