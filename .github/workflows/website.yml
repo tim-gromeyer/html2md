@@ -22,7 +22,7 @@ jobs:
     - name: Run Doxygen
       uses: mattnotmitt/doxygen-action@v1.9.4
       with:
-        doxyfile-path: 'docs/Doxygen'
+        doxyfile-path: 'docs/Doxyfile'
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
