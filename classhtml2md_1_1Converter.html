@@ -134,9 +134,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab0ed226860a2957641e79faf240221dd"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhtml2md_1_1Converter.html#ab0ed226860a2957641e79faf240221dd">Convert2Md</a> ()</td></tr>
 <tr class="memdesc:ab0ed226860a2957641e79faf240221dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert HTML into Markdown.  <a href="classhtml2md_1_1Converter.html#ab0ed226860a2957641e79faf240221dd">More...</a><br /></td></tr>
 <tr class="separator:ab0ed226860a2957641e79faf240221dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ac3a82f2337183aa66714fad70f92ca"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhtml2md_1_1Converter.html#a0ac3a82f2337183aa66714fad70f92ca">CleanUpMarkdown</a> ()</td></tr>
-<tr class="memdesc:a0ac3a82f2337183aa66714fad70f92ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cleans up the Converted Markdown(called automatically).  <a href="classhtml2md_1_1Converter.html#a0ac3a82f2337183aa66714fad70f92ca">More...</a><br /></td></tr>
-<tr class="separator:a0ac3a82f2337183aa66714fad70f92ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d165f71f03848e7cb83bf4b7f1038bd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhtml2md_1_1Converter.html">Converter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhtml2md_1_1Converter.html#a0d165f71f03848e7cb83bf4b7f1038bd">AppendToMd</a> (char ch)</td></tr>
 <tr class="memdesc:a0d165f71f03848e7cb83bf4b7f1038bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Append a char to the Markdown.  <a href="classhtml2md_1_1Converter.html#a0d165f71f03848e7cb83bf4b7f1038bd">More...</a><br /></td></tr>
 <tr class="separator:a0d165f71f03848e7cb83bf4b7f1038bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -165,14 +162,15 @@ Usage example</h2>
 <div class="line"> </div>
 <div class="line"><span class="keywordflow">if</span> (!c.ok()) std::cout &lt;&lt; <span class="stringliteral">&quot;There was something wrong in the HTML\n&quot;</span>;</div>
 <div class="line">std::cout &lt;&lt; md; <span class="comment">// # example</span></div>
-<div class="ttc" id="aclasshtml2md_1_1Converter_html"><div class="ttname"><a href="classhtml2md_1_1Converter.html">html2md::Converter</a></div><div class="ttdoc">Class for converting HTML to Markdown.</div><div class="ttdef"><b>Definition:</b> html2md.h:88</div></div>
+<div class="ttc" id="aclasshtml2md_1_1Converter_html"><div class="ttname"><a href="classhtml2md_1_1Converter.html">html2md::Converter</a></div><div class="ttdoc">Class for converting HTML to Markdown.</div><div class="ttdef"><b>Definition:</b> html2md.h:92</div></div>
 </div><!-- fragment --><p >Option 2: Use the static wrapper:</p>
 <div class="fragment"><div class="line">std::string html = <span class="stringliteral">&quot;&lt;h1&gt;example&lt;/h1&gt;&quot;</span>;</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">auto</span> md = <a class="code hl_function" href="namespacehtml2md.html#a87188c94ab5a63ff7c5ad95891b6ba27">html2md::Convert</a>(html);</div>
 <div class="line">std::cout &lt;&lt; md;</div>
-<div class="ttc" id="anamespacehtml2md_html_a87188c94ab5a63ff7c5ad95891b6ba27"><div class="ttname"><a href="namespacehtml2md.html#a87188c94ab5a63ff7c5ad95891b6ba27">html2md::Convert</a></div><div class="ttdeci">std::string Convert(std::string &amp;html)</div><div class="ttdoc">Static wrapper around the Converter class.</div><div class="ttdef"><b>Definition:</b> html2md.h:825</div></div>
-</div><!-- fragment --> </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<div class="ttc" id="anamespacehtml2md_html_a87188c94ab5a63ff7c5ad95891b6ba27"><div class="ttname"><a href="namespacehtml2md.html#a87188c94ab5a63ff7c5ad95891b6ba27">html2md::Convert</a></div><div class="ttdeci">std::string Convert(std::string &amp;html)</div><div class="ttdoc">Static wrapper around the Converter class.</div><div class="ttdef"><b>Definition:</b> html2md.h:826</div></div>
+</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Adding the possibility of customization </dd></dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a59f30b7e973ece20c0d48434207c17a1" name="a59f30b7e973ece20c0d48434207c17a1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a59f30b7e973ece20c0d48434207c17a1">&#9670;&nbsp;</a></span>Converter()</h2>
 
@@ -204,8 +202,9 @@ Usage example</h2>
   </table>
   </dd>
 </dl>
-<dl class="section note"><dt>Note</dt><dd>Don't pass anything else than HTML, otherwise the output will be a mess!</dd></dl>
-<p>This is the default initzializer. </p>
+<dl class="section note"><dt>Note</dt><dd>Don't pass anything else than HTML, otherwise the output will be a <b>mess</b>!</dd></dl>
+<p>This is the default initzializer.<br  />
+ You can use <a class="el" href="classhtml2md_1_1Converter.html#a0d165f71f03848e7cb83bf4b7f1038bd" title="Append a char to the Markdown.">AppendToMd()</a> to append something to the beginning of the generated output. </p>
 
 </div>
 </div>
@@ -255,9 +254,8 @@ Usage example</h2>
 <p>Appends a ' ' in certain cases. </p>
 <dl class="section return"><dt>Returns</dt><dd>Copy of the instance with(maybe) the appended space.</dd></dl>
 <p>This function appends ' ' if:</p><ul>
-<li>md does not end with '**'</li>
-<li>md does not end with '<br  />
-' </li>
+<li>md does not end with '*'</li>
+<li>md does not end with '\n' </li>
 </ul>
 
 </div>
@@ -351,26 +349,6 @@ Usage example</h2>
 
 </div>
 </div>
-<a id="a0ac3a82f2337183aa66714fad70f92ca" name="a0ac3a82f2337183aa66714fad70f92ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0ac3a82f2337183aa66714fad70f92ca">&#9670;&nbsp;</a></span>CleanUpMarkdown()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void html2md::Converter::CleanUpMarkdown </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Cleans up the Converted Markdown(called automatically). </p>
-<p >This function cleans up the Markdown generated by <a class="el" href="classhtml2md_1_1Converter.html#ab0ed226860a2957641e79faf240221dd" title="Convert HTML into Markdown.">Convert2Md()</a>. Usually you don't have to call this function because it's called automatically by <a class="el" href="classhtml2md_1_1Converter.html#ab0ed226860a2957641e79faf240221dd" title="Convert HTML into Markdown.">Convert2Md()</a>. </p>
-
-</div>
-</div>
 <a id="ab0ed226860a2957641e79faf240221dd" name="ab0ed226860a2957641e79faf240221dd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab0ed226860a2957641e79faf240221dd">&#9670;&nbsp;</a></span>Convert2Md()</h2>
 
@@ -388,7 +366,7 @@ Usage example</h2>
 
 <p>Convert HTML into Markdown. </p>
 <dl class="section return"><dt>Returns</dt><dd>Returns the converted Markdown.</dd></dl>
-<p>This function actually converts the HTML into Markdown. It also calls <a class="el" href="classhtml2md_1_1Converter.html#a0ac3a82f2337183aa66714fad70f92ca" title="Cleans up the Converted Markdown(called automatically).">CleanUpMarkdown()</a> so you don't have to do anything. </p>
+<p>This function actually converts the HTML into Markdown. It also cleans up the Markdown so you don't have to do anything. </p>
 
 </div>
 </div>

@@ -32,6 +32,7 @@ var NAVTREE =
     [ "Change log", "md_CHANGELOG.html", [
       [ "Note", "md_CHANGELOG.html#autotoc_md7", null ]
     ] ],
+    [ "Todo List", "todo.html", null ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [

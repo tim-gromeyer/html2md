@@ -6,7 +6,6 @@ var classhtml2md_1_1Converter =
     [ "AppendToMd", "classhtml2md_1_1Converter.html#a0d165f71f03848e7cb83bf4b7f1038bd", null ],
     [ "AppendToMd", "classhtml2md_1_1Converter.html#aaffcd5ead2743ce6286476a80a9aeb08", null ],
     [ "AppendToMd", "classhtml2md_1_1Converter.html#a1c1a6233bd539fb628c8419f4db8dafb", null ],
-    [ "CleanUpMarkdown", "classhtml2md_1_1Converter.html#a0ac3a82f2337183aa66714fad70f92ca", null ],
     [ "Convert2Md", "classhtml2md_1_1Converter.html#ab0ed226860a2957641e79faf240221dd", null ],
     [ "ok", "classhtml2md_1_1Converter.html#ac2847e653ae33f182d574998d997d0e3", null ]
 ];
