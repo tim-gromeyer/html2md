@@ -13,15 +13,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-        
-    - name: Install dot(graphviz) and Doxygen
-      run: |
-        sudo apt-get update
-        sudo apt-get install doxygen graphviz -y
 
     - name: Run Doxygen
-      run: |
-        doxygen docs/Doxyfile
+      uses: mattnotmitt/doxygen-action@v1.9.4
+      with:
+        doxyfile-path: 'docs/Doxyfile'
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
