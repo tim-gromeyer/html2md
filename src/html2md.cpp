@@ -193,25 +193,18 @@ Converter* Converter::AppendBlank() {
 }
 
 void Converter::LTrim(std::string *s) {
-  (*s).erase(
-      (*s).begin(),
-      find_if(
-          (*s).begin(),
-          (*s).end(),
-          not1(ptr_fun<int, int>(isspace))));
+  (*s).erase((*s).begin(), find_if((*s).begin(), (*s).end(), [](unsigned char ch) {
+    return !std::isspace(ch);
+  }));
 }
 
 Converter* Converter::RTrim(std::string *s, bool trim_only_blank) {
-  (*s).erase(
-      find_if(
-          (*s).rbegin(),
-          (*s).rend(),
-          trim_only_blank
-            ? not1(ptr_fun<int, int>(isblank))
-            : not1(ptr_fun<int, int>(isspace))
-      )
-          .base(),
-      (*s).end());
+  (*s).erase(find_if((*s).rbegin(), (*s).rend(), [trim_only_blank](unsigned char ch) {
+    if (trim_only_blank)
+      return !isblank(ch);
+
+    return !isspace(ch);
+  }).base(), (*s).end());
 
   return this;
 }

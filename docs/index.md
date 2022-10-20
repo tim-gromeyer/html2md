@@ -73,4 +73,4 @@ The following table lists the supported HTML tags:
 
 ## License
 
-html2md is licensed under [The MIT License (MIT)](https://opensource.org/licenses/MIT)
+html2md is licensed under [The MIT License (MIT)](https://opensource.org/licenses/MIT).
