@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['appendblank_20',['AppendBlank',['../classhtml2md_1_1Converter.html#aaef3de48ac2fe21f9e9aef517536c19d',1,'html2md::Converter']]],
-  ['appendtomd_21',['AppendToMd',['../classhtml2md_1_1Converter.html#a0af9af7ef176d61f2a4251a0e5f1943f',1,'html2md::Converter::AppendToMd(char ch)'],['../classhtml2md_1_1Converter.html#ab58875a60dfc407966bb57d5acf234e4',1,'html2md::Converter::AppendToMd(const char *str)'],['../classhtml2md_1_1Converter.html#ab03b3b36c67a704a9de09d1fd826680b',1,'html2md::Converter::AppendToMd(const std::string &amp;s)']]]
+  ['appendblank_0',['AppendBlank',['../classhtml2md_1_1Converter.html#a81809005b1c4adc4b35843153379518b',1,'html2md::Converter']]],
+  ['appendtomd_1',['AppendToMd',['../classhtml2md_1_1Converter.html#a0d165f71f03848e7cb83bf4b7f1038bd',1,'html2md::Converter::AppendToMd(char ch)'],['../classhtml2md_1_1Converter.html#aaffcd5ead2743ce6286476a80a9aeb08',1,'html2md::Converter::AppendToMd(const char *str)'],['../classhtml2md_1_1Converter.html#a1c1a6233bd539fb628c8419f4db8dafb',1,'html2md::Converter::AppendToMd(const std::string &amp;s)']]]
 ];
