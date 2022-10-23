@@ -230,13 +230,13 @@ void Converter::TidyAllLines(std::string *str) {
 
     if (line.empty()) {
       if (amount_newlines < 2 && !res.empty()) {
-        res += "\n";
+        res += '\n';
         amount_newlines++;
       }
     } else {
       amount_newlines = 0;
 
-      res += line + "\n";
+      res += line + '\n';
     }
   }
 
@@ -268,8 +268,8 @@ std::string Converter::ExtractAttributeFromTagLeftOf(const std::string& attr) {
 
   char wrapping_quote = 0;
 
-  u_int64_t offset_opening_quote = 0;
-  u_int64_t offset_closing_quote = 0;
+  uint64_t offset_opening_quote = 0;
+  uint64_t offset_closing_quote = 0;
 
   if (has_double_quote) {
     if (!has_single_quote) {
@@ -302,13 +302,13 @@ std::string Converter::ExtractAttributeFromTagLeftOf(const std::string& attr) {
 }
 
 void Converter::TurnLineIntoHeader1() {
-  md_ += "\n" + Repeat("=", chars_in_curr_line_) + "\n\n";
+  md_ += '\n' + Repeat("=", chars_in_curr_line_) + "\n\n";
 
   chars_in_curr_line_ = 0;
 }
 
 void Converter::TurnLineIntoHeader2() {
-  md_ += "\n" + Repeat("-", chars_in_curr_line_) + "\n\n";
+  md_ += '\n' + Repeat("-", chars_in_curr_line_) + "\n\n";
 
   chars_in_curr_line_ = 0;
 }
@@ -459,7 +459,7 @@ bool Converter::ParseCharInTagContent(char ch) {
 
   if (ch == '\n') {
     if (prev_tag_ == kTagBlockquote && current_tag_ == kTagParagraph) {
-      md_ += "\n";
+      md_ += '\n';
       chars_in_curr_line_ = 0;
       AppendToMd(Repeat("> ", index_blockquote));
     }
@@ -499,7 +499,7 @@ bool Converter::ParseCharInTagContent(char ch) {
 
   if (chars_in_curr_line_ > 80  && !is_in_table_ && !is_in_list_) {
     if (ch == ' ') { // If the next char is - it will become a list
-      md_ += "\n";
+      md_ += '\n';
       chars_in_curr_line_ = 0;
     } else if (chars_in_curr_line_ > 100) {
         ReplacePreviousSpaceInLineByNewline();

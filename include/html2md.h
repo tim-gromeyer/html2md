@@ -45,13 +45,13 @@ static int ReplaceAll(std::string *haystack,
 static std::vector<std::string> Split(std::string const &str, char delimiter);
 
 // Repeat given amount of given std::string
-static std::string Repeat(const std::string &str, size_t amount) {
+static inline std::string Repeat(const std::string &str, size_t amount) {
   if (amount == 0) return "";
   else if (amount == 1) return str;
 
   std::string out;
 
-  for (u_int16_t i = 0; i < amount; i++) {
+  for (uint16_t i = 0; i < amount; i++) {
     out += str;
   }
 
@@ -217,7 +217,7 @@ class Converter {
   static constexpr const char *kTagTableHeader = "th";
   static constexpr const char *kTagTableData = "td";
 
-  u_int16_t index_ch_in_html_ = 0;
+  uint16_t index_ch_in_html_ = 0;
 
   std::vector<std::string> dom_tags_;
 
@@ -240,7 +240,7 @@ class Converter {
 
   std::string html_;
 
-  u_int16_t offset_lt_;
+  uint16_t offset_lt_;
   std::string current_tag_;
   std::string prev_tag_;
 
@@ -257,7 +257,7 @@ class Converter {
   std::string tableLine;
 
   size_t chars_in_curr_line_ = 0;
-  u_int16_t char_index_in_tag_content = 0;
+  uint16_t char_index_in_tag_content = 0;
 
   std::string md_;
   size_t md_len_ = 0;
