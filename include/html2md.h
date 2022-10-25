@@ -88,6 +88,7 @@ static inline std::string Repeat(const std::string &str, size_t amount) {
  * ```
  *
  * \todo Adding the possibility of customization
+ * \todo Rework `blockquote`s
  */
 class Converter {
  public:
@@ -240,7 +241,7 @@ class Converter {
 
   std::string html_;
 
-  uint16_t offset_lt_;
+  uint16_t offset_lt_ = 0;
   std::string current_tag_;
   std::string prev_tag_;
 
@@ -820,12 +821,13 @@ class Converter {
  * \brief Static wrapper around the Converter class
  * \param html The HTML passed to Converter
  * \return Returns the by Converter generated Markdown
- *
- * \todo Add the possibility to check if everything is ok
  */
-inline std::string Convert(std::string &html) {
+inline std::string Convert(std::string &html, bool *ok = nullptr) {
   Converter c(html);
-  return c.Convert2Md();
+  const auto &md = c.Convert2Md();
+  if (ok)
+    *ok = c.ok();
+  return md;
 }
 
 }  // namespace html2md

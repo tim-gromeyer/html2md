@@ -70,6 +70,11 @@ The following table lists the supported HTML tags:
 | `u`          | Underlined         | Uses HTML.                                 |
 | `ul`         | Unordered list     |                                            |
 
+## Requirements
+
+1. A compiler with **c++17** support like *g++>=9*
+
+That's all!
 
 ## License
 

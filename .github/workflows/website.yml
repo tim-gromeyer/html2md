@@ -1,11 +1,10 @@
-name: Doxygen Action
+name: Update website
 
 on:
   push:
-    branches-ignore:
-      - master
-    tags-ignore:
+    tags:
       - '*'
+  workflow_dispatch:
   
 jobs:
   build:

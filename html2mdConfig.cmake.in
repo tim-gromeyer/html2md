@@ -1,0 +1,11 @@
+if (CMAKE_VERSION VERSION_LESS 3.12)
+    message(FATAL_ERROR "html2md requires at least CMake version 3.12")
+endif()
+
+if (CMAKE_CXX_STANDARD VERSION_LESS 17)
+    set(CMAKE_CXX_STANDARD 17)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+endif()
+
+set(html2md_NOT_FOUND_MESSAGE "")
+set(html2md_FOUND TRUE)

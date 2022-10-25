@@ -54,7 +54,7 @@ static std::vector<std::string> Split(std::string const &str, char delimiter) {
   std::stringstream iss(str);
 
   for (std::string token; getline(iss, token, delimiter);)
-    result.push_back(move(token));
+    result.push_back(token);
 
   return result;
 }

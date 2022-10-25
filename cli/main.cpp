@@ -8,13 +8,15 @@
 
 using namespace std;
 
-constexpr const char *description = " [Options]\n\n"
-                                    "Simple and fast HTML to Markdown converter with table support.\n\n"
-                                    "Options:\n"
-                                    "  -h, --help\tDisplays this help information.\n"
-                                    "  -o, --output\tSets the output file.\n"
-                                    "  -i, --input\tSets the input file or text.\n"
-                                    "  -p, --print\tPrint Markdown(overrides -o).\n";
+constexpr const char *description =
+        " [Options]\n\n"
+        "Simple and fast HTML to Markdown converter with table support.\n\n"
+        "Options:\n"
+        "  -h, --help\tDisplays this help information.\n"
+        "  -v, --version\tPrint html2md's version.\n"
+        "  -o, --output\tSets the output file.\n"
+        "  -i, --input\tSets the input file or text.\n"
+        "  -p, --print\tPrint Markdown(overrides -o).\n";
 
 
 int main(int argc, const char* argv[])
@@ -31,6 +33,10 @@ int main(int argc, const char* argv[])
     if (item == "-h" || item == "--help" || argc == 1) {
       cout << argv[0] << description;
       return 0;
+    }
+    else if (item == "-v" || item == "--version") {
+        cout << "Version " << VERSION << endl;
+        return 0;
     }
     else if (item == "-p" || item == "--print") {
       print = true;

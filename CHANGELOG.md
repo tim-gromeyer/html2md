@@ -2,6 +2,6 @@
 
 [TOC]
 
-## Note
+## v1.0.0
 
-**There are no releases yet!**
+Initial release. All basics work but `blockquote` needs a rework.
