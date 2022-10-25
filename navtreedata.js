@@ -28,9 +28,10 @@ var NAVTREE =
     [ "What does it do", "index.html#autotoc_md2", null ],
     [ "Use this library", "index.html#autotoc_md3", null ],
     [ "Supported Tags", "index.html#autotoc_md4", null ],
-    [ "License", "index.html#autotoc_md5", null ],
+    [ "Requirements", "index.html#autotoc_md5", null ],
+    [ "License", "index.html#autotoc_md6", null ],
     [ "Change log", "md_CHANGELOG.html", [
-      [ "Note", "md_CHANGELOG.html#autotoc_md7", null ]
+      [ "v1.0.0", "md_CHANGELOG.html#autotoc_md8", null ]
     ] ],
     [ "Todo List", "todo.html", null ],
     [ "Namespaces", "namespaces.html", [

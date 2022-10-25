@@ -152,7 +152,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Class for converting HTML to Markdown. </p>
-<p >This class converts HTML to Markdown. There is also a static wrapper for this class (see <a class="el" href="namespacehtml2md.html#a87188c94ab5a63ff7c5ad95891b6ba27" title="Static wrapper around the Converter class.">html2md::Convert</a>).</p>
+<p >This class converts HTML to Markdown. There is also a static wrapper for this class (see <a class="el" href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c" title="Static wrapper around the Converter class.">html2md::Convert</a>).</p>
 <h2><a class="anchor" id="autotoc_md0"></a>
 Usage example</h2>
 <p >Option 1: Use the class:</p>
@@ -162,14 +162,16 @@ Usage example</h2>
 <div class="line"> </div>
 <div class="line"><span class="keywordflow">if</span> (!c.ok()) std::cout &lt;&lt; <span class="stringliteral">&quot;There was something wrong in the HTML\n&quot;</span>;</div>
 <div class="line">std::cout &lt;&lt; md; <span class="comment">// # example</span></div>
-<div class="ttc" id="aclasshtml2md_1_1Converter_html"><div class="ttname"><a href="classhtml2md_1_1Converter.html">html2md::Converter</a></div><div class="ttdoc">Class for converting HTML to Markdown.</div><div class="ttdef"><b>Definition:</b> html2md.h:92</div></div>
+<div class="ttc" id="aclasshtml2md_1_1Converter_html"><div class="ttname"><a href="classhtml2md_1_1Converter.html">html2md::Converter</a></div><div class="ttdoc">Class for converting HTML to Markdown.</div><div class="ttdef"><b>Definition:</b> html2md.h:93</div></div>
 </div><!-- fragment --><p >Option 2: Use the static wrapper:</p>
 <div class="fragment"><div class="line">std::string html = <span class="stringliteral">&quot;&lt;h1&gt;example&lt;/h1&gt;&quot;</span>;</div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">auto</span> md = <a class="code hl_function" href="namespacehtml2md.html#a87188c94ab5a63ff7c5ad95891b6ba27">html2md::Convert</a>(html);</div>
+<div class="line"><span class="keyword">auto</span> md = <a class="code hl_function" href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">html2md::Convert</a>(html);</div>
 <div class="line">std::cout &lt;&lt; md;</div>
-<div class="ttc" id="anamespacehtml2md_html_a87188c94ab5a63ff7c5ad95891b6ba27"><div class="ttname"><a href="namespacehtml2md.html#a87188c94ab5a63ff7c5ad95891b6ba27">html2md::Convert</a></div><div class="ttdeci">std::string Convert(std::string &amp;html)</div><div class="ttdoc">Static wrapper around the Converter class.</div><div class="ttdef"><b>Definition:</b> html2md.h:826</div></div>
-</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Adding the possibility of customization </dd></dl>
+<div class="ttc" id="anamespacehtml2md_html_af7fb981c863efed5049ce51d91ee5b0c"><div class="ttname"><a href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">html2md::Convert</a></div><div class="ttdeci">std::string Convert(std::string &amp;html, bool *ok=nullptr)</div><div class="ttdoc">Static wrapper around the Converter class.</div><div class="ttdef"><b>Definition:</b> html2md.h:825</div></div>
+</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd><p class="startdd">Adding the possibility of customization </p>
+<p class="enddd">Rework <code>blockquote</code>s </p>
+</dd></dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a59f30b7e973ece20c0d48434207c17a1" name="a59f30b7e973ece20c0d48434207c17a1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a59f30b7e973ece20c0d48434207c17a1">&#9670;&nbsp;</a></span>Converter()</h2>

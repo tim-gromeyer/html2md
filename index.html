@@ -117,7 +117,8 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 <ul><li class="level1"><a href="#autotoc_md2">What does it do</a></li>
 <li class="level1"><a href="#autotoc_md3">Use this library</a></li>
 <li class="level1"><a href="#autotoc_md4">Supported Tags</a></li>
-<li class="level1"><a href="#autotoc_md5">License</a></li>
+<li class="level1"><a href="#autotoc_md5">Requirements</a></li>
+<li class="level1"><a href="#autotoc_md6">License</a></li>
 </ul>
 </div>
 <div class="textblock"><p ><a class="anchor" id="md_docs_index"></a></p>
@@ -136,9 +137,9 @@ Use this library</h1>
 <div class="line"> </div>
 <div class="line"><span class="comment">//...</span></div>
 <div class="line"> </div>
-<div class="line">std::cout &lt;&lt; <a class="code hl_function" href="namespacehtml2md.html#a87188c94ab5a63ff7c5ad95891b6ba27">html2md::Convert</a>(<span class="stringliteral">&quot;&lt;h1&gt;foo&lt;/h1&gt;&quot;</span>); <span class="comment">// # foo</span></div>
+<div class="line">std::cout &lt;&lt; <a class="code hl_function" href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">html2md::Convert</a>(<span class="stringliteral">&quot;&lt;h1&gt;foo&lt;/h1&gt;&quot;</span>); <span class="comment">// # foo</span></div>
 <div class="ttc" id="ahtml2md_8h_html"><div class="ttname"><a href="html2md_8h.html">html2md.h</a></div></div>
-<div class="ttc" id="anamespacehtml2md_html_a87188c94ab5a63ff7c5ad95891b6ba27"><div class="ttname"><a href="namespacehtml2md.html#a87188c94ab5a63ff7c5ad95891b6ba27">html2md::Convert</a></div><div class="ttdeci">std::string Convert(std::string &amp;html)</div><div class="ttdoc">Static wrapper around the Converter class.</div><div class="ttdef"><b>Definition:</b> html2md.h:826</div></div>
+<div class="ttc" id="anamespacehtml2md_html_af7fb981c863efed5049ce51d91ee5b0c"><div class="ttname"><a href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">html2md::Convert</a></div><div class="ttdeci">std::string Convert(std::string &amp;html, bool *ok=nullptr)</div><div class="ttdoc">Static wrapper around the Converter class.</div><div class="ttdef"><b>Definition:</b> html2md.h:825</div></div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md4"></a>
 Supported Tags</h1>
 <p >The following table lists the supported HTML tags:</p>
@@ -219,6 +220,12 @@ Supported Tags</h1>
 <td class="markdownTableBodyNone"><code>ul</code>   </td><td class="markdownTableBodyNone">Unordered list   </td><td class="markdownTableBodyNone"></td></tr>
 </table>
 <h1><a class="anchor" id="autotoc_md5"></a>
+Requirements</h1>
+<ol type="1">
+<li>A compiler with <b>c++17</b> support like <em>g++&gt;=9</em></li>
+</ol>
+<p >That's all!</p>
+<h1><a class="anchor" id="autotoc_md6"></a>
 License</h1>
 <p ><a class="el" href="namespacehtml2md.html" title="html2md namespace">html2md</a> is licensed under <a href="https://opensource.org/licenses/MIT">The MIT License (MIT)</a>. </p>
 </div></div><!-- PageDoc -->
