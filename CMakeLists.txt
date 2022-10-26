@@ -24,9 +24,11 @@ get_directory_property(subproject PARENT_DIRECTORY)
 if (subproject)
     option(BUILD_EXE "Build a executable to convert html to markdown." OFF)
     option(BUILD_TEST "Build tests" OFF)
+    option(BUILD_DOC "Build documentation" OFF)
 else()
     option(BUILD_EXE "Build a executable to convert html to markdown." ON)
     option(BUILD_TEST "Build tests" ON)
+    option(BUILD_DOC "Build documentation" ON)
 endif()
 
 set(SOURCES
@@ -58,6 +60,24 @@ endif()
 
 if(BUILD_TEST)
     add_subdirectory(tests)
+endif()
+
+if(BUILD_DOC)
+    find_package(Doxygen)
+
+    if(NOT DOXYGEN_FOUND)
+        message(STATUS "Doxygen not found. The documentation will not be created!")
+        return()
+    endif()
+
+    add_custom_target(
+      doc
+      COMMAND echo "PROJECT_NUMBER = ${PROJECT_VERSION}" >> docs/Doxyfile && ${DOXYGEN_EXECUTABLE} docs/Doxyfile
+      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+      COMMENT "Generating API documentation with Doxygen"
+      VERBATIM
+    )
+
 endif()
 
 if(UNIX)
