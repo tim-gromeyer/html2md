@@ -15,49 +15,66 @@
  * The html2md namespace provides:
  * 1. The Converter class
  * 2. Static wrapper around Converter class
- * 3. String utils
  *
- * \note Do NOT try to convert HTML that contains a list in an ordered list!\n  This will be a **total** mess!
+ * \note Do NOT try to convert HTML that contains a list in an ordered list or a `blockquote` in a list!\n  This will be a **total** mess!
  */
 namespace html2md {
 
 /*!
- * \brief String utils
+ * \brief Options for the conversation from HTML to Markdown
+ * \warning Make sure to pass valid options, otherwise the output will be invalid!
  *
- * The utils namespace provides simple string utils like:
- * - startsWith
- * - endsWith
- * - ReplaceAll
- * - Split
- * - Repeat
+ * Example from `tests/main.cpp`:
+ *
+ * ```cpp
+ * auto *options = new html2md::options();
+ * options->splitLines = false;
+ *
+ * html2md::Converter c(html, options);
+ * auto md = c.Convert2Md();
+ * ```
  */
-namespace utils {
+struct options
+{
+    /*!
+     * \brief Add new line when a certain number of characters is reached
+     */
+    bool splitLines = true;
 
-static bool startsWith(const std::string& str, const std::string& prefix);
+    /*!
+     * \brief The char used for unordered lists
+     *
+     * Valid:
+     * - `-`
+     * - `+`
+     * - `*`
+     *
+     * Example:
+     *
+     * ```markdown
+     * - List
+     * + Also a list
+     * * And this to
+     * ```
+     */
+    char unorderedList = '-';
 
-static bool endsWith(const std::string& str, const std::string& suffix);
-
-static int ReplaceAll(std::string *haystack,
-                      const std::string &needle,
-                      const std::string &replacement);
-
-// Split given std::string by given character delimiter into vector of std::strings
-static std::vector<std::string> Split(std::string const &str, char delimiter);
-
-// Repeat given amount of given std::string
-static inline std::string Repeat(const std::string &str, size_t amount) {
-  if (amount == 0) return "";
-  else if (amount == 1) return str;
-
-  std::string out;
-
-  for (uint16_t i = 0; i < amount; i++) {
-    out += str;
-  }
-
-  return out;
-}
-}
+    /*!
+     * \brief The char used after the number of the item
+     *
+     * Valid:
+     * - `.`
+     * - `)`
+     *
+     * Example:
+     *
+     * ```markdown
+     * 1. Hello
+     * 2) World!
+     * ```
+     */
+    char orderedList = '.';
+};
 
 /*!
  * \brief Class for converting HTML to Markdown
@@ -87,23 +104,37 @@ static inline std::string Repeat(const std::string &str, size_t amount) {
  * std::cout << md;
  * ```
  *
- * \todo Adding the possibility of customization
+ * Advanced: use options:
+ *
+ * ```cpp
+ * std::string html = "<h1>example</h1>";
+ *
+ * auto *options = new html2md::options();
+ * options->splitLines = false;
+ * options->unorderedList = '*';
+ *
+ * html2md::Converter c(html, options);
+ * auto md = c.Convert2Md();
+ * if (!c.ok()) std::cout << "There was something wrong in the HTML\n";
+ * std::cout << md; // # example
+ * ```
+ *
  * \todo Rework `blockquote`s
  */
 class Converter {
  public:
-
   /*!
    * \brief Standard initzializer, takes HTML as parameter. Also prepares everything.
    * \param html The HTML as std::string.
+   * \param options Options for the Conversation. See html2md::options() for more.
    *
    * \note Don't pass anything else than HTML, otherwise the output will be a **mess**!
    *
    * This is the default initzializer.<br>
    * You can use AppendToMd() to append something to the beginning of the generated output.
    */
-  explicit inline Converter(std::string &html) {
-      *this = Converter(&html);
+  explicit inline Converter(std::string &html, struct options *options = nullptr) {
+      *this = Converter(&html, options);
   }
 
   /*!
@@ -157,7 +188,7 @@ class Converter {
    * \brief Checks if everything was closed properly(in the HTML).
    * \return Returns false if there is a unclosed tag.
    */
-  bool ok();
+  [[nodiscard]] bool ok() const;
 
  private:
   // Attributes
@@ -229,6 +260,7 @@ class Converter {
   bool is_in_code_ = false;
   bool is_in_table_ = false;
   bool is_in_list_ = false;
+  bool is_in_p_ = false;
 
   // relevant for <li> only, false = is in unordered list
   bool is_in_ordered_list_ = false;
@@ -263,6 +295,8 @@ class Converter {
   std::string md_;
   size_t md_len_ = 0;
 
+  struct options *option;
+
   // Tag: base class for tag types
   struct Tag {
     virtual void OnHasLeftOpeningTag(Converter* converter) = 0;
@@ -273,461 +307,158 @@ class Converter {
 
   // tags that are not printed (nav, script, noscript, ...)
   struct TagIgnored : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override {
-    }
-    void OnHasLeftClosingTag(Converter* converter) override {
-    }
+    void OnHasLeftOpeningTag(Converter* converter) override {};
+    void OnHasLeftClosingTag(Converter* converter) override {};
   };
 
   struct TagAnchor : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override {
-      if (converter->IsInIgnoredTag()) return;
-
-      if (converter->prev_tag_ == kTagImg) converter->AppendToMd('\n');
-
-      converter->current_title_ = converter->ExtractAttributeFromTagLeftOf(kAttributeTitle);
-
-      converter->current_href_ =
-          converter->RTrim(&converter->md_, true)
-                   ->AppendBlank()
-                   ->AppendToMd("[")
-                   ->ExtractAttributeFromTagLeftOf(kAttributeHref);
-          }
-
-    void OnHasLeftClosingTag(Converter* converter) override {
-      if (converter->IsInIgnoredTag()) return;
-
-      if (converter->prev_ch_in_md_ == ' ') {
-        converter->ShortenMarkdown();
-      }
-
-      if (converter->prev_ch_in_md_ == '[') {
-        converter->ShortenMarkdown();
-      } else {
-        converter->AppendToMd("](")
-                 ->AppendToMd(converter->current_href_);
-
-        // If title is set append it
-        if (!converter->current_title_.empty()) {
-            converter->AppendToMd(" \"")
-                     ->AppendToMd(converter->current_title_)
-                     ->AppendToMd('"');
-        }
-
-        converter->AppendToMd(") ");
-
-        if (converter->prev_tag_ == kTagImg)
-            converter->AppendToMd('\n');
-      }
-    }
+    void OnHasLeftOpeningTag(Converter* converter) override;
+    void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagBold : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override {
-      if (converter->prev_ch_in_md_ != ' ') converter->AppendBlank();
-
-      converter->AppendToMd("**");
-    }
-    void OnHasLeftClosingTag(Converter* converter) override {
-      if (converter->prev_ch_in_md_ == ' ') converter->ShortenMarkdown();
-
-      converter->AppendToMd("** ");
-    }
+    void OnHasLeftOpeningTag(Converter* converter) override;
+    void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagItalic : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override {
-      if (converter->prev_ch_in_md_ != ' ') converter->AppendBlank();
-
-      converter->AppendToMd('*');
-    }
-    void OnHasLeftClosingTag(Converter* converter) override {
-      if (converter->prev_ch_in_md_ == ' ') converter->ShortenMarkdown();
-
-      converter->AppendToMd("* ");
-    }
+    void OnHasLeftOpeningTag(Converter* converter) override;
+    void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagUnderline : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override {
-      if (converter->prev_prev_ch_in_md_ == ' ' &&
-          converter->prev_ch_in_md_ == ' ') converter->ShortenMarkdown();
-
-      converter->AppendToMd("<u>");
-    }
-    void OnHasLeftClosingTag(Converter* converter) override {
-      if (converter->prev_ch_in_md_ == ' ') converter->ShortenMarkdown();
-
-      converter->AppendToMd("</u>");
-    }
+    void OnHasLeftOpeningTag(Converter* converter) override;
+    void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagStrikethrought : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override {
-      if (converter->prev_ch_in_md_ != ' ') converter->AppendBlank();
-
-      converter->AppendToMd('~');
-    }
-    void OnHasLeftClosingTag(Converter* converter) override {
-      if (converter->prev_ch_in_md_ == ' ') converter->ShortenMarkdown();
-
-      converter->AppendToMd("~ ");
-    }
+    void OnHasLeftOpeningTag(Converter* converter) override;
+    void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagBreak : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override {
-        if (converter->is_in_table_) {
-          if (converter->prev_ch_in_md_ == ' ') converter->ShortenMarkdown();
-
-          converter->AppendToMd("<br>");
-        } else if (converter->md_len_ > 0) converter->AppendToMd("  \n");
-
-        converter->AppendToMd(utils::Repeat("> ", converter->index_blockquote));
-    }
-    void OnHasLeftClosingTag(Converter* converter) override {
-    }
+    void OnHasLeftOpeningTag(Converter* converter) override;
+    void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagDiv : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override {
-      if (converter->prev_ch_in_md_ != '\n') converter->AppendToMd('\n');
-
-      if (converter->prev_prev_ch_in_md_ != '\n') converter->AppendToMd('\n');
-    }
-    void OnHasLeftClosingTag(Converter* converter) override {
-    }
+    void OnHasLeftOpeningTag(Converter* converter) override;
+    void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagHeader1 : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override {
-        converter->AppendToMd("\n# ");
-    }
-    void OnHasLeftClosingTag(Converter* converter) override {
-      if (converter->prev_prev_ch_in_md_ != ' ') converter->AppendToMd('\n');
-    }
+    void OnHasLeftOpeningTag(Converter* converter) override;
+    void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagHeader2 : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override {
-      converter->AppendToMd("\n## ");
-    }
-    void OnHasLeftClosingTag(Converter* converter) override {
-      if (converter->prev_prev_ch_in_md_ != ' ') converter->AppendToMd('\n');
-    }
+    void OnHasLeftOpeningTag(Converter* converter) override;
+    void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagHeader3 : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override {
-      converter->AppendToMd("\n### ");
-    }
-    void OnHasLeftClosingTag(Converter* converter) override {
-      if (converter->prev_prev_ch_in_md_ != ' ') converter->AppendToMd('\n');
-    }
+    void OnHasLeftOpeningTag(Converter* converter) override;
+    void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagHeader4 : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override {
-      converter->AppendToMd("\n#### ");
-    }
-    void OnHasLeftClosingTag(Converter* converter) override {
-      if (converter->prev_prev_ch_in_md_ != ' ') converter->AppendToMd('\n');
-    }
+    void OnHasLeftOpeningTag(Converter* converter) override;
+    void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagHeader5 : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override {
-      converter->AppendToMd("\n##### ");
-    }
-    void OnHasLeftClosingTag(Converter* converter) override {
-      if (converter->prev_prev_ch_in_md_ != ' ') converter->AppendToMd('\n');
-    }
+    void OnHasLeftOpeningTag(Converter* converter) override;
+    void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagHeader6 : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override {
-      converter->AppendToMd("\n###### ");
-    }
-    void OnHasLeftClosingTag(Converter* converter) override {
-      if (converter->prev_prev_ch_in_md_ != ' ') converter->AppendToMd('\n');
-    }
+    void OnHasLeftOpeningTag(Converter* converter) override;
+    void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagListItem : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override {
-      // if (converter->prev_ch_in_md_ != '\n' &&
-      //     converter->prev_prev_ch_in_md_ != '-') converter->AppendToMd("\n");
-      if (converter->is_in_table_) return;
-
-      if (!converter->is_in_ordered_list_) {
-        converter->AppendToMd("- ");
-        return;
-      }
-
-      ++converter->index_li;
-
-      std::string num = std::to_string(converter->index_li);
-      num += ". ";
-      converter->AppendToMd(num);
-    }
-    void OnHasLeftClosingTag(Converter* converter) override {
-      if (converter->is_in_table_) return;
-
-      if (converter->prev_ch_in_md_ != '\n') converter->AppendToMd('\n');
-    }
+    void OnHasLeftOpeningTag(Converter* converter) override;
+    void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagOption : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override {
-    }
-    void OnHasLeftClosingTag(Converter* converter) override {
-      if (converter->md_len_ > 0) converter->AppendToMd("  \n");
-    }
+    void OnHasLeftOpeningTag(Converter* converter) override;
+    void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagOrderedList : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override {
-      if (converter->is_in_table_) return;
-
-      converter->is_in_list_ = true;
-      converter->is_in_ordered_list_ = true;
-      converter->index_li = 0;
-
-      converter->ReplacePreviousSpaceInLineByNewline();
-
-      converter->AppendToMd('\n');
-    }
-    void OnHasLeftClosingTag(Converter* converter) override {
-      if (converter->is_in_table_) return;
-
-      converter->is_in_list_ = false;
-      converter->is_in_ordered_list_ = false;
-
-      converter->AppendToMd('\n');
-    }
+    void OnHasLeftOpeningTag(Converter* converter) override;
+    void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagParagraph : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override {
-      if (converter->is_in_list_ && converter->prev_tag_ == kTagParagraph)
-        converter->AppendToMd("\n\t");
-      else if (!converter->is_in_list_ && converter->index_blockquote == 0)
-        converter->AppendToMd('\n');
-
-      if (converter->index_blockquote > 0) {
-        converter->AppendToMd("> \n");
-        converter->AppendToMd(utils::Repeat("> ", converter->index_blockquote));
-      }
-    }
-    void OnHasLeftClosingTag(Converter* converter) override {
-      if (!converter->md_.empty()) converter->AppendToMd('\n');
-    }
+    void OnHasLeftOpeningTag(Converter* converter) override;
+    void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagPre : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override {
-      converter->is_in_pre_ = true;
-
-      if (converter->prev_ch_in_md_ != '\n') converter->AppendToMd("\n");
-
-      if (converter->prev_prev_ch_in_md_ != '\n') converter->AppendToMd("\n");
-
-      if (converter->index_blockquote != 0) {
-        converter->AppendToMd(utils::Repeat("> ", converter->index_blockquote));
-        converter->ShortenMarkdown();
-      }
-
-      if (converter->is_in_list_ && converter->prev_tag_ != kTagParagraph) converter->ShortenMarkdown(2);
-
-      if (converter->is_in_list_ || converter->index_blockquote != 0)
-        converter->AppendToMd("\t\t");
-      else
-        converter->AppendToMd("```");
-    }
-    void OnHasLeftClosingTag(Converter* converter) override {
-      converter->is_in_pre_ = false;
-
-      if (!converter->is_in_list_ && converter->index_blockquote == 0)
-        converter->AppendToMd("```\n");
-    }
+    void OnHasLeftOpeningTag(Converter* converter) override;
+    void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagCode : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override {
-      converter->is_in_code_ = true;
-
-      if (converter->is_in_pre_) {
-        // Remove space
-        if (converter->prev_ch_in_md_ == ' ') converter->ShortenMarkdown();
-
-        if (converter->is_in_list_ || converter->index_blockquote != 0) return;
-
-        auto code = converter->ExtractAttributeFromTagLeftOf(kAttributeClass);
-        if (!code.empty()) {
-          code.erase(0, 9); // remove language-
-          converter->AppendToMd(code);
-        }
-        converter->AppendToMd('\n');
-      }
-      else converter->AppendToMd('`');
-    }
-    void OnHasLeftClosingTag(Converter* converter) override {
-      converter->is_in_code_ = false;
-
-      if (converter->is_in_pre_) return;
-
-      if (converter->prev_ch_in_md_ == ' ') converter->ShortenMarkdown();
-
-      converter->AppendToMd("` ");
-    }
+    void OnHasLeftOpeningTag(Converter* converter) override;
+    void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagSpan : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override {
-    }
-    void OnHasLeftClosingTag(Converter* converter) override {
-      if (converter->prev_ch_in_md_ != ' '
-          && converter->char_index_in_tag_content > 0)
-        converter->AppendBlank();
-    }
+    void OnHasLeftOpeningTag(Converter* converter) override;
+    void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagTitle : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override {
-    }
-    void OnHasLeftClosingTag(Converter* converter) override {
-      converter->TurnLineIntoHeader1();
-    }
+    void OnHasLeftOpeningTag(Converter* converter) override;
+    void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagUnorderedList : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override {
-      if (converter->is_in_list_ ||
-          converter->is_in_table_) return;
-
-      converter->is_in_list_ = true;
-
-      converter->AppendToMd('\n');
-    }
-    void OnHasLeftClosingTag(Converter* converter) override {
-      if (converter->is_in_table_) return;
-
-      converter->is_in_list_ = false;
-
-      if ((converter->prev_prev_ch_in_md_ == '*' ||
-           converter->prev_prev_ch_in_md_ == '-' ||
-           converter->prev_prev_ch_in_md_ == '+' ||
-           converter->prev_prev_ch_in_md_ == '.' ||
-           converter->prev_prev_ch_in_md_ == ')') &&
-           converter->prev_tag_ != kTagParagraph)
-        converter->is_in_list_ = true;
-
-      if (converter->prev_prev_ch_in_md_ == '\n' &&
-          converter->prev_ch_in_md_ == '\n') converter->ShortenMarkdown();
-      else if (converter->prev_ch_in_md_ != '\n') converter->AppendToMd('\n');
-    }
+    void OnHasLeftOpeningTag(Converter* converter) override;
+    void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagImage : Tag {
-      void OnHasLeftOpeningTag(Converter* converter) override {
-          if (converter->prev_tag_ != kTagAnchor &&
-              converter->prev_ch_in_md_ != '\n') converter->AppendToMd('\n');
-
-          converter->AppendToMd("![")
-                   ->AppendToMd(converter->ExtractAttributeFromTagLeftOf(kAttributeAlt))
-                   ->AppendToMd("](")
-                   ->AppendToMd(converter->ExtractAttributeFromTagLeftOf(kAttributeSrc))
-                   ->AppendToMd(")");
-      }
-      void OnHasLeftClosingTag(Converter* converter) override {
-          if (converter->prev_tag_ == kTagAnchor) converter->AppendToMd('\n');
-      }
+      void OnHasLeftOpeningTag(Converter* converter) override;
+      void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagSeperator : Tag {
-      void OnHasLeftOpeningTag(Converter* converter) override {
-          converter->AppendToMd("\n---\n");
-      }
-      void OnHasLeftClosingTag(Converter* converter) override {
-      }
+      void OnHasLeftOpeningTag(Converter* converter) override;
+      void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagTable : Tag {
-      void OnHasLeftOpeningTag(Converter* converter) override {
-          converter->is_in_table_ = true;
-          converter->AppendToMd('\n');
-      }
-      void OnHasLeftClosingTag(Converter* converter) override {
-          converter->is_in_table_ = false;
-          converter->AppendToMd('\n');
-      }
+      void OnHasLeftOpeningTag(Converter* converter) override;
+      void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagTableRow : Tag {
-      void OnHasLeftOpeningTag(Converter* converter) override {
-          converter->AppendToMd('\n');
-      }
-      void OnHasLeftClosingTag(Converter* converter) override {
-          converter->UpdatePrevChFromMd();
-          if (converter->prev_ch_in_md_ == '|') converter->AppendToMd('\n'); // There's a bug
-          else converter->AppendToMd('|');
-
-          if (!converter->tableLine.empty()) {
-              if (converter->prev_ch_in_md_ != '\n') converter->AppendToMd('\n');
-
-              converter->tableLine.append("|\n");
-              converter->AppendToMd(converter->tableLine);
-              converter->tableLine.clear();
-          }
-      }
+      void OnHasLeftOpeningTag(Converter* converter) override;
+      void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagTableHeader : Tag {
-      void OnHasLeftOpeningTag(Converter* converter) override {
-          auto align = converter->ExtractAttributeFromTagLeftOf(kAttrinuteAlign);
-
-          std::string line = "| ";
-
-          if (align == "left" || align == "center")
-              line += ':';
-
-          line += '-';
-
-          if (align == "right" || align == "center")
-              line += ": ";
-          else
-              line += ' ';
-
-          converter->tableLine.append(line);
-
-          converter->AppendToMd("| ");
-      }
-      void OnHasLeftClosingTag(Converter* converter) override {
-      }
+      void OnHasLeftOpeningTag(Converter* converter) override;
+      void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagTableData : Tag {
-      void OnHasLeftOpeningTag(Converter* converter) override {
-          if (converter->prev_prev_ch_in_md_ != '|') converter->AppendToMd("| ");
-      }
-      void OnHasLeftClosingTag(Converter* converter) override {
-      }
+      void OnHasLeftOpeningTag(Converter* converter) override;
+      void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   struct TagBlockquote : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override {
-      ++converter->index_blockquote;
-
-      if (converter->index_blockquote == 1) converter->AppendToMd('\n');
-    }
-    void OnHasLeftClosingTag(Converter* converter) override {
-      --converter->index_blockquote;
-    }
+    void OnHasLeftOpeningTag(Converter* converter) override;
+    void OnHasLeftClosingTag(Converter* converter) override;
   };
 
   std::map<std::string, Tag*> tags_;
 
-  explicit Converter(std::string *html);
+  explicit Converter(std::string *html, options *options = nullptr);
 
   void PrepareHtml();
 
@@ -820,6 +551,7 @@ class Converter {
 /*!
  * \brief Static wrapper around the Converter class
  * \param html The HTML passed to Converter
+ * \param ok Optional: Pass a reference to a local bool to store the output of Converter::ok()
  * \return Returns the by Converter generated Markdown
  */
 inline std::string Convert(std::string &html, bool *ok = nullptr) {

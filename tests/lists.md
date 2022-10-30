@@ -4,4 +4,4 @@
 1. foo
 2. bar
 
-- > foo
+- list entry with<br>break

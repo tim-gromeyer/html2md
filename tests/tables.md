@@ -1,9 +1,28 @@
-| Hallo | 1 |
+Simple table:
+
+| foo   | 1 |
 |-------|---|
 | 1     | 3 |
-| 4     | 5 |
+| bar   | 5 |
+
+
+Table with aligment:
 
 | Syntax | Description | Test Text |
 | :- | :-: | ---: |
 | Header | Title | Here's this |
 | Paragraph | Text | And more |
+
+Table with line breaks:  
+
+| From         	| To                                            	|
+|--------------	|-----------------------------------------------	|
+| **Plain**    		| C-string<br>Sorted<br>MD5<br>SHA256<br>SHA512 	|
+| **Markdown** 	|                 HTML<br>Plain                 	|
+| **HTML**     	|               Markdown<br>Plain               	|
+| **C-string** 		|                     Plain                     	|
+
+| table   |
+|:-------:|
+| `code`  |
+| no code |

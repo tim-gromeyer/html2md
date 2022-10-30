@@ -1,7 +1,7 @@
 PROJECT_NAME           = "html2md"
 PROJECT_BRIEF          = "Simple and fast HTML to Markdown converter"
 
-INPUT                  = include/ docs/index.md CHANGELOG.md
+INPUT                  = include/ src/ docs/index.md CHANGELOG.md
 USE_MDFILE_AS_MAINPAGE = docs/index.md
 
 RECURSIVE              = YES
@@ -22,22 +22,23 @@ HTML_HEADER            = docs/doxygen-awesome-css/doxygen-custom/header.html
 HTML_EXTRA_STYLESHEET  = docs/doxygen-awesome-css/doxygen-awesome.css \
                          docs/doxygen-awesome-css/doxygen-custom/custom.css \
                          docs/doxygen-awesome-css/doxygen-awesome-sidebar-only.css \
-                         docs/doxygen-awesome-css/doxygen-awesome-sidebar-only-darkmode-toggle.css \
-                         docs/doxygen-awesome-css/doxygen-custom/custom-alternative.css
+                         docs/doxygen-awesome-css/doxygen-awesome-sidebar-only-darkmode-toggle.css
 
 HTML_EXTRA_FILES       = docs/doxygen-awesome-css/doxygen-awesome-darkmode-toggle.js \
                          docs/doxygen-awesome-css/doxygen-awesome-fragment-copy-button.js \
                          docs/doxygen-awesome-css/doxygen-awesome-paragraph-link.js \
-                         docs/doxygen-awesome-css/doxygen-custom/toggle-alternative-theme.js \
                          docs/doxygen-awesome-css/doxygen-awesome-interactive-toc.js
 
 # Transparent background for graphs
 HAVE_DOT               = YES
 DOT_IMAGE_FORMAT       = svg
 DOT_TRANSPARENT        = YES
+INTERACTIVE_SVG        = YES
 
-
-# Tests
+# TOC
 TOC_EXPAND             = YES
 TOC_INCLUDE_HEADINGS   = 5
+
+# Tests
+SOURCE_BROWSER = YES
 

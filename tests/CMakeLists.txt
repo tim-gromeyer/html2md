@@ -22,10 +22,10 @@ set(TEST_SOURCES
 add_executable(test-exe ${TEST_SOURCES})
 target_link_libraries(test-exe md4c-html html2md-static)
 target_compile_definitions(test-exe PUBLIC DIR="${CMAKE_CURRENT_LIST_DIR}")
+set_target_properties(test-exe PROPERTIES OUTPUT_NAME "tests")
 
-add_custom_target(tests
-    COMMAND ${CMAKE_CURRENT_BINARY_DIR}/test-exe
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    COMMENT "Running tests"
+add_custom_target(test
+    COMMAND $<TARGET_FILE:test-exe>
+    COMMENT Runing tests..
+    DEPENDS test-exe
 )
-add_dependencies(tests test-exe)

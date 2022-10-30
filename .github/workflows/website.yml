@@ -3,9 +3,9 @@ name: Update website
 on:
   push:
     tags:
-      - '*'
+      - 'v*'
   workflow_dispatch:
-  
+
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -17,7 +17,7 @@ jobs:
 
     - name: Add version to doxyfile
       run: |
-        echo "PROJECT_NUMBER = $(git describe --tags --abbrev=0 | cut -c2-)" >> docs/Doxyfile
+        echo "PROJECT_NUMBER = $(git describe --tags --abbrev=0)" >> docs/Doxyfile
 
     - name: Run Doxygen
       uses: mattnotmitt/doxygen-action@v1.9.4

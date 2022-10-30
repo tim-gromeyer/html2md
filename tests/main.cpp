@@ -1,3 +1,5 @@
+#include <algorithm>
+#include <chrono>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -10,8 +12,10 @@
 
 using namespace std;
 namespace fs = std::filesystem;
-
-short test_index = 0;
+using std::chrono::high_resolution_clock;
+using std::chrono::duration_cast;
+using std::chrono::duration;
+using std::chrono::milliseconds;
 
 namespace markdown {
 void captureHtmlFragment(const MD_CHAR* data, const MD_SIZE data_size, void* userData) {
@@ -30,7 +34,11 @@ string toHTML(const string &md) {
 };
 
 string fromHTML(string &html) {
-    return html2md::Convert(html);
+    auto *options = new html2md::options();
+    options->splitLines = false;
+
+    html2md::Converter c(html, options);
+    return c.Convert2Md();
 }
 }
 
@@ -43,60 +51,88 @@ string readAll(const string &name) {
 };
 }
 
-void log(const string &file, const string &html, const string &htmlOut) {
-    cerr << "Task " << fs::path(file).filename() << " failed:\nOriginal HTML:\n" << html << "\nHTML generated from generated Markdown:\n" << htmlOut << '\n';
+// Log the error
+void log(const string &file, const string &origMd, const string &generatedMd) {
+    cerr << "Task " << fs::path(file).filename() << " failed:\nOriginal Md:\n" << origMd << "\nGenerated Markdown:\n" << generatedMd << '\n';
 }
 
+// Print "Running " + filename
 void running(const string &file) {
-    cout << "Running test " << fs::path(file).filename() << "... ";
+    cout << "Running test " << fs::path(file).filename() << "...\t";
 }
 
-void passed(int number, const char *description = nullptr) {
+// Print "Passed!" in green
+void passed() {
     cout << "\x1B[32mPassed!\033[0m\n";
 }
 
-void error(int number, const char *description = nullptr) {
-    cout << "\x1B[31mFailed :(\033[0m\n";
+// Print "Failed!" in red
+void error() {
+    cout << "\x1B[31mFailed!\033[0m\n";
 }
 
-void runTest(const string& file) {
+void runTest(const string& file, short *errorCount) {
+    // Read the markdown file
     const string md = file::readAll(file);
-
-    ++test_index;
-
-    short curr = test_index;
 
     running(file);
 
+    // Convert the Md to HTML
     string html = markdown::toHTML(md);
 
+    // Generate Md from the HTML
     string convertedMd = markdown::fromHTML(html);
 
+    // Convert it back to HTML
     string testHTML = markdown::toHTML(convertedMd);
 
+    // Compare original and result HTML
     if (html == testHTML)
-        passed(curr);
+        passed();
     else {
-        error(curr);
-        log(file, html, testHTML);
+        error();
+        log(file, md, convertedMd);
+        ++*errorCount;
     }
 }
 
-int main(int argc, char ** argv){
+int main(int argc, char **argv){
+    // List to store all markdown files in this dir
     vector<string> files;
 
-    string ext(".md");
+    // Find the files
     for (const auto &p : fs::recursive_directory_iterator(DIR))
     {
-        if (p.path().extension() == ext && p.path().parent_path() == DIR)
-            files.emplace_back(p.path().c_str());
+        if (p.path().extension() == ".md" && p.path().parent_path() == DIR)
+            files.emplace_back(p.path().string());
     }
 
-    // Redirect errors to error.log
-    freopen("./error.log", "w", stderr);
+    // Sort file names
+    sort(files.begin(), files.end());
 
-    for (auto &str : files)
-        runTest(str);
+    // File name
+    const char* errorFileName = DIR "/error.log";
+
+    // Redirect errors to error.log
+    auto *errorFile = freopen(errorFileName, "w", stderr);
+    if (errorFile) {} // Fix unused warning
+
+    // For measuring time.
+    auto t1 = high_resolution_clock::now();
+
+    // Error count
+    short errorCount = 0;
+
+    // Run the tests
+    for (auto &file : files)
+        runTest(file, &errorCount);
+
+    auto t2 = high_resolution_clock::now();
+
+    /* Getting number of milliseconds as a double. */
+    duration<double, std::milli> ms_double = t2 - t1;
+
+    std::cout << files.size() << " tests executed in " << ms_double.count() << "ms. " << errorCount << " failed.\n";
 
     return 0;
 }
