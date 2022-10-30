@@ -11,7 +11,7 @@
 <meta property="og:description" content="Simple and fast HTML to Markdown converter with table support" />
 <meta property="og:url" content="https://github.com/software-made-easy/html2md" />
 <!-- END opengraph metadata -->
-<title>html2md: html2md::Converter Class Reference</title>
+<title>html2md::Converter Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link rel="icon" type="image/svg+xml" href=""/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -20,7 +20,6 @@
 <script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
 <script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
 <script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
-<script type="text/javascript" src="toggle-alternative-theme.js"></script>
 <script type="text/javascript">
     DoxygenAwesomeFragmentCopyButton.init()
     DoxygenAwesomeDarkModeToggle.init()
@@ -39,7 +38,6 @@
 <link href="custom.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
-<link href="custom-alternative.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <!-- https://tholman.com/github-corners/ -->
@@ -53,7 +51,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">html2md
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">v1.0.1</span>
    </div>
    <div id="projectbrief">Simple and fast HTML to Markdown converter</div>
   </td>
@@ -126,9 +124,9 @@ $(document).ready(function(){initNavTree('classhtml2md_1_1Converter.html',''); i
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a59f30b7e973ece20c0d48434207c17a1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhtml2md_1_1Converter.html#a59f30b7e973ece20c0d48434207c17a1">Converter</a> (std::string &amp;html)</td></tr>
-<tr class="memdesc:a59f30b7e973ece20c0d48434207c17a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Standard initzializer, takes HTML as parameter. Also prepares everything.  <a href="classhtml2md_1_1Converter.html#a59f30b7e973ece20c0d48434207c17a1">More...</a><br /></td></tr>
-<tr class="separator:a59f30b7e973ece20c0d48434207c17a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3cd9c053013f4e2dfe8d86eeb4e2abc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhtml2md_1_1Converter.html#ad3cd9c053013f4e2dfe8d86eeb4e2abc">Converter</a> (std::string &amp;html, struct <a class="el" href="structhtml2md_1_1options.html">options</a> *<a class="el" href="structhtml2md_1_1options.html">options</a>=nullptr)</td></tr>
+<tr class="memdesc:ad3cd9c053013f4e2dfe8d86eeb4e2abc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Standard initzializer, takes HTML as parameter. Also prepares everything.  <a href="classhtml2md_1_1Converter.html#ad3cd9c053013f4e2dfe8d86eeb4e2abc">More...</a><br /></td></tr>
+<tr class="separator:ad3cd9c053013f4e2dfe8d86eeb4e2abc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1eb45d6f8393b48d8f7cd3281081da12"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhtml2md_1_1Converter.html#a1eb45d6f8393b48d8f7cd3281081da12">~Converter</a> ()=default</td></tr>
 <tr class="memdesc:a1eb45d6f8393b48d8f7cd3281081da12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor, does nothing.  <a href="classhtml2md_1_1Converter.html#a1eb45d6f8393b48d8f7cd3281081da12">More...</a><br /></td></tr>
 <tr class="separator:a1eb45d6f8393b48d8f7cd3281081da12"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -147,9 +145,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a81809005b1c4adc4b35843153379518b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhtml2md_1_1Converter.html">Converter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhtml2md_1_1Converter.html#a81809005b1c4adc4b35843153379518b">AppendBlank</a> ()</td></tr>
 <tr class="memdesc:a81809005b1c4adc4b35843153379518b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends a ' ' in certain cases.  <a href="classhtml2md_1_1Converter.html#a81809005b1c4adc4b35843153379518b">More...</a><br /></td></tr>
 <tr class="separator:a81809005b1c4adc4b35843153379518b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2847e653ae33f182d574998d997d0e3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhtml2md_1_1Converter.html#ac2847e653ae33f182d574998d997d0e3">ok</a> ()</td></tr>
-<tr class="memdesc:ac2847e653ae33f182d574998d997d0e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if everything was closed properly(in the HTML).  <a href="classhtml2md_1_1Converter.html#ac2847e653ae33f182d574998d997d0e3">More...</a><br /></td></tr>
-<tr class="separator:ac2847e653ae33f182d574998d997d0e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34437fc31922f996799afc0441ac68b1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhtml2md_1_1Converter.html#a34437fc31922f996799afc0441ac68b1">ok</a> () const</td></tr>
+<tr class="memdesc:a34437fc31922f996799afc0441ac68b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if everything was closed properly(in the HTML).  <a href="classhtml2md_1_1Converter.html#a34437fc31922f996799afc0441ac68b1">More...</a><br /></td></tr>
+<tr class="separator:a34437fc31922f996799afc0441ac68b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Class for converting HTML to Markdown. </p>
@@ -163,19 +161,33 @@ Usage example</h2>
 <div class="line"> </div>
 <div class="line"><span class="keywordflow">if</span> (!c.ok()) std::cout &lt;&lt; <span class="stringliteral">&quot;There was something wrong in the HTML\n&quot;</span>;</div>
 <div class="line">std::cout &lt;&lt; md; <span class="comment">// # example</span></div>
-<div class="ttc" id="aclasshtml2md_1_1Converter_html"><div class="ttname"><a href="classhtml2md_1_1Converter.html">html2md::Converter</a></div><div class="ttdoc">Class for converting HTML to Markdown.</div><div class="ttdef"><b>Definition:</b> html2md.h:93</div></div>
+<div class="ttc" id="aclasshtml2md_1_1Converter_html"><div class="ttname"><a href="classhtml2md_1_1Converter.html">html2md::Converter</a></div><div class="ttdoc">Class for converting HTML to Markdown.</div><div class="ttdef"><b>Definition:</b> <a href="html2md_8h_source.html#l00124">html2md.h:124</a></div></div>
 </div><!-- fragment --><p >Option 2: Use the static wrapper:</p>
 <div class="fragment"><div class="line">std::string html = <span class="stringliteral">&quot;&lt;h1&gt;example&lt;/h1&gt;&quot;</span>;</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">auto</span> md = <a class="code hl_function" href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">html2md::Convert</a>(html);</div>
 <div class="line">std::cout &lt;&lt; md;</div>
-<div class="ttc" id="anamespacehtml2md_html_af7fb981c863efed5049ce51d91ee5b0c"><div class="ttname"><a href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">html2md::Convert</a></div><div class="ttdeci">std::string Convert(std::string &amp;html, bool *ok=nullptr)</div><div class="ttdoc">Static wrapper around the Converter class.</div><div class="ttdef"><b>Definition:</b> html2md.h:825</div></div>
-</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd><p class="startdd">Adding the possibility of customization </p>
-<p class="enddd">Rework <code>blockquote</code>s </p>
-</dd></dl>
+<div class="ttc" id="anamespacehtml2md_html_af7fb981c863efed5049ce51d91ee5b0c"><div class="ttname"><a href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">html2md::Convert</a></div><div class="ttdeci">std::string Convert(std::string &amp;html, bool *ok=nullptr)</div><div class="ttdoc">Static wrapper around the Converter class.</div><div class="ttdef"><b>Definition:</b> <a href="html2md_8h_source.html#l00557">html2md.h:557</a></div></div>
+</div><!-- fragment --><p >Advanced: use options:</p>
+<div class="fragment"><div class="line">std::string html = <span class="stringliteral">&quot;&lt;h1&gt;example&lt;/h1&gt;&quot;</span>;</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">auto</span> *<a class="code hl_struct" href="structhtml2md_1_1options.html">options</a> = <span class="keyword">new</span> <a class="code hl_struct" href="structhtml2md_1_1options.html">html2md::options</a>();</div>
+<div class="line"><a class="code hl_struct" href="structhtml2md_1_1options.html">options</a>-&gt;<a class="code hl_variable" href="structhtml2md_1_1options.html#ac7c484a3be8674147537092c0be2b537">splitLines</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a class="code hl_struct" href="structhtml2md_1_1options.html">options</a>-&gt;<a class="code hl_variable" href="structhtml2md_1_1options.html#aa4e0cc2e52d9bcf532768b1f54ae81f3">unorderedList</a> = <span class="charliteral">&#39;*&#39;</span>;</div>
+<div class="line"> </div>
+<div class="line"><a class="code hl_class" href="classhtml2md_1_1Converter.html">html2md::Converter</a> c(html, <a class="code hl_struct" href="structhtml2md_1_1options.html">options</a>);</div>
+<div class="line"><span class="keyword">auto</span> md = c.Convert2Md();</div>
+<div class="line"><span class="keywordflow">if</span> (!c.ok()) std::cout &lt;&lt; <span class="stringliteral">&quot;There was something wrong in the HTML\n&quot;</span>;</div>
+<div class="line">std::cout &lt;&lt; md; <span class="comment">// # example</span></div>
+<div class="ttc" id="astructhtml2md_1_1options_html"><div class="ttname"><a href="structhtml2md_1_1options.html">html2md::options</a></div><div class="ttdoc">Options for the conversation from HTML to Markdown.</div><div class="ttdef"><b>Definition:</b> <a href="html2md_8h_source.html#l00037">html2md.h:38</a></div></div>
+<div class="ttc" id="astructhtml2md_1_1options_html_aa4e0cc2e52d9bcf532768b1f54ae81f3"><div class="ttname"><a href="structhtml2md_1_1options.html#aa4e0cc2e52d9bcf532768b1f54ae81f3">html2md::options::unorderedList</a></div><div class="ttdeci">char unorderedList</div><div class="ttdoc">The char used for unordered lists.</div><div class="ttdef"><b>Definition:</b> <a href="html2md_8h_source.html#l00060">html2md.h:60</a></div></div>
+<div class="ttc" id="astructhtml2md_1_1options_html_ac7c484a3be8674147537092c0be2b537"><div class="ttname"><a href="structhtml2md_1_1options.html#ac7c484a3be8674147537092c0be2b537">html2md::options::splitLines</a></div><div class="ttdeci">bool splitLines</div><div class="ttdoc">Add new line when a certain number of characters is reached.</div><div class="ttdef"><b>Definition:</b> <a href="html2md_8h_source.html#l00042">html2md.h:42</a></div></div>
+</div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Rework <code>blockquote</code>s </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00124">124</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a59f30b7e973ece20c0d48434207c17a1" name="a59f30b7e973ece20c0d48434207c17a1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a59f30b7e973ece20c0d48434207c17a1">&#9670;&nbsp;</a></span>Converter()</h2>
+<a id="ad3cd9c053013f4e2dfe8d86eeb4e2abc" name="ad3cd9c053013f4e2dfe8d86eeb4e2abc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3cd9c053013f4e2dfe8d86eeb4e2abc">&#9670;&nbsp;</a></span>Converter()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -187,8 +199,18 @@ Usage example</h2>
           <td class="memname">html2md::Converter::Converter </td>
           <td>(</td>
           <td class="paramtype">std::string &amp;&#160;</td>
-          <td class="paramname"><em>html</em></td><td>)</td>
+          <td class="paramname"><em>html</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">struct <a class="el" href="structhtml2md_1_1options.html">options</a> *&#160;</td>
+          <td class="paramname"><em>options</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -201,13 +223,16 @@ Usage example</h2>
 <p>Standard initzializer, takes HTML as parameter. Also prepares everything. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">html</td><td>The HTML as std::string.</td></tr>
+    <tr><td class="paramname">html</td><td>The HTML as std::string. </td></tr>
+    <tr><td class="paramname">options</td><td>Options for the Conversation. See <a class="el" href="structhtml2md_1_1options.html" title="Options for the conversation from HTML to Markdown.">html2md::options()</a> for more.</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>Don't pass anything else than HTML, otherwise the output will be a <b>mess</b>!</dd></dl>
 <p>This is the default initzializer.<br  />
  You can use <a class="el" href="classhtml2md_1_1Converter.html#a0d165f71f03848e7cb83bf4b7f1038bd" title="Append a char to the Markdown.">AppendToMd()</a> to append something to the beginning of the generated output. </p>
+
+<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00136">136</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
 
 </div>
 </div>
@@ -350,6 +375,8 @@ Usage example</h2>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns a copy of the instance with the string appended. </dd></dl>
 
+<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00173">173</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
+
 </div>
 </div>
 <a id="ab0ed226860a2957641e79faf240221dd" name="ab0ed226860a2957641e79faf240221dd"></a>
@@ -371,10 +398,12 @@ Usage example</h2>
 <dl class="section return"><dt>Returns</dt><dd>Returns the converted Markdown.</dd></dl>
 <p>This function actually converts the HTML into Markdown. It also cleans up the Markdown so you don't have to do anything. </p>
 
+<p class="definition">Definition at line <a class="el" href="html2md_8cpp_source.html#l00336">336</a> of file <a class="el" href="html2md_8cpp_source.html">html2md.cpp</a>.</p>
+
 </div>
 </div>
-<a id="ac2847e653ae33f182d574998d997d0e3" name="ac2847e653ae33f182d574998d997d0e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac2847e653ae33f182d574998d997d0e3">&#9670;&nbsp;</a></span>ok()</h2>
+<a id="a34437fc31922f996799afc0441ac68b1" name="a34437fc31922f996799afc0441ac68b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34437fc31922f996799afc0441ac68b1">&#9670;&nbsp;</a></span>ok()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -383,7 +412,7 @@ Usage example</h2>
           <td class="memname">bool html2md::Converter::ok </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -393,8 +422,9 @@ Usage example</h2>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>include/<a class="el" href="html2md_8h_source.html">html2md.h</a></li>
+<li>src/<a class="el" href="html2md_8cpp_source.html">html2md.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

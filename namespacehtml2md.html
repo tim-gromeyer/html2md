@@ -11,7 +11,7 @@
 <meta property="og:description" content="Simple and fast HTML to Markdown converter with table support" />
 <meta property="og:url" content="https://github.com/software-made-easy/html2md" />
 <!-- END opengraph metadata -->
-<title>html2md: html2md Namespace Reference</title>
+<title>html2md Namespace Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link rel="icon" type="image/svg+xml" href=""/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -20,7 +20,6 @@
 <script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
 <script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
 <script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
-<script type="text/javascript" src="toggle-alternative-theme.js"></script>
 <script type="text/javascript">
     DoxygenAwesomeFragmentCopyButton.init()
     DoxygenAwesomeDarkModeToggle.init()
@@ -39,7 +38,6 @@
 <link href="custom.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
-<link href="custom-alternative.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <!-- https://tholman.com/github-corners/ -->
@@ -53,7 +51,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">html2md
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">v1.0.1</span>
    </div>
    <div id="projectbrief">Simple and fast HTML to Markdown converter</div>
   </td>
@@ -112,7 +110,6 @@ $(document).ready(function(){initNavTree('namespacehtml2md.html',''); initResiza
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">html2md Namespace Reference</div></div>
@@ -122,16 +119,13 @@ $(document).ready(function(){initNavTree('namespacehtml2md.html',''); initResiza
 <p><a class="el" href="namespacehtml2md.html" title="html2md namespace">html2md</a> namespace  
 <a href="namespacehtml2md.html#details">More...</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:namespacehtml2md_1_1utils"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacehtml2md_1_1utils.html">utils</a></td></tr>
-<tr class="memdesc:namespacehtml2md_1_1utils"><td class="mdescLeft">&#160;</td><td class="mdescRight">String utils. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classhtml2md_1_1Converter.html">Converter</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class for converting HTML to Markdown.  <a href="classhtml2md_1_1Converter.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhtml2md_1_1options.html">options</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Options for the conversation from HTML to Markdown.  <a href="structhtml2md_1_1options.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
@@ -145,9 +139,8 @@ Functions</h2></td></tr>
 <p >The <a class="el" href="namespacehtml2md.html" title="html2md namespace">html2md</a> namespace provides:</p><ol type="1">
 <li>The <a class="el" href="classhtml2md_1_1Converter.html" title="Class for converting HTML to Markdown.">Converter</a> class</li>
 <li>Static wrapper around <a class="el" href="classhtml2md_1_1Converter.html" title="Class for converting HTML to Markdown.">Converter</a> class</li>
-<li>String utils</li>
 </ol>
-<dl class="section note"><dt>Note</dt><dd>Do NOT try to convert HTML that contains a list in an ordered list!<br  />
+<dl class="section note"><dt>Note</dt><dd>Do NOT try to convert HTML that contains a list in an ordered list or a <code>blockquote</code> in a list!<br  />
  This will be a <b>total</b> mess! </dd></dl>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a id="af7fb981c863efed5049ce51d91ee5b0c" name="af7fb981c863efed5049ce51d91ee5b0c"></a>
@@ -188,10 +181,13 @@ Functions</h2></td></tr>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">html</td><td>The HTML passed to <a class="el" href="classhtml2md_1_1Converter.html" title="Class for converting HTML to Markdown.">Converter</a> </td></tr>
+    <tr><td class="paramname">ok</td><td>Optional: Pass a reference to a local bool to store the output of <a class="el" href="classhtml2md_1_1Converter.html#a34437fc31922f996799afc0441ac68b1" title="Checks if everything was closed properly(in the HTML).">Converter::ok()</a> </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns the by <a class="el" href="classhtml2md_1_1Converter.html" title="Class for converting HTML to Markdown.">Converter</a> generated Markdown </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00557">557</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
 
 </div>
 </div>

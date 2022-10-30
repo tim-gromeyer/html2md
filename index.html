@@ -11,7 +11,7 @@
 <meta property="og:description" content="Simple and fast HTML to Markdown converter with table support" />
 <meta property="og:url" content="https://github.com/software-made-easy/html2md" />
 <!-- END opengraph metadata -->
-<title>html2md: html2md</title>
+<title>html2md</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link rel="icon" type="image/svg+xml" href=""/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -20,7 +20,6 @@
 <script type="text/javascript" src="doxygen-awesome-fragment-copy-button.js"></script>
 <script type="text/javascript" src="doxygen-awesome-paragraph-link.js"></script>
 <script type="text/javascript" src="doxygen-awesome-interactive-toc.js"></script>
-<script type="text/javascript" src="toggle-alternative-theme.js"></script>
 <script type="text/javascript">
     DoxygenAwesomeFragmentCopyButton.init()
     DoxygenAwesomeDarkModeToggle.init()
@@ -39,7 +38,6 @@
 <link href="custom.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
 <link href="doxygen-awesome-sidebar-only-darkmode-toggle.css" rel="stylesheet" type="text/css"/>
-<link href="custom-alternative.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <!-- https://tholman.com/github-corners/ -->
@@ -53,7 +51,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">html2md
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">v1.0.1</span>
    </div>
    <div id="projectbrief">Simple and fast HTML to Markdown converter</div>
   </td>
@@ -131,7 +129,7 @@ What does it do</h1>
 Use this library</h1>
 <p >First of all, <b>clone</b> the library: <code>git clone <a href="https://github.com/software-made-easy/html2md">https://github.com/software-made-easy/html2md</a></code>. <br  />
 </p>
-<p >Then <b>add the files</b> <code><a class="el" href="html2md_8h.html">include/html2md.h</a></code> and <code>src/html2md.cpp</code> <b>to your build</b>. <br  />
+<p >Then <b>add the files</b> <code><a class="el" href="html2md_8h.html">include/html2md.h</a></code> and <code><a class="el" href="html2md_8cpp.html">src/html2md.cpp</a></code> <b>to your build</b>. <br  />
 </p>
 <p >Afterwards follow the <b>example below</b>.</p>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="html2md_8h.html">html2md.h</a>&gt;</span></div>
@@ -140,7 +138,7 @@ Use this library</h1>
 <div class="line"> </div>
 <div class="line">std::cout &lt;&lt; <a class="code hl_function" href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">html2md::Convert</a>(<span class="stringliteral">&quot;&lt;h1&gt;foo&lt;/h1&gt;&quot;</span>); <span class="comment">// # foo</span></div>
 <div class="ttc" id="ahtml2md_8h_html"><div class="ttname"><a href="html2md_8h.html">html2md.h</a></div></div>
-<div class="ttc" id="anamespacehtml2md_html_af7fb981c863efed5049ce51d91ee5b0c"><div class="ttname"><a href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">html2md::Convert</a></div><div class="ttdeci">std::string Convert(std::string &amp;html, bool *ok=nullptr)</div><div class="ttdoc">Static wrapper around the Converter class.</div><div class="ttdef"><b>Definition:</b> html2md.h:825</div></div>
+<div class="ttc" id="anamespacehtml2md_html_af7fb981c863efed5049ce51d91ee5b0c"><div class="ttname"><a href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">html2md::Convert</a></div><div class="ttdeci">std::string Convert(std::string &amp;html, bool *ok=nullptr)</div><div class="ttdoc">Static wrapper around the Converter class.</div><div class="ttdef"><b>Definition:</b> <a href="html2md_8h_source.html#l00557">html2md.h:557</a></div></div>
 </div><!-- fragment --><h1><a class="anchor" id="autotoc_md4"></a>
 Supported Tags</h1>
 <p >The following table lists the supported HTML tags:</p>
