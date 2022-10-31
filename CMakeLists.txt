@@ -92,6 +92,11 @@ if(BUILD_DOC)
 
 endif()
 
+# Don't install as a subproject
+if(subproject)
+    return()
+endif()
+
 include(GNUInstallDirs)
 
 install(TARGETS html2md

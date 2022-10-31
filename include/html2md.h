@@ -556,7 +556,15 @@ class Converter {
  */
 inline std::string Convert(std::string &html, bool *ok = nullptr) {
   Converter c(html);
-  const auto &md = c.Convert2Md();
+  auto md = c.Convert2Md();
+  if (ok)
+    *ok = c.ok();
+  return md;
+}
+
+inline std::string Convert(std::string &&html, bool *ok = nullptr) {
+  Converter c(html);
+  auto md = c.Convert2Md();
   if (ok)
     *ok = c.ok();
   return md;
