@@ -1,5 +1,5 @@
 *.user*
-build/
+build*
 html2md.hpp
 doc/
 tests/error.log

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 project("html2md" VERSION 1.0.0
              DESCRIPTION "A c++ library that converts HTML to Markdown."
-             HOMEPAGE_URL "https://github.com/software-made-easy/html2md"
+             HOMEPAGE_URL "https://github.com/tim-gromeyer/html2md"
              LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -25,6 +25,11 @@ endif()
 
 # Check if it was included
 get_directory_property(subproject PARENT_DIRECTORY)
+
+# Create HTML for webassembly
+if(EMSCRIPTEN)
+    set(CMAKE_EXECUTABLE_SUFFIX ".html")
+endif()
 
 # Some options
 if (subproject)
