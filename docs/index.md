@@ -11,7 +11,7 @@ Also the project is a good example for efficient abstraction of logical decision
 
 ## Use this library
 
-First of all, **clone** the library: `git clone https://github.com/software-made-easy/html2md`.  
+First of all, **clone** the library: `git clone https://github.com/tim-gromeyer/html2md`.  
 
 Then **add the files** `include/html2md.h` and `src/html2md.cpp` **to your build**.  
 
