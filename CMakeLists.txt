@@ -80,21 +80,7 @@ if(BUILD_GUI)
 endif()
 
 if(BUILD_DOC)
-    find_package(Doxygen)
-
-    if(NOT DOXYGEN_FOUND)
-        message(STATUS "Doxygen not found. The documentation will not be created!")
-        return()
-    endif()
-
-    add_custom_target(
-      doc
-      COMMAND echo "PROJECT_NUMBER = ${PROJECT_VERSION}" >> docs/Doxyfile && ${DOXYGEN_EXECUTABLE} docs/Doxyfile
-      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-      COMMENT "Generating API documentation with Doxygen"
-      VERBATIM
-    )
-
+    include(cmake/Doc.cmake)
 endif()
 
 # Don't install as a subproject
@@ -105,9 +91,19 @@ endif()
 include(GNUInstallDirs)
 
 install(TARGETS html2md
-    LIBRARY DESTINATION lib
-    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/html2md
+        EXPORT Findhtml2md
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+        PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/html2md
 )
+
+#install(EXPORT Findhtml2md
+#        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/
+#)
+#install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/html2mdConfig.cmake
+#        ${CMAKE_CURRENT_BINARY_DIR}/html2mdConfigVersion.cmake
+#        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake)
 
 configure_file(html2md.pc.in html2md.pc @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/html2md.pc DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)

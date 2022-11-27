@@ -36,7 +36,7 @@ static int ReplaceAll(std::string *haystack,
     // Get the next occurrence from the current position
     pos = (*haystack).find(needle, pos + replacement.size());
 
-    amount_replaced++;
+    ++amount_replaced;
   }
 
   return amount_replaced;
@@ -209,7 +209,13 @@ Converter* Converter::AppendBlank() {
 
 bool Converter::ok() const
 {
-    return !(is_in_pre_ || is_in_list_ || is_in_p_ || is_in_table_ ||is_in_tag_ || index_blockquote != 0 || index_li != 0);
+    return !(is_in_pre_ ||
+             is_in_list_ ||
+             is_in_p_ ||
+             is_in_table_ ||
+             is_in_tag_ ||
+             index_blockquote != 0 ||
+             index_li != 0);
 }
 
 void Converter::LTrim(std::string *s) {
@@ -233,7 +239,7 @@ Converter* Converter::Trim(std::string *s) {
   if (!startsWith(*s, "\t"))
     LTrim(s);
 
-  if (!endsWith(*s, "  "))
+  if (!(startsWith(*s, "  "), endsWith(*s, "  ")))
     RTrim(s);
 
   return this;
@@ -457,10 +463,13 @@ bool Converter::OnHasLeftTag() {
   return true;
 }
 
-Converter* Converter::ShortenMarkdown(int chars) {
+Converter* Converter::ShortenMarkdown(size_t chars) {
   UpdateMdLen();
 
   md_ = md_.substr(0, md_len_ - chars);
+
+  if (chars > chars_in_curr_line_) chars_in_curr_line_ = 0;
+  else chars_in_curr_line_ = chars_in_curr_line_ - chars;
 
   return this->UpdatePrevChFromMd();
 }
@@ -532,8 +541,8 @@ bool Converter::ParseCharInTagContent(char ch) {
 }
 
 bool Converter::ReplacePreviousSpaceInLineByNewline() {
-  if (current_tag_ == kTagParagraph &&
-          (prev_tag_ != kTagCode && prev_tag_!= kTagPre) || is_in_table_) return false;
+  if (current_tag_ == kTagParagraph || is_in_table_ &&
+      (prev_tag_ != kTagCode && prev_tag_!= kTagPre)) return false;
 
   UpdateMdLen();
   auto offset = md_len_ - 1;
@@ -642,7 +651,10 @@ void Converter::TagStrikethrought::OnHasLeftClosingTag(Converter *converter) {
 }
 
 void Converter::TagBreak::OnHasLeftOpeningTag(Converter *converter) {
-    if (converter->is_in_table_ || converter->is_in_list_) {
+    if(converter->is_in_list_) { // When it's in a list, it's not in a paragraph
+        converter->AppendToMd("  \n");
+        converter->AppendToMd(Repeat("  ", converter->index_li));
+    } else if (converter->is_in_table_) {
         if (converter->prev_ch_in_md_ == ' ') converter->ShortenMarkdown();
 
         converter->AppendToMd("<br>");
@@ -719,9 +731,9 @@ void Converter::TagListItem::OnHasLeftOpeningTag(Converter *converter) {
         return;
     }
 
-    ++converter->index_li;
+    ++converter->index_ol;
 
-    std::string num = std::to_string(converter->index_li);
+    std::string num = std::to_string(converter->index_ol);
     num.append({converter->option->orderedList, ' '});
     converter->AppendToMd(num);
 }
@@ -743,7 +755,9 @@ void Converter::TagOrderedList::OnHasLeftOpeningTag(Converter *converter) {
 
     converter->is_in_list_ = true;
     converter->is_in_ordered_list_ = true;
-    converter->index_li = 0;
+    converter->index_ol = 0;
+
+    ++converter->index_li;
 
     converter->ReplacePreviousSpaceInLineByNewline();
 
@@ -753,8 +767,12 @@ void Converter::TagOrderedList::OnHasLeftOpeningTag(Converter *converter) {
 void Converter::TagOrderedList::OnHasLeftClosingTag(Converter *converter) {
     if (converter->is_in_table_) return;
 
-    converter->is_in_list_ = false;
     converter->is_in_ordered_list_ = false;
+
+    if (converter->index_li != 0)
+        --converter->index_li;
+
+    converter->is_in_list_ = converter->index_li != 0;
 
     converter->AppendToMd('\n');
 }
@@ -854,21 +872,18 @@ void Converter::TagUnorderedList::OnHasLeftOpeningTag(Converter *converter) {
 
     converter->is_in_list_ = true;
 
+    ++converter->index_li;
+
     converter->AppendToMd('\n');
 }
 
 void Converter::TagUnorderedList::OnHasLeftClosingTag(Converter *converter) {
     if (converter->is_in_table_) return;
 
-    converter->is_in_list_ = false;
+    if(converter->index_li != 0)
+        --converter->index_li;
 
-    if ((converter->prev_prev_ch_in_md_ == '*' ||
-         converter->prev_prev_ch_in_md_ == '-' ||
-         converter->prev_prev_ch_in_md_ == '+' ||
-         converter->prev_prev_ch_in_md_ == '.' ||
-         converter->prev_prev_ch_in_md_ == ')') &&
-            converter->prev_tag_ != kTagParagraph)
-        converter->is_in_list_ = true;
+    converter->is_in_list_ = converter->index_li != 0;
 
     if (converter->prev_prev_ch_in_md_ == '\n' && converter->prev_ch_in_md_ == '\n')
         converter->ShortenMarkdown();

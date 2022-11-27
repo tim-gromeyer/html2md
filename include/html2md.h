@@ -264,7 +264,10 @@ class Converter {
 
   // relevant for <li> only, false = is in unordered list
   bool is_in_ordered_list_ = false;
-  int index_li = 0;
+  int index_ol = 0;
+
+  // number of lists
+  size_t index_li = 0;
 
   short index_blockquote = 0;
 
@@ -510,7 +513,7 @@ class Converter {
             != std::string::npos;
   }
 
-  Converter* ShortenMarkdown(int chars = 1);
+  Converter* ShortenMarkdown(size_t chars = 1);
 
   /**
    * @param ch

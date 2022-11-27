@@ -4,4 +4,10 @@
 1. foo
 2. bar
 
-- list entry with<br>break
+- list entry with  
+  break
+- - Another  
+    break  
+    foo  
+    bar
+- Hello World
