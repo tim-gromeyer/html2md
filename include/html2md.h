@@ -179,8 +179,8 @@ class Converter {
    * \return Copy of the instance with(maybe) the appended space.
    *
    * This function appends ' ' if:
-   * - md does not end with '*'
-   * - md does not end with '\\n'
+   * - md does not end with `*`
+   * - md does not end with `\n` aka newline
    */
   Converter* AppendBlank();
 

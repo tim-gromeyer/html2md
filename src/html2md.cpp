@@ -10,27 +10,29 @@
 #include <stack>
 #include <utility>
 
-using namespace std;
+using std::string;
+using std::vector;
+using std::regex;
 
-static bool startsWith(const std::string& str, const std::string& prefix) {
+static bool startsWith(const string& str, const string& prefix) {
     return str.size() >= prefix.size() && 0 == str.compare(0, prefix.size(), prefix);
 }
 
-static bool endsWith(const std::string& str, const std::string& suffix) {
+static bool endsWith(const string& str, const string& suffix) {
     return str.size() >= suffix.size() && 0 == str.compare(str.size()-suffix.size(), suffix.size(), suffix);
 }
 
-static int ReplaceAll(std::string *haystack,
-                      const std::string &needle,
-                      const std::string &replacement) {
+static int ReplaceAll(string *haystack,
+                      const string &needle,
+                      const string &replacement) {
   // Get first occurrence
   size_t pos = (*haystack).find(needle);
 
   int amount_replaced = 0;
 
   // Repeat until end is reached
-  while (pos != std::string::npos) {
-    // Replace this occurrence of sub std::string
+  while (pos != string::npos) {
+    // Replace this occurrence of sub string
     (*haystack).replace(pos, needle.size(), replacement);
 
     // Get the next occurrence from the current position
@@ -42,22 +44,22 @@ static int ReplaceAll(std::string *haystack,
   return amount_replaced;
 }
 
-// Split given std::string by given character delimiter into vector of std::strings
-static std::vector<std::string> Split(std::string const &str, char delimiter) {
-  vector<std::string> result;
+// Split given string by given character delimiter into vector of strings
+static std::vector<string> Split(string const &str, char delimiter) {
+  vector<string> result;
   std::stringstream iss(str);
 
-  for (std::string token; getline(iss, token, delimiter);)
+  for (string token; getline(iss, token, delimiter);)
     result.push_back(token);
 
   return result;
 }
 
-static std::string Repeat(const std::string &str, size_t amount) {
+static string Repeat(const string &str, size_t amount) {
   if (amount == 0) return "";
   else if (amount == 1) return str;
 
-  std::string out;
+  string out;
 
   for (int_fast16_t i = 0; i < amount; ++i) out.append(str);
 
@@ -66,7 +68,7 @@ static std::string Repeat(const std::string &str, size_t amount) {
 
 namespace html2md {
 
-Converter::Converter(std::string *html, options *options)
+Converter::Converter(string *html, options *options)
  : html_(*html) {
   if (options)
     option = options;
@@ -218,13 +220,13 @@ bool Converter::ok() const
              index_li != 0);
 }
 
-void Converter::LTrim(std::string *s) {
+void Converter::LTrim(string *s) {
   (*s).erase((*s).begin(), find_if((*s).begin(), (*s).end(), [](unsigned char ch) {
     return !std::isspace(ch);
   }));
 }
 
-Converter* Converter::RTrim(std::string *s, bool trim_only_blank) {
+Converter* Converter::RTrim(string *s, bool trim_only_blank) {
   (*s).erase(find_if((*s).rbegin(), (*s).rend(), [trim_only_blank](unsigned char ch) {
     if (trim_only_blank)
       return !isblank(ch);
@@ -235,7 +237,7 @@ Converter* Converter::RTrim(std::string *s, bool trim_only_blank) {
   return this;
 }
 
-Converter* Converter::Trim(std::string *s) {
+Converter* Converter::Trim(string *s) {
   if (!startsWith(*s, "\t"))
     LTrim(s);
 
@@ -245,9 +247,9 @@ Converter* Converter::Trim(std::string *s) {
   return this;
 }
 
-void Converter::TidyAllLines(std::string *str) {
+void Converter::TidyAllLines(string *str) {
   auto lines = Split(*str, '\n');
-  std::string res;
+  string res;
 
   int amount_newlines = 0;
 
@@ -269,26 +271,26 @@ void Converter::TidyAllLines(std::string *str) {
   *str = res;
 }
 
-std::string Converter::ExtractAttributeFromTagLeftOf(const std::string& attr) {
+string Converter::ExtractAttributeFromTagLeftOf(const string& attr) {
   // Extract the whole tag from current offset, e.g. from '>', backwards
   auto tag = html_.substr(offset_lt_, index_ch_in_html_ - offset_lt_);
 
   // locate given attribute
   auto offset_attr = tag.find(attr);
 
-  if (offset_attr == std::string::npos) return "";
+  if (offset_attr == string::npos) return "";
 
   // locate attribute-value pair's '='
   auto offset_equals = tag.find('=', offset_attr);
 
-  if (offset_equals == std::string::npos) return "";
+  if (offset_equals == string::npos) return "";
 
   // locate value's surrounding quotes
   auto offset_double_quote = tag.find('"', offset_equals);
   auto offset_single_quote = tag.find('\'', offset_equals);
 
-  bool has_double_quote = offset_double_quote != std::string::npos;
-  bool has_single_quote = offset_single_quote != std::string::npos;
+  bool has_double_quote = offset_double_quote != string::npos;
+  bool has_single_quote = offset_single_quote != string::npos;
 
   if (!has_double_quote && !has_single_quote) return "";
 
@@ -316,11 +318,11 @@ std::string Converter::ExtractAttributeFromTagLeftOf(const std::string& attr) {
     offset_opening_quote = offset_single_quote;
   }
 
-  if (offset_opening_quote == std::string::npos) return "";
+  if (offset_opening_quote == string::npos) return "";
 
   offset_closing_quote = tag.find(wrapping_quote, offset_opening_quote + 1);
 
-  if (offset_closing_quote == std::string::npos) return "";
+  if (offset_closing_quote == string::npos) return "";
 
   return tag.substr(
       offset_opening_quote + 1,
@@ -339,7 +341,7 @@ void Converter::TurnLineIntoHeader2() {
   chars_in_curr_line_ = 0;
 }
 
-std::string Converter::Convert2Md() {
+string Converter::Convert2Md() {
   for (char ch : html_) {
     ++index_ch_in_html_;
 
@@ -585,7 +587,7 @@ void Converter::TagAnchor::OnHasLeftClosingTag(Converter *converter) {
     if (converter->prev_ch_in_md_ == '[') converter->ShortenMarkdown();
     else {
         converter->AppendToMd("](")
-                ->AppendToMd(converter->current_href_);
+                 ->AppendToMd(converter->current_href_);
 
         // If title is set append it
         if (!converter->current_title_.empty()) {
@@ -727,13 +729,13 @@ void Converter::TagListItem::OnHasLeftOpeningTag(Converter *converter) {
     if (converter->is_in_table_) return;
 
     if (!converter->is_in_ordered_list_) {
-        converter->AppendToMd(std::string({converter->option->unorderedList, ' '}));
+        converter->AppendToMd(string({converter->option->unorderedList, ' '}));
         return;
     }
 
     ++converter->index_ol;
 
-    std::string num = std::to_string(converter->index_ol);
+    string num = std::to_string(converter->index_ol);
     num.append({converter->option->orderedList, ' '});
     converter->AppendToMd(num);
 }
@@ -835,7 +837,8 @@ void Converter::TagCode::OnHasLeftOpeningTag(Converter *converter) {
 
         auto code = converter->ExtractAttributeFromTagLeftOf(kAttributeClass);
         if (!code.empty()) {
-            code.erase(0, 9); // remove language-
+            if (startsWith(code, "language-"))
+                code.erase(0, 9); // remove language-
             converter->AppendToMd(code);
         }
         converter->AppendToMd('\n');
@@ -942,7 +945,7 @@ void Converter::TagTableRow::OnHasLeftClosingTag(Converter *converter) {
 void Converter::TagTableHeader::OnHasLeftOpeningTag(Converter *converter) {
     auto align = converter->ExtractAttributeFromTagLeftOf(kAttrinuteAlign);
 
-    std::string line = "| ";
+    string line = "| ";
 
     if (align == "left" || align == "center") line += ':';
 
