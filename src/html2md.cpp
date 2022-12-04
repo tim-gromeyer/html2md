@@ -211,13 +211,14 @@ Converter* Converter::AppendBlank() {
 
 bool Converter::ok() const
 {
-    return !(is_in_pre_ ||
-             is_in_list_ ||
-             is_in_p_ ||
-             is_in_table_ ||
-             is_in_tag_ ||
-             index_blockquote != 0 ||
-             index_li != 0);
+    return
+      !is_in_pre_ &&
+      !is_in_list_ &&
+      !is_in_p_ &&
+      !is_in_table_ &&
+      !is_in_tag_ &&
+      index_blockquote == 0 &&
+      index_li == 0;
 }
 
 void Converter::LTrim(string *s) {

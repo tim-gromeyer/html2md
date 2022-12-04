@@ -4,11 +4,6 @@ project("html2md" VERSION 1.0.0
              HOMEPAGE_URL "https://github.com/tim-gromeyer/html2md"
              LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-
 # Build type
 if (NOT CMAKE_BUILD_TYPE)
     message(STATUS "Build type not specified. Release is used.")
@@ -36,12 +31,10 @@ if (subproject)
     option(BUILD_EXE "Build a executable to convert html to markdown." OFF)
     option(BUILD_TEST "Build tests" OFF)
     option(BUILD_DOC "Build documentation" OFF)
-    option(BUILD_GUI "Build a gui wrapper around html2md" OFF)
 else()
     option(BUILD_EXE "Build a executable to convert html to markdown." ON)
     option(BUILD_TEST "Build tests" ON)
     option(BUILD_DOC "Build documentation" ON)
-    option(BUILD_GUI "Build a gui wrapper around html2md" ON)
 endif()
 
 set(SOURCES
@@ -58,10 +51,12 @@ set_target_properties(html2md PROPERTIES
     PUBLIC_HEADER ${HEADER}
 )
 target_include_directories(html2md PRIVATE include)
+target_compile_features(html2md PUBLIC cxx_std_11) # Require at least c++11
 
 if (subproject OR BUILD_EXE)
     add_library(html2md-static STATIC ${HEADER} ${SOURCES})
     target_include_directories(html2md-static PUBLIC include)
+    target_compile_features(html2md-static PUBLIC cxx_std_11) # Require at least c++11
 endif()
 
 if(BUILD_EXE)
@@ -69,14 +64,11 @@ if(BUILD_EXE)
     target_link_libraries(html2md-exe html2md-static)
     set_target_properties(html2md-exe PROPERTIES OUTPUT_NAME "html2md")
     target_compile_definitions(html2md-exe PUBLIC VERSION="${PROJECT_VERSION}")
+    target_compile_features(html2md-exe PUBLIC cxx_std_11) # Require at least c++11
 endif()
 
 if(BUILD_TEST)
     add_subdirectory(tests)
-endif()
-
-if(BUILD_GUI)
-    add_subdirectory(gui)
 endif()
 
 if(BUILD_DOC)
@@ -91,19 +83,11 @@ endif()
 include(GNUInstallDirs)
 
 install(TARGETS html2md
-        EXPORT Findhtml2md
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
         PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/html2md
 )
-
-#install(EXPORT Findhtml2md
-#        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/
-#)
-#install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/html2mdConfig.cmake
-#        ${CMAKE_CURRENT_BINARY_DIR}/html2mdConfigVersion.cmake
-#        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake)
 
 configure_file(html2md.pc.in html2md.pc @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/html2md.pc DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/pkgconfig)

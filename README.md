@@ -83,7 +83,7 @@ The following table lists the supported HTML tags:
 
 ## Requirements
 
-1. A compiler with **c++17** support like *g++>=9*
+1. A compiler with **c++11** support like *g++>=9*
 
 That's all!
 
