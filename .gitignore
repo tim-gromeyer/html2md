@@ -1,5 +1,7 @@
 *.user*
-build*
+build-linux
+build-windows
+build-wasm
 html2md.hpp
 doc/
 tests/error.log
