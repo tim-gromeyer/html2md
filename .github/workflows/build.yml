@@ -27,7 +27,3 @@ jobs:
         cmake ..
         cmake --build . -j8
 
-    - name: Run tests
-      run: |
-        cmake --build . --target=test
-

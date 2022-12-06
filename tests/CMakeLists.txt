@@ -16,7 +16,7 @@ add_executable(test-exe main.cpp)
 target_link_libraries(test-exe md4c-html html2md-static)
 target_compile_definitions(test-exe PUBLIC DIR="${CMAKE_CURRENT_LIST_DIR}")
 set_target_properties(test-exe PROPERTIES OUTPUT_NAME "tests")
-target_compile_features(html2md PUBLIC cxx_std_11) # Require at least c++11
+target_compile_features(html2md PUBLIC cxx_std_17) # Require at least c++17
 
 add_custom_target(test
     COMMAND $<TARGET_FILE:test-exe>
