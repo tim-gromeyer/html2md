@@ -20,7 +20,7 @@ jobs:
         echo "PROJECT_NUMBER = $(git describe --tags --abbrev=0)" >> docs/Doxyfile
 
     - name: Run Doxygen
-      uses: mattnotmitt/doxygen-action@v1.9.4
+      uses: mattnotmitt/doxygen-action@v1.9.5
       with:
         doxyfile-path: 'docs/Doxyfile'
 
