@@ -18,7 +18,7 @@ Steps to reproduce the behavior:
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
-**Outout of `dmesg | tail -n2`**
+**Output of `dmesg | tail -n2`**
 (for Linux and maybe mac)
 
 **Desktop (please complete the following information):**
