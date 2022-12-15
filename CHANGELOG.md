@@ -2,6 +2,16 @@
 
 [TOC]
 
+## v1.1.0
+
+- Reworked command line programm
+- Renamed `AppendToMd` to `appendToMd`
+- Renamed `AppendBlank` to `appendBlank`
+- **Require *c++11* instead of *c++17*.** Only the tests require *c++17* now.
+- Added more tests
+- Fix typos in comments
+- Improved documentation
+
 ## v1.0.1
 
 - Fixed multible bugs

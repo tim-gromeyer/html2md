@@ -124,14 +124,14 @@ struct options
 class Converter {
  public:
   /*!
-   * \brief Standard initzializer, takes HTML as parameter. Also prepares everything.
+   * \brief Standard initializer, takes HTML as parameter. Also prepares everything.
    * \param html The HTML as std::string.
    * \param options Options for the Conversation. See html2md::options() for more.
    *
    * \note Don't pass anything else than HTML, otherwise the output will be a **mess**!
    *
-   * This is the default initzializer.<br>
-   * You can use AppendToMd() to append something to the beginning of the generated output.
+   * This is the default initializer.<br>
+   * You can use appendToMd() to append something to the beginning of the generated output.
    */
   explicit inline Converter(std::string &html, struct options *options = nullptr) {
       *this = Converter(&html, options);
@@ -140,7 +140,7 @@ class Converter {
   /*!
    * \brief Destructor, does nothing.
    */
-  ~Converter() = default;
+  ~Converter();
 
   /*!
    * \brief Convert HTML into Markdown.
@@ -156,22 +156,22 @@ class Converter {
    * \param ch The char to append.
    * \return Returns a copy of the instance with the char appended.
    */
-  Converter* AppendToMd(char ch);
+  Converter* appendToMd(char ch);
 
   /*!
    * \brief Append a char* to the Markdown.
    * \param str The char* to append.
    * \return Returns a copy of the instance with the char* appended.
    */
-  Converter* AppendToMd(const char *str);
+  Converter* appendToMd(const char *str);
 
   /*!
    * \brief Append a string to the Markdown.
    * \param s The string to append.
    * \return Returns a copy of the instance with the string appended.
    */
-  inline Converter* AppendToMd(const std::string &s) {
-      return AppendToMd(s.c_str());
+  inline Converter* appendToMd(const std::string &s) {
+      return appendToMd(s.c_str());
   }
 
   /*!
@@ -182,7 +182,7 @@ class Converter {
    * - md does not end with `*`
    * - md does not end with `\n` aka newline
    */
-  Converter* AppendBlank();
+  Converter* appendBlank();
 
   /*!
    * \brief Checks if everything was closed properly(in the HTML).
@@ -461,7 +461,7 @@ class Converter {
 
   std::map<std::string, Tag*> tags_;
 
-  explicit Converter(std::string *html, options *options = nullptr);
+  explicit Converter(std::string *html, options *options = new struct options);
 
   void PrepareHtml();
 

@@ -69,14 +69,7 @@ static string Repeat(const string &str, size_t amount) {
 namespace html2md {
 
 Converter::Converter(string *html, options *options)
- : html_(*html) {
-  if (options)
-    option = options;
-  else {
-    auto *o = new struct options;
-    option = o;
-  }
-
+    : html_(*html), option(options) {
   PrepareHtml();
 
   // non-printing tags
@@ -112,21 +105,18 @@ Converter::Converter(string *html, options *options)
   tags_[kTagSeperator] = new TagSeperator();
 
   // Text formatting
-  auto *bold = new TagBold();
-  tags_[kTagBold] = bold;
-  tags_[kTagStrong] = bold;
+  tags_[kTagBold] = new TagBold();
+  tags_[kTagStrong] = tags_[kTagBold];
 
-  auto *italic = new TagItalic();
-  tags_[kTagItalic] = italic;
-  tags_[kTagItalic2] = italic;
-  tags_[kTagDefinition] = italic;
-  tags_[kTagCitation] = italic;
+  tags_[kTagItalic] = new TagItalic();
+  tags_[kTagItalic2] = tags_[kTagItalic];
+  tags_[kTagDefinition] = tags_[kTagItalic];
+  tags_[kTagCitation] = tags_[kTagItalic];
 
   tags_[kTagUnderline] = new TagUnderline();
 
-  auto *strikethrough = new TagStrikethrought();
-  tags_[kTagStrighthrought] = strikethrough;
-  tags_[kTagStrighthrought2] = strikethrough;
+  tags_[kTagStrighthrought] = new TagStrikethrought();
+  tags_[kTagStrighthrought2] = tags_[kTagStrighthrought];
 
   tags_[kTagBlockquote] = new TagBlockquote();
 
@@ -170,7 +160,7 @@ void Converter::CleanUpMarkdown() {
     ReplaceAll(&md_, " </u> ", "</u>");
 }
 
-Converter* Converter::AppendToMd(char ch) {
+Converter* Converter::appendToMd(char ch) {
     if (IsInIgnoredTag()) return this;
 
     md_ += ch;
@@ -183,7 +173,7 @@ Converter* Converter::AppendToMd(char ch) {
     return this;
 }
 
-Converter* Converter::AppendToMd(const char *str) {
+Converter* Converter::appendToMd(const char *str) {
   if (IsInIgnoredTag()) return this;
 
   md_ += str;
@@ -200,13 +190,13 @@ Converter* Converter::AppendToMd(const char *str) {
   return this;
 }
 
-Converter* Converter::AppendBlank() {
+Converter* Converter::appendBlank() {
   UpdatePrevChFromMd();
 
   if (prev_ch_in_md_ == '\n'
       || (prev_ch_in_md_ == '*' && prev_prev_ch_in_md_ == '*')) return this;
 
-  return AppendToMd(' ');
+  return appendToMd(' ');
 }
 
 bool Converter::ok() const
@@ -374,8 +364,8 @@ void Converter::OnHasEnteredTag() {
   if (!md_.empty()) {
     UpdatePrevChFromMd();
 
-    if (prev_ch_in_md_ != ' ' && prev_ch_in_md_ != '\n')
-      md_ += ' ';
+    // if (prev_ch_in_md_ != ' ' && prev_ch_in_md_ != '\n')
+    //   md_ += ' ';
   }
 }
 
@@ -493,7 +483,7 @@ bool Converter::ParseCharInTagContent(char ch) {
     if (prev_tag_ == kTagBlockquote && current_tag_ == kTagParagraph) {
       md_ += '\n';
       chars_in_curr_line_ = 0;
-      AppendToMd(Repeat("> ", index_blockquote));
+      appendToMd(Repeat("> ", index_blockquote));
     }
 
     return true;
@@ -569,14 +559,14 @@ bool Converter::ReplacePreviousSpaceInLineByNewline() {
 void Converter::TagAnchor::OnHasLeftOpeningTag(Converter *converter) {
     if (converter->IsInIgnoredTag()) return;
 
-    if (converter->prev_tag_ == kTagImg) converter->AppendToMd('\n');
+    if (converter->prev_tag_ == kTagImg) converter->appendToMd('\n');
 
     converter->current_title_ = converter->ExtractAttributeFromTagLeftOf(kAttributeTitle);
 
     converter->current_href_ =
             converter->RTrim(&converter->md_, true)
-            ->AppendBlank()
-            ->AppendToMd("[")
+            ->appendBlank()
+            ->appendToMd("[")
             ->ExtractAttributeFromTagLeftOf(kAttributeHref);
 }
 
@@ -587,150 +577,146 @@ void Converter::TagAnchor::OnHasLeftClosingTag(Converter *converter) {
 
     if (converter->prev_ch_in_md_ == '[') converter->ShortenMarkdown();
     else {
-        converter->AppendToMd("](")
-                 ->AppendToMd(converter->current_href_);
+        converter->appendToMd("](")
+                 ->appendToMd(converter->current_href_);
 
         // If title is set append it
         if (!converter->current_title_.empty()) {
-            converter->AppendToMd(" \"")
-                    ->AppendToMd(converter->current_title_)
-                    ->AppendToMd('"');
+            converter->appendToMd(" \"")
+                    ->appendToMd(converter->current_title_)
+                    ->appendToMd('"');
         }
 
-        converter->AppendToMd(") ");
+        converter->appendToMd(") ");
 
         if (converter->prev_tag_ == kTagImg)
-            converter->AppendToMd('\n');
+            converter->appendToMd('\n');
     }
 }
 
 void Converter::TagBold::OnHasLeftOpeningTag(Converter *converter) {
-    if (converter->prev_ch_in_md_ != ' ') converter->AppendBlank();
-
-    converter->AppendToMd("**");
+    converter->appendToMd("**");
 }
 
 void Converter::TagBold::OnHasLeftClosingTag(Converter *converter) {
     if (converter->prev_ch_in_md_ == ' ') converter->ShortenMarkdown();
 
-    converter->AppendToMd("** ");
+    converter->appendToMd("** ");
 }
 
 void Converter::TagItalic::OnHasLeftOpeningTag(Converter *converter) {
-    if (converter->prev_ch_in_md_ != ' ') converter->AppendBlank();
-
-    converter->AppendToMd('*');
+    converter->appendToMd('*');
 }
 
 void Converter::TagItalic::OnHasLeftClosingTag(Converter *converter) {
     if (converter->prev_ch_in_md_ == ' ') converter->ShortenMarkdown();
 
-    converter->AppendToMd("* ");
+    converter->appendToMd("* ");
 }
 
 void Converter::TagUnderline::OnHasLeftOpeningTag(Converter *converter) {
     if (converter->prev_prev_ch_in_md_ == ' ' &&
             converter->prev_ch_in_md_ == ' ') converter->ShortenMarkdown();
 
-    converter->AppendToMd("<u>");
+    converter->appendToMd("<u>");
 }
 
 void Converter::TagUnderline::OnHasLeftClosingTag(Converter *converter) {
     if (converter->prev_ch_in_md_ == ' ') converter->ShortenMarkdown();
 
-    converter->AppendToMd("</u>");
+    converter->appendToMd("</u>");
 }
 
 void Converter::TagStrikethrought::OnHasLeftOpeningTag(Converter *converter) {
-    if (converter->prev_ch_in_md_ != ' ') converter->AppendBlank();
+    if (converter->prev_ch_in_md_ != ' ') converter->appendBlank();
 
-    converter->AppendToMd('~');
+    converter->appendToMd('~');
 }
 
 void Converter::TagStrikethrought::OnHasLeftClosingTag(Converter *converter) {
     if (converter->prev_ch_in_md_ == ' ') converter->ShortenMarkdown();
 
-    converter->AppendToMd("~ ");
+    converter->appendToMd("~ ");
 }
 
 void Converter::TagBreak::OnHasLeftOpeningTag(Converter *converter) {
     if(converter->is_in_list_) { // When it's in a list, it's not in a paragraph
-        converter->AppendToMd("  \n");
-        converter->AppendToMd(Repeat("  ", converter->index_li));
+        converter->appendToMd("  \n");
+        converter->appendToMd(Repeat("  ", converter->index_li));
     } else if (converter->is_in_table_) {
         if (converter->prev_ch_in_md_ == ' ') converter->ShortenMarkdown();
 
-        converter->AppendToMd("<br>");
+        converter->appendToMd("<br>");
     } else if (!converter->is_in_p_) {
-        converter->AppendToMd("\n<br>\n\n");
-    } else if (converter->md_len_ > 0) converter->AppendToMd("  \n");
+        converter->appendToMd("\n<br>\n\n");
+    } else if (converter->md_len_ > 0) converter->appendToMd("  \n");
 
-    converter->AppendToMd(Repeat("> ", converter->index_blockquote));
+    converter->appendToMd(Repeat("> ", converter->index_blockquote));
 }
 
 void Converter::TagBreak::OnHasLeftClosingTag(Converter *converter) {}
 
 void Converter::TagDiv::OnHasLeftOpeningTag(Converter *converter) {
-    if (converter->prev_ch_in_md_ != '\n') converter->AppendToMd('\n');
+    if (converter->prev_ch_in_md_ != '\n') converter->appendToMd('\n');
 
-    if (converter->prev_prev_ch_in_md_ != '\n') converter->AppendToMd('\n');
+    if (converter->prev_prev_ch_in_md_ != '\n') converter->appendToMd('\n');
 }
 
 void Converter::TagDiv::OnHasLeftClosingTag(Converter *converter) {}
 
 void Converter::TagHeader1::OnHasLeftOpeningTag(Converter *converter) {
-    converter->AppendToMd("\n# ");
+    converter->appendToMd("\n# ");
 }
 
 void Converter::TagHeader1::OnHasLeftClosingTag(Converter *converter) {
-    if (converter->prev_prev_ch_in_md_ != ' ') converter->AppendToMd('\n');
+    if (converter->prev_prev_ch_in_md_ != ' ') converter->appendToMd('\n');
 }
 
 void Converter::TagHeader2::OnHasLeftOpeningTag(Converter *converter) {
-    converter->AppendToMd("\n## ");
+    converter->appendToMd("\n## ");
 }
 
 void Converter::TagHeader2::OnHasLeftClosingTag(Converter *converter) {
-    if (converter->prev_prev_ch_in_md_ != ' ') converter->AppendToMd('\n');
+    if (converter->prev_prev_ch_in_md_ != ' ') converter->appendToMd('\n');
 }
 
 void Converter::TagHeader3::OnHasLeftOpeningTag(Converter *converter) {
-    converter->AppendToMd("\n### ");
+    converter->appendToMd("\n### ");
 }
 
 void Converter::TagHeader3::OnHasLeftClosingTag(Converter *converter) {
-    if (converter->prev_prev_ch_in_md_ != ' ') converter->AppendToMd('\n');
+    if (converter->prev_prev_ch_in_md_ != ' ') converter->appendToMd('\n');
 }
 
 void Converter::TagHeader4::OnHasLeftOpeningTag(Converter *converter) {
-    converter->AppendToMd("\n#### ");
+    converter->appendToMd("\n#### ");
 }
 
 void Converter::TagHeader4::OnHasLeftClosingTag(Converter *converter) {
-    if (converter->prev_prev_ch_in_md_ != ' ') converter->AppendToMd('\n');
+    if (converter->prev_prev_ch_in_md_ != ' ') converter->appendToMd('\n');
 }
 
 void Converter::TagHeader5::OnHasLeftOpeningTag(Converter *converter) {
-    converter->AppendToMd("\n##### ");
+    converter->appendToMd("\n##### ");
 }
 
 void Converter::TagHeader5::OnHasLeftClosingTag(Converter *converter) {
-    if (converter->prev_prev_ch_in_md_ != ' ') converter->AppendToMd('\n');
+    if (converter->prev_prev_ch_in_md_ != ' ') converter->appendToMd('\n');
 }
 
 void Converter::TagHeader6::OnHasLeftOpeningTag(Converter *converter) {
-    converter->AppendToMd("\n###### ");
+    converter->appendToMd("\n###### ");
 }
 
 void Converter::TagHeader6::OnHasLeftClosingTag(Converter *converter) {
-    if (converter->prev_prev_ch_in_md_ != ' ') converter->AppendToMd('\n');
+    if (converter->prev_prev_ch_in_md_ != ' ') converter->appendToMd('\n');
 }
 
 void Converter::TagListItem::OnHasLeftOpeningTag(Converter *converter) {
     if (converter->is_in_table_) return;
 
     if (!converter->is_in_ordered_list_) {
-        converter->AppendToMd(string({converter->option->unorderedList, ' '}));
+        converter->appendToMd(string({converter->option->unorderedList, ' '}));
         return;
     }
 
@@ -738,19 +724,19 @@ void Converter::TagListItem::OnHasLeftOpeningTag(Converter *converter) {
 
     string num = std::to_string(converter->index_ol);
     num.append({converter->option->orderedList, ' '});
-    converter->AppendToMd(num);
+    converter->appendToMd(num);
 }
 
 void Converter::TagListItem::OnHasLeftClosingTag(Converter *converter) {
     if (converter->is_in_table_) return;
 
-    if (converter->prev_ch_in_md_ != '\n') converter->AppendToMd('\n');
+    if (converter->prev_ch_in_md_ != '\n') converter->appendToMd('\n');
 }
 
 void Converter::TagOption::OnHasLeftOpeningTag(Converter *converter) {}
 
 void Converter::TagOption::OnHasLeftClosingTag(Converter *converter) {
-    if (converter->md_len_ > 0) converter->AppendToMd("  \n");
+    if (converter->md_len_ > 0) converter->appendToMd("  \n");
 }
 
 void Converter::TagOrderedList::OnHasLeftOpeningTag(Converter *converter) {
@@ -764,7 +750,7 @@ void Converter::TagOrderedList::OnHasLeftOpeningTag(Converter *converter) {
 
     converter->ReplacePreviousSpaceInLineByNewline();
 
-    converter->AppendToMd('\n');
+    converter->appendToMd('\n');
 }
 
 void Converter::TagOrderedList::OnHasLeftClosingTag(Converter *converter) {
@@ -777,54 +763,54 @@ void Converter::TagOrderedList::OnHasLeftClosingTag(Converter *converter) {
 
     converter->is_in_list_ = converter->index_li != 0;
 
-    converter->AppendToMd('\n');
+    converter->appendToMd('\n');
 }
 
 void Converter::TagParagraph::OnHasLeftOpeningTag(Converter *converter) {
     converter->is_in_p_ = true;
 
     if (converter->is_in_list_ && converter->prev_tag_ == kTagParagraph)
-        converter->AppendToMd("\n\t");
+        converter->appendToMd("\n\t");
     else if (!converter->is_in_list_ && converter->index_blockquote == 0)
-        converter->AppendToMd('\n');
+        converter->appendToMd('\n');
 
     if (converter->index_blockquote > 0) {
-        converter->AppendToMd("> \n");
-        converter->AppendToMd(Repeat("> ", converter->index_blockquote));
+        converter->appendToMd("> \n");
+        converter->appendToMd(Repeat("> ", converter->index_blockquote));
     }
 }
 
 void Converter::TagParagraph::OnHasLeftClosingTag(Converter *converter) {
     converter->is_in_p_ = false;
 
-    if (!converter->md_.empty()) converter->AppendToMd('\n');
+    if (!converter->md_.empty()) converter->appendToMd('\n');
 }
 
 void Converter::TagPre::OnHasLeftOpeningTag(Converter *converter) {
     converter->is_in_pre_ = true;
 
-    if (converter->prev_ch_in_md_ != '\n') converter->AppendToMd("\n");
+    if (converter->prev_ch_in_md_ != '\n') converter->appendToMd("\n");
 
-    if (converter->prev_prev_ch_in_md_ != '\n') converter->AppendToMd("\n");
+    if (converter->prev_prev_ch_in_md_ != '\n') converter->appendToMd("\n");
 
     if (converter->index_blockquote != 0) {
-        converter->AppendToMd(Repeat("> ", converter->index_blockquote));
+        converter->appendToMd(Repeat("> ", converter->index_blockquote));
         converter->ShortenMarkdown();
     }
 
     if (converter->is_in_list_ && converter->prev_tag_ != kTagParagraph) converter->ShortenMarkdown(2);
 
     if (converter->is_in_list_ || converter->index_blockquote != 0)
-        converter->AppendToMd("\t\t");
+        converter->appendToMd("\t\t");
     else
-        converter->AppendToMd("```");
+        converter->appendToMd("```");
 }
 
 void Converter::TagPre::OnHasLeftClosingTag(Converter *converter) {
     converter->is_in_pre_ = false;
 
     if (!converter->is_in_list_ && converter->index_blockquote == 0)
-        converter->AppendToMd("```\n");
+        converter->appendToMd("```\n");
 }
 
 void Converter::TagCode::OnHasLeftOpeningTag(Converter *converter) {
@@ -840,11 +826,11 @@ void Converter::TagCode::OnHasLeftOpeningTag(Converter *converter) {
         if (!code.empty()) {
             if (startsWith(code, "language-"))
                 code.erase(0, 9); // remove language-
-            converter->AppendToMd(code);
+            converter->appendToMd(code);
         }
-        converter->AppendToMd('\n');
+        converter->appendToMd('\n');
     }
-    else converter->AppendToMd('`');
+    else converter->appendToMd('`');
 }
 
 void Converter::TagCode::OnHasLeftClosingTag(Converter *converter) {
@@ -854,7 +840,7 @@ void Converter::TagCode::OnHasLeftClosingTag(Converter *converter) {
 
     if (converter->prev_ch_in_md_ == ' ') converter->ShortenMarkdown();
 
-    converter->AppendToMd("` ");
+    converter->appendToMd("` ");
 }
 
 void Converter::TagSpan::OnHasLeftOpeningTag(Converter *converter) {}
@@ -862,7 +848,7 @@ void Converter::TagSpan::OnHasLeftOpeningTag(Converter *converter) {}
 void Converter::TagSpan::OnHasLeftClosingTag(Converter *converter) {
     if (converter->prev_ch_in_md_ != ' '
             && converter->char_index_in_tag_content > 0)
-        converter->AppendBlank();
+        converter->appendBlank();
 }
 
 void Converter::TagTitle::OnHasLeftOpeningTag(Converter *converter) {}
@@ -878,7 +864,7 @@ void Converter::TagUnorderedList::OnHasLeftOpeningTag(Converter *converter) {
 
     ++converter->index_li;
 
-    converter->AppendToMd('\n');
+    converter->appendToMd('\n');
 }
 
 void Converter::TagUnorderedList::OnHasLeftClosingTag(Converter *converter) {
@@ -891,54 +877,54 @@ void Converter::TagUnorderedList::OnHasLeftClosingTag(Converter *converter) {
 
     if (converter->prev_prev_ch_in_md_ == '\n' && converter->prev_ch_in_md_ == '\n')
         converter->ShortenMarkdown();
-    else if (converter->prev_ch_in_md_ != '\n') converter->AppendToMd('\n');
+    else if (converter->prev_ch_in_md_ != '\n') converter->appendToMd('\n');
 }
 
 void Converter::TagImage::OnHasLeftOpeningTag(Converter *converter) {
     if (converter->prev_tag_ != kTagAnchor && converter->prev_ch_in_md_ != '\n')
-        converter->AppendToMd('\n');
+        converter->appendToMd('\n');
 
-    converter->AppendToMd("![")
-             ->AppendToMd(converter->ExtractAttributeFromTagLeftOf(kAttributeAlt))
-             ->AppendToMd("](")
-             ->AppendToMd(converter->ExtractAttributeFromTagLeftOf(kAttributeSrc))
-             ->AppendToMd(")");
+    converter->appendToMd("![")
+             ->appendToMd(converter->ExtractAttributeFromTagLeftOf(kAttributeAlt))
+             ->appendToMd("](")
+             ->appendToMd(converter->ExtractAttributeFromTagLeftOf(kAttributeSrc))
+             ->appendToMd(")");
 }
 
 void Converter::TagImage::OnHasLeftClosingTag(Converter *converter) {
-    if (converter->prev_tag_ == kTagAnchor) converter->AppendToMd('\n');
+    if (converter->prev_tag_ == kTagAnchor) converter->appendToMd('\n');
 }
 
 void Converter::TagSeperator::OnHasLeftOpeningTag(Converter *converter) {
-    converter->AppendToMd("\n---\n");
+    converter->appendToMd("\n---\n");
 }
 
 void Converter::TagSeperator::OnHasLeftClosingTag(Converter *converter) {}
 
 void Converter::TagTable::OnHasLeftOpeningTag(Converter *converter) {
     converter->is_in_table_ = true;
-    converter->AppendToMd('\n');
+    converter->appendToMd('\n');
 }
 
 void Converter::TagTable::OnHasLeftClosingTag(Converter *converter) {
     converter->is_in_table_ = false;
-    converter->AppendToMd('\n');
+    converter->appendToMd('\n');
 }
 
 void Converter::TagTableRow::OnHasLeftOpeningTag(Converter *converter) {
-    converter->AppendToMd('\n');
+    converter->appendToMd('\n');
 }
 
 void Converter::TagTableRow::OnHasLeftClosingTag(Converter *converter) {
     converter->UpdatePrevChFromMd();
-    if (converter->prev_ch_in_md_ == '|') converter->AppendToMd('\n'); // There's a bug
-    else converter->AppendToMd('|');
+    if (converter->prev_ch_in_md_ == '|') converter->appendToMd('\n'); // There's a bug
+    else converter->appendToMd('|');
 
     if (!converter->tableLine.empty()) {
-        if (converter->prev_ch_in_md_ != '\n') converter->AppendToMd('\n');
+        if (converter->prev_ch_in_md_ != '\n') converter->appendToMd('\n');
 
         converter->tableLine.append("|\n");
-        converter->AppendToMd(converter->tableLine);
+        converter->appendToMd(converter->tableLine);
         converter->tableLine.clear();
     }
 }
@@ -957,13 +943,13 @@ void Converter::TagTableHeader::OnHasLeftOpeningTag(Converter *converter) {
 
     converter->tableLine.append(line);
 
-    converter->AppendToMd("| ");
+    converter->appendToMd("| ");
 }
 
 void Converter::TagTableHeader::OnHasLeftClosingTag(Converter *converter) {}
 
 void Converter::TagTableData::OnHasLeftOpeningTag(Converter *converter) {
-    if (converter->prev_prev_ch_in_md_ != '|') converter->AppendToMd("| ");
+    if (converter->prev_prev_ch_in_md_ != '|') converter->appendToMd("| ");
 }
 
 void Converter::TagTableData::OnHasLeftClosingTag(Converter *converter) {
@@ -972,11 +958,13 @@ void Converter::TagTableData::OnHasLeftClosingTag(Converter *converter) {
 void Converter::TagBlockquote::OnHasLeftOpeningTag(Converter *converter) {
     ++converter->index_blockquote;
 
-    if (converter->index_blockquote == 1) converter->AppendToMd('\n');
+    if (converter->index_blockquote == 1) converter->appendToMd('\n');
 }
 
 void Converter::TagBlockquote::OnHasLeftClosingTag(Converter *converter) {
     --converter->index_blockquote;
 }
+
+Converter::~Converter() = default;
 
 } // namespace html2md

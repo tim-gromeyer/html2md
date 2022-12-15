@@ -4,18 +4,18 @@
 
 ## What does it do
 
-*html2md* is designed to convert HTML to Markdown. It is fast and lightweight but has no options yet.
+html2md is a fast and reliable C++ library for converting HTML content into markdown. It offers support for a wide range of HTML tags, including those for formatting text, creating lists, and inserting images and links. In addition, html2md is the only HTML to markdown converter that offers support for table formatting, making it a valuable tool for users who need to convert HTML tables into markdown.
 
-Also the project is a good example for efficient abstraction of logical decision trees via strategy pattern.
+## How to use this library
 
+To use html2md, follow these steps:
 
-## Use this library
+1. Clone the library: `git clone https://github.com/tim-gromeyer/html2md`
+2. Add the files `include/html2md.h` and `src/html2md.cpp` to your project
+3. Include the `html2md.h` header in your code
+4. Use the `html2md::Convert` function to convert your HTML content into markdown
 
-First of all, **clone** the library: `git clone https://github.com/tim-gromeyer/html2md`.  
-
-Then **add the files** `include/html2md.h` and `src/html2md.cpp` **to your build**.  
-
-Afterwards follow the **example below**.
+Here is an example of how to use the `html2md::Convert` function:
 
 ```cpp
 #include <html2md.h>
@@ -25,10 +25,9 @@ Afterwards follow the **example below**.
 std::cout << html2md::Convert("<h1>foo</h1>"); // # foo
 ```
 
-
 ## Supported Tags
 
-The following table lists the supported HTML tags:
+html2md supports the following HTML tags:
 
 
 | Tag          | Description        | Comment                                    |
@@ -78,4 +77,4 @@ That's all!
 
 ## License
 
-html2md is licensed under [The MIT License (MIT)](https://opensource.org/licenses/MIT).
+html2md is licensed under [The MIT License (MIT)](https://opensource.org/licenses/MIT)

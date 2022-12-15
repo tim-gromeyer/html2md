@@ -48,7 +48,7 @@ add_library(html2md SHARED ${SOURCES})
 set_target_properties(html2md PROPERTIES
     VERSION ${PROJECT_VERSION}
     SOVERSION ${PROJECT_VERSION_MAJOR}
-    PUBLIC_HEADER ${HEADER}
+    PUBLIC_HEADER "${HEADER}"
 )
 target_include_directories(html2md PRIVATE include)
 target_compile_features(html2md PUBLIC cxx_std_11) # Require at least c++11

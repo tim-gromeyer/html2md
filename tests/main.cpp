@@ -5,7 +5,6 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <thread>
 
 #include "html2md.h"
 #include "md4c-html.h"
@@ -35,10 +34,10 @@ string toHTML(const string &md) {
 };
 
 string fromHTML(string &html) {
-    auto *options = new html2md::options();
-    options->splitLines = false;
+    html2md::options options;
+    options.splitLines = false;
 
-    html2md::Converter c(html, options);
+    html2md::Converter c(html, &options);
     return c.Convert2Md();
 }
 }
@@ -54,7 +53,8 @@ string readAll(const string &name) {
 
 // Log the error
 void log(const string &file, const string &origMd, const string &generatedMd) {
-    cerr << "Task " << fs::path(file).filename() << " failed:\nOriginal Md:\n" << origMd << "\nGenerated Markdown:\n" << generatedMd << '\n';
+    cerr << "Task " << fs::path(file).filename() << " failed:\nOriginal Md:\n"
+         << origMd << "\nGenerated Markdown:\n" << generatedMd << '\n';
 }
 
 // Print "Running " + filename
@@ -115,8 +115,8 @@ int main(int argc, char **argv){
     const char* errorFileName = DIR "/error.log";
 
     // Redirect errors to error.log
-    auto *errorFile = freopen(errorFileName, "w", stderr);
-    if (errorFile) {} // Fix unused warning
+    FILE* errorFile = freopen(errorFileName, "w", stderr);
+    if (errorFile) {}
 
     // For measuring time.
     auto t1 = high_resolution_clock::now();
@@ -133,7 +133,8 @@ int main(int argc, char **argv){
     /* Getting number of milliseconds as a double. */
     duration<double, std::milli> ms_double = t2 - t1;
 
-    std::cout << files.size() << " tests executed in " << ms_double.count() << "ms. " << errorCount << " failed.\n";
+    std::cout << files.size() << " tests executed in " << ms_double.count() << "ms. "
+              << errorCount << " failed.\n";
 
     return 0;
 }
