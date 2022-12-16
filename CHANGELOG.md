@@ -2,6 +2,10 @@
 
 [TOC]
 
+## v.1.1.1
+
+- Fix windows build(by replacing get)
+
 ## v1.1.0
 
 - Reworked command line programm
