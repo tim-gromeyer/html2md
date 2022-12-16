@@ -30,7 +30,7 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./doc
 
-publish:
+  publish:
     name: Create release and upload files
     needs: build
     runs-on: ubuntu-22.04
