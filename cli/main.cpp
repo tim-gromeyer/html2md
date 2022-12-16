@@ -1,4 +1,3 @@
-#include "getopt.h"
 #include <cstring>
 #include <fstream>
 #include <iostream>
@@ -49,31 +48,41 @@ int main(int argc, char* argv[]) {
       return 0;
   }
 
-  int opt = 0;
-  while ((opt = getopt(argc, argv, "hvo:i:pr")) != -1) {
-      switch (opt) {
-      case 'h':
-          cout << argv[0] << description;
-          return 0;
-      case 'v':
-          cout << "Version " << VERSION << endl;
-          return 0;
-      case 'p':
-          print = true;
-          break;
-      case 'r':
-          replace = true;
-          break;
-      case 'o':
-          outFile = optarg;
-          break;
-      case 'i':
-          inFile = optarg;
-          break;
-      default:
-          cout << "Invalid argument: " << (char)opt << endl;
-          break;
+  for (int i = 1; i < argc; i++) {
+    std::string arg = argv[i];
+    if (arg == "-h") {
+      cout << argv[0] << description; // Show help
+      return 0;
+    }
+    else if (arg == "-v") {
+      cout << "Version " << VERSION << endl;
+      return 0;
+    }
+    else if (arg == "-p") {
+      print = true;
+    }
+    else if (arg == "-r") {
+      replace = true;
+    }
+    else if (arg == "-o") {
+      if (i + 1 < argc) {
+        outFile = argv[i + 1];
+        i++;
       }
+      else {
+        std::cerr << "The -o option requires a file name!\n'Converted.md' is used." << std::endl;
+      }
+    }
+    else if (arg == "-i") {
+      if (i + 1 < argc) {
+        inFile = argv[i + 1];
+        i++;
+      }
+      else {
+        std::cerr << "The -i option requires a filename or HTML text!" << std::endl;
+        return 1;
+      }
+    }
   }
 
   if (file::exists(inFile)) {
