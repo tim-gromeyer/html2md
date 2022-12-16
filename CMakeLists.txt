@@ -1,7 +1,7 @@
-cmake_minimum_required(VERSION 3.15)
-project("html2md" VERSION 1.0.0
-             DESCRIPTION "A c++ library that converts HTML to Markdown."
-             HOMEPAGE_URL "https://github.com/tim-gromeyer/html2md"
+cmake_minimum_required(VERSION 3.12)
+project("html2md" VERSION 1.1.4
+             DESCRIPTION "Transform your HTML into clean, easy-to-read markdown with html2md"
+             HOMEPAGE_URL "https://tim-gromeyer.github.io/html2md/"
              LANGUAGES CXX)
 
 # Build type
