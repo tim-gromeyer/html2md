@@ -32,7 +32,6 @@ jobs:
 
   publish:
     name: Create release and upload files
-    needs: build
     runs-on: ubuntu-22.04
     permissions:
       contents: write
