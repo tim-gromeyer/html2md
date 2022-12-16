@@ -2,6 +2,11 @@
 
 [TOC]
 
+## v1.1.2
+
+- Add changes for v1.1.1
+- Create releases when a new tag is added(automatically)
+
 ## v.1.1.1
 
 - Fix windows build(by replacing get)
