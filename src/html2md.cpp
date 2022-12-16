@@ -471,6 +471,7 @@ bool Converter::ParseCharInTagContent(char ch) {
   if (is_in_code_) {
     md_ += ch;
 
+
     ++chars_in_curr_line_;
     ++char_index_in_tag_content;
 
@@ -488,8 +489,6 @@ bool Converter::ParseCharInTagContent(char ch) {
 
     return true;
   }
-
-  // if (ch == '\n') return true;
 
   if (IsInIgnoredTag()
       || current_tag_ == kTagLink) {
@@ -583,8 +582,8 @@ void Converter::TagAnchor::OnHasLeftClosingTag(Converter *converter) {
         // If title is set append it
         if (!converter->current_title_.empty()) {
             converter->appendToMd(" \"")
-                    ->appendToMd(converter->current_title_)
-                    ->appendToMd('"');
+                     ->appendToMd(converter->current_title_)
+                     ->appendToMd('"');
         }
 
         converter->appendToMd(") ");
@@ -599,7 +598,7 @@ void Converter::TagBold::OnHasLeftOpeningTag(Converter *converter) {
 }
 
 void Converter::TagBold::OnHasLeftClosingTag(Converter *converter) {
-    if (converter->prev_ch_in_md_ == ' ') converter->ShortenMarkdown();
+    converter->shortIfPrevCh(' ');
 
     converter->appendToMd("** ");
 }
@@ -609,7 +608,7 @@ void Converter::TagItalic::OnHasLeftOpeningTag(Converter *converter) {
 }
 
 void Converter::TagItalic::OnHasLeftClosingTag(Converter *converter) {
-    if (converter->prev_ch_in_md_ == ' ') converter->ShortenMarkdown();
+    converter->shortIfPrevCh(' ');
 
     converter->appendToMd("* ");
 }
@@ -622,13 +621,13 @@ void Converter::TagUnderline::OnHasLeftOpeningTag(Converter *converter) {
 }
 
 void Converter::TagUnderline::OnHasLeftClosingTag(Converter *converter) {
-    if (converter->prev_ch_in_md_ == ' ') converter->ShortenMarkdown();
+    converter->shortIfPrevCh(' ');
 
     converter->appendToMd("</u>");
 }
 
 void Converter::TagStrikethrought::OnHasLeftOpeningTag(Converter *converter) {
-    if (converter->prev_ch_in_md_ != ' ') converter->appendBlank();
+    converter->shortIfPrevCh(' ');
 
     converter->appendToMd('~');
 }
@@ -952,8 +951,7 @@ void Converter::TagTableData::OnHasLeftOpeningTag(Converter *converter) {
     if (converter->prev_prev_ch_in_md_ != '|') converter->appendToMd("| ");
 }
 
-void Converter::TagTableData::OnHasLeftClosingTag(Converter *converter) {
-}
+void Converter::TagTableData::OnHasLeftClosingTag(Converter *converter) {}
 
 void Converter::TagBlockquote::OnHasLeftOpeningTag(Converter *converter) {
     ++converter->index_blockquote;

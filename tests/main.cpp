@@ -10,7 +10,12 @@
 #include "md4c-html.h"
 
 
-using namespace std;
+using std::cout;
+using std::string;
+using std::cerr;
+using std::ifstream;
+using std::stringstream;
+using std::vector;
 namespace fs = std::filesystem;
 using std::chrono::high_resolution_clock;
 using std::chrono::duration_cast;
@@ -108,6 +113,17 @@ int main(int argc, char **argv){
             files.emplace_back(p.path().string());
     }
 
+    // Test files passed as argument
+    for (int i = 1; i < argc; i++)
+    {
+        // Check if the argument is a valid file path and ends with ".md"
+        string file = argv[i];
+        if (fs::is_regular_file(file) && file.find(".md") == file.size() - 3)
+        {
+            files.emplace_back(file);
+        }
+    }
+
     // Sort file names
     sort(files.begin(), files.end());
 
@@ -121,7 +137,7 @@ int main(int argc, char **argv){
     // For measuring time.
     auto t1 = high_resolution_clock::now();
 
-    // Error count
+    // Count the errors
     short errorCount = 0;
 
     // Run the tests
@@ -133,8 +149,8 @@ int main(int argc, char **argv){
     /* Getting number of milliseconds as a double. */
     duration<double, std::milli> ms_double = t2 - t1;
 
-    std::cout << files.size() << " tests executed in " << ms_double.count() << "ms. "
-              << errorCount << " failed.\n";
+    cout << files.size() << " tests executed in " << ms_double.count() << "ms. "
+         << errorCount << " failed.\n";
 
     return 0;
 }

@@ -2,6 +2,10 @@
 
 [TOC]
 
+## v1.1.3
+
+The user can now test his own Markdown files. Simply specify to the test program as argument.
+
 ## v1.1.2
 
 - Add changes for v1.1.1
