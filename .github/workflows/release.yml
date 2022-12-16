@@ -48,7 +48,7 @@ jobs:
         PREVIOS="$(git tag --sort=creatordate | tail -n 2 | head -n1)"
         wget https://raw.githubusercontent.com/tim-gromeyer/html2md/$PREVIOS/CHANGELOG.md -O OLD.md
         echo "CHANGES<<EOF" >> $GITHUB_ENV
-        grep -Fvxf OLD.md CHANGELOG.md
+        echo "$(grep -Fvxf OLD.md CHANGELOG.md)" >> $GITHUB_ENV
         echo "EOF" >> $GITHUB_ENV
 
     - name: Release
