@@ -2,6 +2,10 @@
 
 [TOC]
 
+## v1.1.4
+
+- Releases now contain deb files
+
 ## v1.1.3
 
 The user can now test his own Markdown files. Simply specify to the test program as argument.

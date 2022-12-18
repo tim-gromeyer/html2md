@@ -36,6 +36,7 @@ else()
     option(BUILD_TEST "Build tests" ON)
     option(BUILD_DOC "Build documentation" ON)
 endif()
+option(PYTHON_BINDINGS "Build python bindings" OFF)
 
 set(SOURCES
     src/html2md.cpp
@@ -73,6 +74,16 @@ endif()
 
 if(BUILD_DOC)
     include(cmake/Doc.cmake)
+endif()
+
+if(PYTHON_BINDINGS)
+    find_package(Python COMPONENTS Interpreter QUIET)
+
+    if (NOT Python_FOUND)
+        message(WARNING "Python not found. Can't build python bindings")
+    else()
+        execute_process(COMMAND ${Python_EXECUTABLE} -m pip install pybind11)
+    endif()
 endif()
 
 # Don't install as a subproject

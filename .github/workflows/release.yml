@@ -42,13 +42,24 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Create deb package
+      run: |
+        mkdir build && cd build
+        cmake ..
+        make package -j4
+        cd ..
+
     - name: Find changes
       id: files
       run: |
         PREVIOS="$(git tag --sort=creatordate | tail -n 2 | head -n1)"
         wget https://raw.githubusercontent.com/tim-gromeyer/html2md/$PREVIOS/CHANGELOG.md -O OLD.md
         echo "CHANGES<<EOF" >> $GITHUB_ENV
-        echo "$(grep -Fvxf OLD.md CHANGELOG.md)" >> $GITHUB_ENV
+        echo "$(grep -Fvxf OLD.md CHANGELOG.md | tail -n +2)" >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
+
+        echo "FILES<<EOF" >> $GITHUB_ENV
+        find build/packages/ -name "*" -type f >> $GITHUB_ENV
         echo "EOF" >> $GITHUB_ENV
 
     - name: Release
@@ -57,4 +68,5 @@ jobs:
       with:
         generate_release_notes: true
         body: ${{ env.CHANGES }}
+        files: ${{ env.FILES }}
 
