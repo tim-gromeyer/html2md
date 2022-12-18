@@ -31,12 +31,13 @@ var NAVTREE =
     [ "Requirements", "index.html#autotoc_md5", null ],
     [ "License", "index.html#autotoc_md6", null ],
     [ "Change log", "md_CHANGELOG.html", [
-      [ "v1.1.3", "md_CHANGELOG.html#autotoc_md8", null ],
-      [ "v1.1.2", "md_CHANGELOG.html#autotoc_md9", null ],
-      [ "v.1.1.1", "md_CHANGELOG.html#autotoc_md10", null ],
-      [ "v1.1.0", "md_CHANGELOG.html#autotoc_md11", null ],
-      [ "v1.0.1", "md_CHANGELOG.html#autotoc_md12", null ],
-      [ "v1.0.0", "md_CHANGELOG.html#autotoc_md13", null ]
+      [ "v1.1.4", "md_CHANGELOG.html#autotoc_md8", null ],
+      [ "v1.1.3", "md_CHANGELOG.html#autotoc_md9", null ],
+      [ "v1.1.2", "md_CHANGELOG.html#autotoc_md10", null ],
+      [ "v.1.1.1", "md_CHANGELOG.html#autotoc_md11", null ],
+      [ "v1.1.0", "md_CHANGELOG.html#autotoc_md12", null ],
+      [ "v1.0.1", "md_CHANGELOG.html#autotoc_md13", null ],
+      [ "v1.0.0", "md_CHANGELOG.html#autotoc_md14", null ]
     ] ],
     [ "Todo List", "todo.html", null ],
     [ "Namespaces", "namespaces.html", [
