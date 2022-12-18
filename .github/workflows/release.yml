@@ -8,6 +8,7 @@ on:
 
 jobs:
   website:
+    name: Build website and deploy to gh pages
     runs-on: ubuntu-22.04
 
     steps:
@@ -30,26 +31,60 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./doc
 
+  build:
+    name: Build and upload release assetes
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-20.04
+            files: |
+              build/packages/html2md*.deb
+          - os: ubuntu-22.04
+            files: |
+              build/packages/html2md*.deb
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3#
+
+    - name: Build
+      run: |
+        mkdir build
+        cd build
+        cmake -DBUILD_TEST=OFF -DBUILD_DOC=OFF ..
+        cmake --build . -j8
+      shell: bash
+
+    - name: Package
+      run: |
+        cmake --build . --target=package -j3
+
+    - name: Upload package
+      uses: actions/upload-artifact@v3
+      with:
+        path: ${{ matrix.files }}
+
   publish:
     name: Create release and upload files
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-20.04
+    needs: build
     permissions:
       contents: write
     strategy:
       fail-fast: false
     steps:
+    - name: Download release asstets
+      uses: actions/download-artifact@v3
+      with:
+        path: packages
+
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
 
-    - name: Create deb package
-      run: |
-        mkdir build && cd build
-        cmake .. -DBUILD_TEST=OFF -DBUILD_DOC=OFF
-        make package -j4
-        cd ..
-
-    - name: Find changes
+    - name: Find changes and release assets
       id: files
       run: |
         PREVIOS="$(git tag --sort=creatordate | tail -n 2 | head -n1)"
@@ -59,7 +94,7 @@ jobs:
         echo "EOF" >> $GITHUB_ENV
 
         echo "FILES<<EOF" >> $GITHUB_ENV
-        find /home/runner/work/html2md/html2md/build -name "*.deb" -type f >> $GITHUB_ENV
+        find packages/ -name "*" -type f >> $GITHUB_ENV
         echo "EOF" >> $GITHUB_ENV
 
     - name: Release

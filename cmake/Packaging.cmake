@@ -1,3 +1,5 @@
+include(InstallRequiredSystemLibraries)
+
 set(CPACK_STRIP_FILES ON)
 set(CPACK_PACKAGE_NAME ${PROJECT_NAME} )
 set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
@@ -29,22 +31,12 @@ set(CPACK_DEBIAN_PACKAGE_SUGGESTS "")
 set(CPACK_DEBIAN_PACKAGE_CONFLICTS "")
 set(CPACK_DEBIAN_PACKAGE_MAINTAINER "${CPACK_PACKAGE_CONTACT} <sakul8826@gmail.com>")
 
-# Variables specific to CPack NSIS generator
-set(CPACK_NSIS_MUI_ICON "") # TODO: Add icon
-set(CPACK_NSIS_URL_INFO_ABOUT ${PROJECT_HOMEPAGE_URL})
-set(CPACK_NSIS_PACKAGE_NAME ${PROJECT_NAME})
-
-# Variables specific to CPack DragNDrop generator
-set(CPACK_DMG_FORMAT "UDBZ") # UDRO=UDIF-Read-Only, UDZO=zlib, UDBZ=bzip2 -- See hdiutil
-set(CPACK_DMG_VOLUME_NAME ${PROJECT_NAME})
-set(CPACK_DMG_BACKGROUND_IMAGE "") # TODO: Add icon
-
 if(WIN32)
- set(CPACK_GENERATOR "ZIP;NSIS")
+ set(CPACK_GENERATOR "ZIP")
 
 elseif(APPLE)
- set(CPACK_GENERATOR "ZIP;DragNDrop;PackageMaker;Bundle" )
- set(CPACK_SYSTEM_NAME "OSX" )
+ set(CPACK_GENERATOR "ZIP")
+ set(CPACK_SYSTEM_NAME "OSX")
 
 elseif(UNIX AND NOT EXMSCRIPTEN AND NOT ANDROID)
  # Determine distribution and release
@@ -55,7 +47,7 @@ elseif(UNIX AND NOT EXMSCRIPTEN AND NOT ANDROID)
  if(distribution STREQUAL "Debian" OR distribution STREQUAL "Ubuntu" OR distribution STREQUAL "Linuxmint")
  set(CPACK_GENERATOR "DEB")
  execute_process(COMMAND dpkg --print-architecture OUTPUT_VARIABLE CPACK_DEBIAN_PACKAGE_ARCHITECTURE OUTPUT_STRIP_TRAILING_WHITESPACE)
- set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}_${CPACK_PACKAGE_VERSION}_${CPACK_DEBIAN_PACKAGE_ARCHITECTURE})
+ set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}_${CPACK_PACKAGE_VERSION}_${CPACK_DEBIAN_PACKAGE_ARCHITECTURE}_${distribution}+${release})
 
  elseif(distribution MATCHES "RedHat.*")
  # extract the major version from RedHat full version (e.g. 6.7 --> 6)
@@ -80,5 +72,9 @@ elseif(UNIX AND NOT EXMSCRIPTEN AND NOT ANDROID)
  set(CPACK_PACKAGE_FILE_NAME ${CPACK_PACKAGE_NAME}-${CPACK_PACKAGE_VERSION}-${release}.${CPACK_RPM_PACKAGE_ARCHITECTURE})
  endif()
 endif()
+
+# Store the packages in a separat dir
+set(CPACK_PACKAGE_DIRECTORY "${CMAKE_BINARY_DIR}/packages")
+set(CPACK_PACKAGE_INSTALL_DIRECTORY ${PROJECT_NAME})
 
 include(CPack)
