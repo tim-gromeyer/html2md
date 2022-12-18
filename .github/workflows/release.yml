@@ -45,7 +45,7 @@ jobs:
     - name: Create deb package
       run: |
         mkdir build && cd build
-        cmake ..
+        cmake .. -DBUILD_TEST=OFF -DBUILD_DOC=OFF
         make package -j4
         cd ..
 
