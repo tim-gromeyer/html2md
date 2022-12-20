@@ -65,7 +65,7 @@ jobs:
 
   publish:
     name: Create release and upload files
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     needs: build
     permissions:
       contents: write
