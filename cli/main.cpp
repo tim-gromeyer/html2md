@@ -27,15 +27,15 @@ constexpr const char * const description =
         " [Options]\n\n"
         "Simple and fast HTML to Markdown converter with table support.\n\n"
         "Options:\n"
-        "  -h\tDisplays this help information.\n"
-        "  -v\tDisplay version information and exit.\n"
-        "  -o\tSets the output file.\n"
-        "  -i\tSets the input file or text.\n"
-        "  -p\tPrint Markdown(overrides -o).\n"
-        "  -r\tOverwrite the output file (if it already exists) without asking.\n";
+        "  -h, --help\tDisplays this help information.\n"
+        "  -v, --version\tDisplay version information and exit.\n"
+        "  -o, --output\tSets the output file.\n"
+        "  -i, --input\tSets the input file or text.\n"
+        "  -p, --print\tPrint Markdown(overrides -o).\n"
+        "  -r, --replace\tOverwrite the output file (if it already exists) without asking.\n";
 
 
-int main(int argc, char* argv[]) {
+int main(int argc, const char* argv[]) {
   string input;
   string inFile;
   string outFile = "Converted.md";
@@ -50,36 +50,38 @@ int main(int argc, char* argv[]) {
 
   for (int i = 1; i < argc; i++) {
     std::string arg = argv[i];
-    if (arg == "-h") {
+    if (arg == "-h" || arg == "--help") {
       cout << argv[0] << description; // Show help
       return 0;
     }
-    else if (arg == "-v") {
+    else if (arg == "-v" || arg == "--version") {
       cout << "Version " << VERSION << endl;
       return 0;
     }
-    else if (arg == "-p") {
+    else if (arg == "-p" || arg == "--print") {
       print = true;
     }
-    else if (arg == "-r") {
+    else if (arg == "-r" || arg == "--replace") {
       replace = true;
     }
-    else if (arg == "-o") {
+    else if (arg == "-o" || arg == "--output") {
       if (i + 1 < argc) {
         outFile = argv[i + 1];
         i++;
       }
       else {
-        std::cerr << "The -o option requires a file name!\n'Converted.md' is used." << std::endl;
+        std::cerr << "The" << arg <<
+            "option requires a file name!\n'Converted.md' is used." << std::endl;
       }
     }
-    else if (arg == "-i") {
+    else if (arg == "-i" || arg == "--input") {
       if (i + 1 < argc) {
         inFile = argv[i + 1];
         i++;
       }
       else {
-        std::cerr << "The -i option requires a filename or HTML text!" << std::endl;
+        std::cerr << "The" << arg <<
+            "option requires a filename or HTML text!" << std::endl;
         return 1;
       }
     }
@@ -116,14 +118,14 @@ int main(int argc, char* argv[]) {
       if (override.empty()) continue;
 
       stringstream ss(override);
-      string input;
-      ss >> input;
-      if (input.empty() || input.length() > 1) {
+      string in;
+      ss >> in;
+      if (in.empty() || in.length() > 1) {
           cout << "Invalid input" << endl;
           continue;
       }
 
-      char c = (char)tolower(input[0]);
+      char c = (char)tolower(in[0]);
       if (c == 'n') return 0;
       else if (c == 'y') break;
       else {

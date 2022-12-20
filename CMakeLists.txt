@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project("html2md" VERSION 1.1.4
+project("html2md" VERSION 1.1.5
              DESCRIPTION "Transform your HTML into clean, easy-to-read markdown with html2md"
              HOMEPAGE_URL "https://tim-gromeyer.github.io/html2md/"
              LANGUAGES CXX)

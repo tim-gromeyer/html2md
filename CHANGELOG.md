@@ -2,9 +2,13 @@
 
 [TOC]
 
+## v1.1.5
+
+- Added more command line options to the executable
+
 ## v1.1.4
 
-- Releases now contain deb files
+- Releases now include deb files
 
 ## v1.1.3
 
