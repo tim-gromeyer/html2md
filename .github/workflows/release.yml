@@ -16,7 +16,7 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Add version to doxyfile
+    - name: Add version to Doxyfile
       run: |
         echo "PROJECT_NUMBER = $(git describe --tags --abbrev=0)" >> docs/Doxyfile
 
@@ -49,17 +49,14 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v3
 
-    - name: Build
+    - name: Build and package
       run: |
         mkdir build
         cd build
         cmake -DBUILD_TEST=OFF -DBUILD_DOC=OFF ..
         cmake --build . -j8
-      shell: bash
-
-    - name: Package
-      run: |
         cmake --build . --target=package -j3
+      shell: bash
 
     - name: Upload package
       uses: actions/upload-artifact@v3
@@ -104,4 +101,3 @@ jobs:
         generate_release_notes: true
         body: ${{ env.CHANGES }}
         files: ${{ env.FILES }}
-
