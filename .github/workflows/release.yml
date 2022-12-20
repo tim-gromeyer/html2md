@@ -72,14 +72,14 @@ jobs:
     strategy:
       fail-fast: false
     steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
     - name: Download release asstets
       uses: actions/download-artifact@v3
       with:
         path: packages
-
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
 
     - name: Find changes and release assets
       id: files
@@ -91,7 +91,7 @@ jobs:
         echo "EOF" >> $GITHUB_ENV
 
         echo "FILES<<EOF" >> $GITHUB_ENV
-        find /home/runner/work/html2md/html2md/packages/ -name "*" -type f >> $GITHUB_ENV
+        find packages/ -name "*" -type f >> $GITHUB_ENV
         echo "EOF" >> $GITHUB_ENV
 
     - name: Release
