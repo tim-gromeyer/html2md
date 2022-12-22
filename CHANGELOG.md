@@ -2,10 +2,14 @@
 
 [TOC]
 
+## v1.2.0
+
+- **Added python bindings**
+- Added new option: `includeTable`.
+
 ## v1.1.5
 
 - Added more command line options to the executable
-- Added new option: `includeTable`.
 
 ## v1.1.4
 

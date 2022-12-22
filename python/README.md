@@ -8,11 +8,11 @@ pyhtml2md provides a way to use the html2md C++ library in Python. html2md is a 
 
 1.  Make sure you have a compiler with c++11 and ccmake installed on you system
 2. Clone html2md: `git clone https://github.com/tim-gromeyer/html2md --recurse-submodules --depth=1`
-3. Build and install the python package: `git clone https://github.com/tim-gromeyer/html2md --recurse-submodules --depth=1`
+3. Build and install the python package: `pip3 install ./html2md/python/`
 
 ### Pre-build
 
-Download from [releases](https://github.com/tim-gromeyer/html2md/releases) (might not be available yet).
+Download from [releases](https://github.com/tim-gromeyer/html2md/releases) (not available yet).
 
 You can also install from pip(not available yet):
 
