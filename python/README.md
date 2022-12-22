@@ -1,34 +1,60 @@
-# html2md
+# pyhtml2md
 
-[TOC]
+pyhtml2md provides a way to use the html2md C++ library in Python. html2md is a fast and reliable library for converting HTML content into markdown.
 
-## What does it do
+## Installation
 
-html2md is a fast and reliable C++ library for converting HTML content into markdown. It offers support for a wide range of HTML tags, including those for formatting text, creating lists, and inserting images and links. In addition, html2md is the only HTML to markdown converter that offers support for table formatting, making it a valuable tool for users who need to convert HTML tables into markdown.
+### Manually
 
-## How to use this library
+1.  Make sure you have a compiler with c++11 and ccmake installed on you system
+2. Clone html2md: `git clone https://github.com/tim-gromeyer/html2md --recurse-submodules --depth=1`
+3. Build and install the python package: `git clone https://github.com/tim-gromeyer/html2md --recurse-submodules --depth=1`
 
-To use html2md, follow these steps:
+### Pre-build
 
-1. Clone the library: `git clone https://github.com/tim-gromeyer/html2md`
-2. Add the files `include/html2md.h` and `src/html2md.cpp` to your project
-3. Include the `html2md.h` header in your code
-4. Use the `html2md::Convert` function to convert your HTML content into markdown
+Download from [releases](https://github.com/tim-gromeyer/html2md/releases) (might not be available yet).
 
-Here is an example of how to use the `html2md::Convert` function:
+You can also install from pip(not available yet):
 
-```cpp
-#include <html2md.h>
+```bash
+pip3 install pyhtml2md
+```
 
-//...
+## Basic usage
 
-std::cout << html2md::Convert("<h1>foo</h1>"); // # foo
+Here is an example of how to use the pyhtml2md to convert HTML to markdown:
+
+```python
+import pyhtml2md
+
+markdown = pyhtml2md.convert("<h1>Hello, world!</h1>")
+print(markdown)
+```
+
+The `convert` function takes an HTML string as input and returns a markdown string.
+
+## Advanced usage
+
+pyhtml2md provides a `Options` class to customize the generation process.  
+You can find all information on the c++ [documentation](https://tim-gromeyer.github.io/html2md/index.html)
+
+Here is an example:
+
+```python
+import pyhtml2md
+
+options = pyhtml2md.Options()
+options.splitLines = False
+
+converter = pyhtml2md.Converter("<h1>Hello Python!</h1>", options)
+markdown = converter.convert()
+print(markdown)
+print(converter.ok())
 ```
 
 ## Supported Tags
 
-html2md supports the following HTML tags:
-
+pyhtml2md supports the following HTML tags:
 
 | Tag          | Description        | Comment                                    |
 | ------------ | ------------------ | ------------------------------------------ |
@@ -55,30 +81,23 @@ html2md supports the following HTML tags:
 | `img`        | Image              | Supports the `src` and `alt` attributes.   |
 | `li`         | List item          |                                            |
 | `meta`       | Meta-information   | Ignored.                                   |
-| `ol`         | Ordered list       | Don't use other lists in this list.        |
+| `ol`         | Ordered list       |                                            |
 | `p`          | Paragraph          |                                            |
 | `pre`        | Preformatted text  | Works only with `code`.                    |
 | `s`          | Strikethrough      | Same as `del`.                             |
 | `span`       | Grouped elements   |                                            |
 | `strong`     | Strong             | Same as `b`.                               |
 | `table`      | Table              |                                            |
+| `tbody`      | Table body         | Does nothing.                              |
 | `td`         | Table data cell    | Uses `align` from `th`.                    |
+| `tfoot`      | Table footer       | Does nothing.                              |
 | `th`         | Table header cell  | Supports the `align` attribute.            |
+| `thead`      | Table header       | Does nothing.                              |
 | `title`      | Document title     | Same as `h1`.                              |
 | `tr`         | Table row          |                                            |
 | `u`          | Underlined         | Uses HTML.                                 |
 | `ul`         | Unordered list     |                                            |
 
-## Bindings
-
-- [Python](../python/README.md)
-
-## Requirements
-
-1. A compiler with **c++11** support like *g++>=9*
-
-That's all!
-
 ## License
 
-html2md is licensed under [The MIT License (MIT)](https://opensource.org/licenses/MIT)
+pyhtml2md is licensed under [The MIT License (MIT)](https://opensource.org/licenses/MIT)

@@ -7,6 +7,7 @@ Transform your HTML into clean, easy-to-read markdown with html2md
 - [What does it do](#what-does-it-do)
 - [How to use this library](#how-to-use-this-library)
 - [Supported Tags](#supported-tags)
+- [Bindings](#bindings)
 - [Requirements](#requirements)
 - [License](#license)
 
@@ -80,6 +81,10 @@ html2md supports the following HTML tags:
 | `tr`         | Table row          |                                            |
 | `u`          | Underlined         | Uses HTML.                                 |
 | `ul`         | Unordered list     |                                            |
+
+## Bindings
+
+- [Python](python/README.md)
 
 ## Requirements
 

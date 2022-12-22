@@ -1,7 +1,7 @@
 PROJECT_NAME           = "html2md"
 PROJECT_BRIEF          = "Simple and fast HTML to Markdown converter"
 
-INPUT                  = include/ src/ docs/index.md CHANGELOG.md
+INPUT                  = include/ src/ docs/index.md CHANGELOG.md python/README.md
 USE_MDFILE_AS_MAINPAGE = docs/index.md
 
 RECURSIVE              = YES

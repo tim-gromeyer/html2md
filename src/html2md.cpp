@@ -70,6 +70,9 @@ namespace html2md {
 
 Converter::Converter(string *html, options *options)
     : html_(*html), option(options) {
+  options ? option = options
+          : option = new struct options();
+
   PrepareHtml();
 
   // non-printing tags
@@ -966,25 +969,3 @@ void Converter::TagBlockquote::OnHasLeftClosingTag(Converter *converter) {
 Converter::~Converter() = default;
 
 } // namespace html2md
-
-#ifdef PYTHON_BINDINGS
-#include <pybind11/pybind11.h>
-namespace py = pybind11;
-
-PYBIND11_MODULE(html2md, m) {
-    m.doc() = "pybind11 bindings for html2md"; // optional module docstring
-
-    py::class_<html2md::options>(m, "Options")
-        .def(py::init<>())
-        .def_readwrite("splitLines", &html2md::options::splitLines)
-        .def_readwrite("unorderedList", &html2md::options::unorderedList)
-        .def_readwrite("orderedList", &html2md::options::orderedList);
-
-    py::class_<html2md::Converter>(m, "Converter")
-        .def(py::init<std::string, html2md::options*>())
-        .def("convert2Md", &html2md::Converter::Convert2Md)
-        .def("ok", &html2md::Converter::ok);
-
-    m.def("convert", &html2md::Convert);
-}
-#endif

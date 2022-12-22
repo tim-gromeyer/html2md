@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-project("html2md" VERSION 1.1.5
+project("html2md" VERSION 1.2.0
              DESCRIPTION "Transform your HTML into clean, easy-to-read markdown with html2md"
              HOMEPAGE_URL "https://tim-gromeyer.github.io/html2md/"
              LANGUAGES CXX)
@@ -29,33 +29,37 @@ endif()
 # Some options
 if (subproject)
     option(BUILD_EXE "Build a executable to convert html to markdown." OFF)
-    option(BUILD_TEST "Build tests" OFF)
     option(BUILD_DOC "Build documentation" OFF)
 else()
     option(BUILD_EXE "Build a executable to convert html to markdown." ON)
-    option(BUILD_TEST "Build tests" ON)
     option(BUILD_DOC "Build documentation" ON)
 endif()
+option(BUILD_TEST "Build tests" OFF)
 option(PYTHON_BINDINGS "Build python bindings" OFF)
 
 set(SOURCES
     src/html2md.cpp
 )
-set(HEADER
+set(HEADERS
     include/html2md.h
 )
+
+if(PYTHON_BINDINGS)
+    include(python/CMakeLists.txt)
+    return()
+endif()
 
 add_library(html2md SHARED ${SOURCES})
 set_target_properties(html2md PROPERTIES
     VERSION ${PROJECT_VERSION}
     SOVERSION ${PROJECT_VERSION_MAJOR}
-    PUBLIC_HEADER "${HEADER}"
+    PUBLIC_HEADER "${HEADERS}"
 )
 target_include_directories(html2md PRIVATE include)
 target_compile_features(html2md PUBLIC cxx_std_11) # Require at least c++11
 
 if (subproject OR BUILD_EXE)
-    add_library(html2md-static STATIC ${HEADER} ${SOURCES})
+    add_library(html2md-static STATIC ${HEADERS} ${SOURCES})
     target_include_directories(html2md-static PUBLIC include)
     target_compile_features(html2md-static PUBLIC cxx_std_11) # Require at least c++11
 endif()
@@ -74,16 +78,6 @@ endif()
 
 if(BUILD_DOC)
     include(cmake/Doc.cmake)
-endif()
-
-if(PYTHON_BINDINGS)
-    find_package(Python COMPONENTS Interpreter QUIET)
-
-    if (NOT Python_FOUND)
-        message(WARNING "Python not found. Can't build python bindings")
-    else()
-        execute_process(COMMAND ${Python_EXECUTABLE} -m pip install pybind11)
-    endif()
 endif()
 
 # Don't install as a subproject

@@ -74,6 +74,14 @@ struct options
      * ```
      */
     char orderedList = '.';
+
+    /*!
+     * \brief Whether title is added as h1 heading at the very beginning of the markdown
+     *
+     * Whether title is added as h1 heading at the very beginning of the markdown.
+     * Default is true.
+     */
+    bool includeTitle = true;
 };
 
 /*!
@@ -461,7 +469,7 @@ class Converter {
 
   std::map<std::string, Tag*> tags_;
 
-  explicit Converter(std::string *html, options *options = new struct options);
+  explicit Converter(std::string *html, options *options = nullptr);
 
   void PrepareHtml();
 
@@ -527,7 +535,9 @@ class Converter {
   // Replace previous space (if any) in current markdown line by newline
   bool ReplacePreviousSpaceInLineByNewline();
 
-  inline static bool IsIgnoredTag(const std::string &tag) {
+  [[nodiscard]] inline bool IsIgnoredTag(const std::string &tag) const {
+    if (tag == kTagTitle && !option->includeTitle) return true;
+
     return (tag[0] == '-'
         || kTagTemplate == tag
         || kTagStyle == tag
@@ -545,7 +555,7 @@ class Converter {
       std::string tag = dom_tags_[i];
 
       if (kTagPre == tag
-          || kTagTitle == tag) return false;
+       || kTagTitle == tag) return false;
 
       if (IsIgnoredTag(tag)) return true;
     }
@@ -568,6 +578,7 @@ inline std::string Convert(std::string &html, bool *ok = nullptr) {
   return md;
 }
 
+#ifndef PYTHON_BINDINGS
 inline std::string Convert(std::string &&html, bool *ok = nullptr) {
   Converter c(html);
   auto md = c.Convert2Md();
@@ -575,6 +586,7 @@ inline std::string Convert(std::string &&html, bool *ok = nullptr) {
     *ok = c.ok();
   return md;
 }
+#endif
 
 }  // namespace html2md
 
