@@ -5,8 +5,9 @@ build-wasm/
 doc/
 tests/error.log
 conan/
-python/build/
-python/dist/
-python/pyhtml2md.egg-info/
-python/*.whl
-
+build/
+dist/
+pyhtml2md.egg-info/
+*.whl
+wheelhouse/
+tests/__pycache__/

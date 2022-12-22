@@ -8,7 +8,7 @@ from setuptools import Extension, setup
 from setuptools.command.build_ext import build_ext
 
 # Get long description
-with open("README.md") as f:
+with open("python/README.md") as f:
   long_description = f.read()
 
 # Convert distutils Windows platform specifiers to CMake -A arguments
@@ -122,7 +122,7 @@ class CMakeBuild(build_ext):
             build_temp.mkdir(parents=True)
 
         subprocess.run(
-            ["cmake", f"{ext.sourcedir}/.."] + cmake_args, cwd=build_temp, check=True
+            ["cmake", ext.sourcedir] + cmake_args, cwd=build_temp, check=True
         )
         subprocess.run(
             ["cmake", "--build", "."] + build_args, cwd=build_temp, check=True
