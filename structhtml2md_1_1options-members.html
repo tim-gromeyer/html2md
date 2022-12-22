@@ -26,6 +26,17 @@
     DoxygenAwesomeParagraphLink.init()
     DoxygenAwesomeInteractiveToc.init()
 </script>
+<script>
+  window.onload = function() {
+    const directory = document.querySelector('.directory');
+    const table = directory.querySelector('table');
+    for (const row of table.rows) {
+      if (row.querySelector('.iconfclosed') && !row.querySelector('.arrow')) {
+        row.remove();
+      }
+    }
+  };
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -51,7 +62,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">html2md
-   &#160;<span id="projectnumber">v1.1.5</span>
+   &#160;<span id="projectnumber">v1.2.0</span>
    </div>
    <div id="projectbrief">Simple and fast HTML to Markdown converter</div>
   </td>
@@ -115,9 +126,10 @@ $(document).ready(function(){initNavTree('structhtml2md_1_1options.html',''); in
 
 <p>This is the complete list of members for <a class="el" href="structhtml2md_1_1options.html">html2md::options</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="structhtml2md_1_1options.html#ac25a147b13cd55b6cead9d9a8635a963">orderedList</a></td><td class="entry"><a class="el" href="structhtml2md_1_1options.html">html2md::options</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="structhtml2md_1_1options.html#ac7c484a3be8674147537092c0be2b537">splitLines</a></td><td class="entry"><a class="el" href="structhtml2md_1_1options.html">html2md::options</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="structhtml2md_1_1options.html#aa4e0cc2e52d9bcf532768b1f54ae81f3">unorderedList</a></td><td class="entry"><a class="el" href="structhtml2md_1_1options.html">html2md::options</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="structhtml2md_1_1options.html#a2354e244da43fb4fad8aa2efe7ca6340">includeTitle</a></td><td class="entry"><a class="el" href="structhtml2md_1_1options.html">html2md::options</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="structhtml2md_1_1options.html#ac25a147b13cd55b6cead9d9a8635a963">orderedList</a></td><td class="entry"><a class="el" href="structhtml2md_1_1options.html">html2md::options</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="structhtml2md_1_1options.html#ac7c484a3be8674147537092c0be2b537">splitLines</a></td><td class="entry"><a class="el" href="structhtml2md_1_1options.html">html2md::options</a></td><td class="entry"></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="structhtml2md_1_1options.html#aa4e0cc2e52d9bcf532768b1f54ae81f3">unorderedList</a></td><td class="entry"><a class="el" href="structhtml2md_1_1options.html">html2md::options</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

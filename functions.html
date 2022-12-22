@@ -26,6 +26,17 @@
     DoxygenAwesomeParagraphLink.init()
     DoxygenAwesomeInteractiveToc.init()
 </script>
+<script>
+  window.onload = function() {
+    const directory = document.querySelector('.directory');
+    const table = directory.querySelector('table');
+    for (const row of table.rows) {
+      if (row.querySelector('.iconfclosed') && !row.querySelector('.arrow')) {
+        row.remove();
+      }
+    }
+  };
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -51,7 +62,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">html2md
-   &#160;<span id="projectnumber">v1.1.5</span>
+   &#160;<span id="projectnumber">v1.2.0</span>
    </div>
    <div id="projectbrief">Simple and fast HTML to Markdown converter</div>
   </td>
@@ -114,6 +125,7 @@ $(document).ready(function(){initNavTree('functions.html',''); initResizable(); 
 <li>appendToMd()&#160;:&#160;<a class="el" href="classhtml2md_1_1Converter.html#a22de58b843063c394993552a255052cd">html2md::Converter</a></li>
 <li>Convert2Md()&#160;:&#160;<a class="el" href="classhtml2md_1_1Converter.html#a59a7fdf9456c0c797ceef4742a170a68">html2md::Converter</a></li>
 <li>Converter()&#160;:&#160;<a class="el" href="classhtml2md_1_1Converter.html#ad3cd9c053013f4e2dfe8d86eeb4e2abc">html2md::Converter</a></li>
+<li>includeTitle&#160;:&#160;<a class="el" href="structhtml2md_1_1options.html#a2354e244da43fb4fad8aa2efe7ca6340">html2md::options</a></li>
 <li>ok()&#160;:&#160;<a class="el" href="classhtml2md_1_1Converter.html#a34437fc31922f996799afc0441ac68b1">html2md::Converter</a></li>
 <li>orderedList&#160;:&#160;<a class="el" href="structhtml2md_1_1options.html#ac25a147b13cd55b6cead9d9a8635a963">html2md::options</a></li>
 <li>splitLines&#160;:&#160;<a class="el" href="structhtml2md_1_1options.html#ac7c484a3be8674147537092c0be2b537">html2md::options</a></li>

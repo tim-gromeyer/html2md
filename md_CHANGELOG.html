@@ -26,6 +26,17 @@
     DoxygenAwesomeParagraphLink.init()
     DoxygenAwesomeInteractiveToc.init()
 </script>
+<script>
+  window.onload = function() {
+    const directory = document.querySelector('.directory');
+    const table = directory.querySelector('table');
+    for (const row of table.rows) {
+      if (row.querySelector('.iconfclosed') && !row.querySelector('.arrow')) {
+        row.remove();
+      }
+    }
+  };
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -51,7 +62,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">html2md
-   &#160;<span id="projectnumber">v1.1.5</span>
+   &#160;<span id="projectnumber">v1.2.0</span>
    </div>
    <div id="projectbrief">Simple and fast HTML to Markdown converter</div>
   </td>
@@ -113,41 +124,48 @@ $(document).ready(function(){initNavTree('md_CHANGELOG.html',''); initResizable(
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#autotoc_md8">v1.1.5</a></li>
-<li class="level1"><a href="#autotoc_md9">v1.1.4</a></li>
-<li class="level1"><a href="#autotoc_md10">v1.1.3</a></li>
-<li class="level1"><a href="#autotoc_md11">v1.1.2</a></li>
-<li class="level1"><a href="#autotoc_md12">v.1.1.1</a></li>
-<li class="level1"><a href="#autotoc_md13">v1.1.0</a></li>
-<li class="level1"><a href="#autotoc_md14">v1.0.1</a></li>
-<li class="level1"><a href="#autotoc_md15">v1.0.0</a></li>
+<ul><li class="level1"><a href="#autotoc_md9">v1.2.0</a></li>
+<li class="level1"><a href="#autotoc_md10">v1.1.5</a></li>
+<li class="level1"><a href="#autotoc_md11">v1.1.4</a></li>
+<li class="level1"><a href="#autotoc_md12">v1.1.3</a></li>
+<li class="level1"><a href="#autotoc_md13">v1.1.2</a></li>
+<li class="level1"><a href="#autotoc_md14">v.1.1.1</a></li>
+<li class="level1"><a href="#autotoc_md15">v1.1.0</a></li>
+<li class="level1"><a href="#autotoc_md16">v1.0.1</a></li>
+<li class="level1"><a href="#autotoc_md17">v1.0.0</a></li>
 </ul>
 </div>
-<div class="textblock"><h1><a class="anchor" id="autotoc_md8"></a>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md9"></a>
+v1.2.0</h1>
+<ul>
+<li><b>Added python bindings</b></li>
+<li>Added new option: <code>includeTable</code>.</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md10"></a>
 v1.1.5</h1>
 <ul>
 <li>Added more command line options to the executable</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md9"></a>
+<h1><a class="anchor" id="autotoc_md11"></a>
 v1.1.4</h1>
 <ul>
 <li>Releases now include deb files</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md10"></a>
+<h1><a class="anchor" id="autotoc_md12"></a>
 v1.1.3</h1>
 <p >The user can now test his own Markdown files. Simply specify to the test program as argument.</p>
-<h1><a class="anchor" id="autotoc_md11"></a>
+<h1><a class="anchor" id="autotoc_md13"></a>
 v1.1.2</h1>
 <ul>
 <li>Add changes for v1.1.1</li>
 <li>Create releases when a new tag is added(automatically)</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md12"></a>
+<h1><a class="anchor" id="autotoc_md14"></a>
 v.1.1.1</h1>
 <ul>
 <li>Fix windows build(by replacing get)</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md13"></a>
+<h1><a class="anchor" id="autotoc_md15"></a>
 v1.1.0</h1>
 <ul>
 <li>Reworked command line programm</li>
@@ -158,7 +176,7 @@ v1.1.0</h1>
 <li>Fix typos in comments</li>
 <li>Improved documentation</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md14"></a>
+<h1><a class="anchor" id="autotoc_md16"></a>
 v1.0.1</h1>
 <ul>
 <li>Fixed multible bugs</li>
@@ -166,7 +184,7 @@ v1.0.1</h1>
 <li>Updated documentation: make doc</li>
 <li>Added packaging: make package</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md15"></a>
+<h1><a class="anchor" id="autotoc_md17"></a>
 v1.0.0</h1>
 <p >Initial release. All basics work but <code>blockquote</code> needs a rework. </p>
 </div></div><!-- contents -->

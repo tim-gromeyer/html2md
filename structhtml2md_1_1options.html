@@ -26,6 +26,17 @@
     DoxygenAwesomeParagraphLink.init()
     DoxygenAwesomeInteractiveToc.init()
 </script>
+<script>
+  window.onload = function() {
+    const directory = document.querySelector('.directory');
+    const table = directory.querySelector('table');
+    for (const row of table.rows) {
+      if (row.querySelector('.iconfclosed') && !row.querySelector('.arrow')) {
+        row.remove();
+      }
+    }
+  };
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -51,7 +62,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">html2md
-   &#160;<span id="projectnumber">v1.1.5</span>
+   &#160;<span id="projectnumber">v1.2.0</span>
    </div>
    <div id="projectbrief">Simple and fast HTML to Markdown converter</div>
   </td>
@@ -132,6 +143,9 @@ Public Attributes</h2></td></tr>
 <tr class="memitem:ac25a147b13cd55b6cead9d9a8635a963"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhtml2md_1_1options.html#ac25a147b13cd55b6cead9d9a8635a963">orderedList</a> = '.'</td></tr>
 <tr class="memdesc:ac25a147b13cd55b6cead9d9a8635a963"><td class="mdescLeft">&#160;</td><td class="mdescRight">The char used after the number of the item.  <a href="structhtml2md_1_1options.html#ac25a147b13cd55b6cead9d9a8635a963">More...</a><br /></td></tr>
 <tr class="separator:ac25a147b13cd55b6cead9d9a8635a963"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2354e244da43fb4fad8aa2efe7ca6340"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structhtml2md_1_1options.html#a2354e244da43fb4fad8aa2efe7ca6340">includeTitle</a> = true</td></tr>
+<tr class="memdesc:a2354e244da43fb4fad8aa2efe7ca6340"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether title is added as h1 heading at the very beginning of the markdown.  <a href="structhtml2md_1_1options.html#a2354e244da43fb4fad8aa2efe7ca6340">More...</a><br /></td></tr>
+<tr class="separator:a2354e244da43fb4fad8aa2efe7ca6340"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Options for the conversation from HTML to Markdown. </p>
@@ -142,12 +156,31 @@ Public Attributes</h2></td></tr>
 <div class="line"> </div>
 <div class="line"><a class="code hl_class" href="classhtml2md_1_1Converter.html">html2md::Converter</a> c(html, <a class="code hl_struct" href="structhtml2md_1_1options.html">options</a>);</div>
 <div class="line"><span class="keyword">auto</span> md = c.Convert2Md();</div>
-<div class="ttc" id="aclasshtml2md_1_1Converter_html"><div class="ttname"><a href="classhtml2md_1_1Converter.html">html2md::Converter</a></div><div class="ttdoc">Class for converting HTML to Markdown.</div><div class="ttdef"><b>Definition:</b> <a href="html2md_8h_source.html#l00124">html2md.h:124</a></div></div>
+<div class="ttc" id="aclasshtml2md_1_1Converter_html"><div class="ttname"><a href="classhtml2md_1_1Converter.html">html2md::Converter</a></div><div class="ttdoc">Class for converting HTML to Markdown.</div><div class="ttdef"><b>Definition:</b> <a href="html2md_8h_source.html#l00132">html2md.h:132</a></div></div>
 <div class="ttc" id="astructhtml2md_1_1options_html"><div class="ttname"><a href="structhtml2md_1_1options.html">html2md::options</a></div><div class="ttdoc">Options for the conversation from HTML to Markdown.</div><div class="ttdef"><b>Definition:</b> <a href="html2md_8h_source.html#l00037">html2md.h:38</a></div></div>
 <div class="ttc" id="astructhtml2md_1_1options_html_ac7c484a3be8674147537092c0be2b537"><div class="ttname"><a href="structhtml2md_1_1options.html#ac7c484a3be8674147537092c0be2b537">html2md::options::splitLines</a></div><div class="ttdeci">bool splitLines</div><div class="ttdoc">Add new line when a certain number of characters is reached.</div><div class="ttdef"><b>Definition:</b> <a href="html2md_8h_source.html#l00042">html2md.h:42</a></div></div>
 </div><!-- fragment --> 
 <p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00037">37</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="a2354e244da43fb4fad8aa2efe7ca6340" name="a2354e244da43fb4fad8aa2efe7ca6340"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2354e244da43fb4fad8aa2efe7ca6340">&#9670;&nbsp;</a></span>includeTitle</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool html2md::options::includeTitle = true</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Whether title is added as h1 heading at the very beginning of the markdown. </p>
+<p >Whether title is added as h1 heading at the very beginning of the markdown. Default is true. </p>
+
+<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00084">84</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
+
+</div>
+</div>
 <a id="ac25a147b13cd55b6cead9d9a8635a963" name="ac25a147b13cd55b6cead9d9a8635a963"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac25a147b13cd55b6cead9d9a8635a963">&#9670;&nbsp;</a></span>orderedList</h2>
 

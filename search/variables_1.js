@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['splitlines_0',['splitLines',['../structhtml2md_1_1options.html#ac7c484a3be8674147537092c0be2b537',1,'html2md::options']]]
+  ['orderedlist_0',['orderedList',['../structhtml2md_1_1options.html#ac25a147b13cd55b6cead9d9a8635a963',1,'html2md::options']]]
 ];

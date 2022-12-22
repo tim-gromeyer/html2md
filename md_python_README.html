@@ -11,7 +11,7 @@
 <meta property="og:description" content="Simple and fast HTML to Markdown converter with table support" />
 <meta property="og:url" content="https://github.com/tim-gromeyer/html2md" />
 <!-- END opengraph metadata -->
-<title>html2md</title>
+<title>pyhtml2md</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <link rel="icon" type="image/svg+xml" href=""/>
 <script type="text/javascript" src="jquery.js"></script>
@@ -101,7 +101,7 @@ $(function() {
 </div>
 <script type="text/javascript">
 /* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
-$(document).ready(function(){initNavTree('index.html',''); initResizable(); });
+$(document).ready(function(){initNavTree('md_python_README.html',''); initResizable(); });
 /* @license-end */
 </script>
 <div id="doc-content">
@@ -120,42 +120,56 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 </div>
 
 <div><div class="header">
-  <div class="headertitle"><div class="title"><a class="el" href="namespacehtml2md.html" title="html2md namespace">html2md</a> </div></div>
+  <div class="headertitle"><div class="title">pyhtml2md </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="toc"><h3>Table of Contents</h3>
-<ul><li class="level1"><a href="#autotoc_md2">What does it do</a></li>
-<li class="level1"><a href="#autotoc_md3">How to use this library</a></li>
-<li class="level1"><a href="#autotoc_md4">Supported Tags</a></li>
-<li class="level1"><a href="#autotoc_md5">Bindings</a></li>
-<li class="level1"><a href="#autotoc_md6">Requirements</a></li>
-<li class="level1"><a href="#autotoc_md7">License</a></li>
+<div class="textblock"><p >pyhtml2md provides a way to use the <a class="el" href="namespacehtml2md.html" title="html2md namespace">html2md</a> C++ library in Python. <a class="el" href="namespacehtml2md.html" title="html2md namespace">html2md</a> is a fast and reliable library for converting HTML content into markdown.</p>
+<ul>
+<li>Installation</li>
+<li>Basic usage</li>
+<li>Advanced usage</li>
+<li>Supported Tags</li>
+<li>License</li>
 </ul>
-</div>
-<div class="textblock"><p ><a class="anchor" id="md_docs_index"></a></p>
-<h1><a class="anchor" id="autotoc_md2"></a>
-What does it do</h1>
-<p ><a class="el" href="namespacehtml2md.html" title="html2md namespace">html2md</a> is a fast and reliable C++ library for converting HTML content into markdown. It offers support for a wide range of HTML tags, including those for formatting text, creating lists, and inserting images and links. In addition, <a class="el" href="namespacehtml2md.html" title="html2md namespace">html2md</a> is the only HTML to markdown converter that offers support for table formatting, making it a valuable tool for users who need to convert HTML tables into markdown.</p>
-<h1><a class="anchor" id="autotoc_md3"></a>
-How to use this library</h1>
-<p >To use <a class="el" href="namespacehtml2md.html" title="html2md namespace">html2md</a>, follow these steps:</p>
+<h1><a class="anchor" id="autotoc_md19"></a>
+Installation</h1>
+<h2><a class="anchor" id="autotoc_md20"></a>
+Pre-build</h2>
+<p >Download from <a href="https://github.com/tim-gromeyer/html2md/releases">releases</a> (not available yet).</p>
+<p >You can also install from pip(not available yet):</p>
+<div class="fragment"><div class="line">pip3 install pyhtml2md</div>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md21"></a>
+Manually</h2>
 <ol type="1">
-<li>Clone the library: <code>git clone <a href="https://github.com/tim-gromeyer/html2md">https://github.com/tim-gromeyer/html2md</a></code></li>
-<li>Add the files <code><a class="el" href="html2md_8h.html">include/html2md.h</a></code> and <code><a class="el" href="html2md_8cpp.html">src/html2md.cpp</a></code> to your project</li>
-<li>Include the <code><a class="el" href="html2md_8h.html">html2md.h</a></code> header in your code</li>
-<li>Use the <code><a class="el" href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c" title="Static wrapper around the Converter class.">html2md::Convert</a></code> function to convert your HTML content into markdown</li>
+<li>Make sure you have a compiler with c++11 and ccmake installed on you system</li>
+<li>Clone <a class="el" href="namespacehtml2md.html" title="html2md namespace">html2md</a>: <code>git clone <a href="https://github.com/tim-gromeyer/html2md">https://github.com/tim-gromeyer/html2md</a> --recurse-submodules --depth=1</code></li>
+<li>Build and install the python package: <code>pip3 install ./html2md/</code></li>
 </ol>
-<p >Here is an example of how to use the <code><a class="el" href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c" title="Static wrapper around the Converter class.">html2md::Convert</a></code> function:</p>
-<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="html2md_8h.html">html2md.h</a>&gt;</span></div>
+<h1><a class="anchor" id="autotoc_md22"></a>
+Basic usage</h1>
+<p >Here is an example of how to use the pyhtml2md to convert HTML to markdown:</p>
+<div class="fragment"><div class="line"><span class="keyword">import</span> pyhtml2md</div>
 <div class="line"> </div>
-<div class="line"><span class="comment">//...</span></div>
+<div class="line">markdown = pyhtml2md.convert(<span class="stringliteral">&quot;&lt;h1&gt;Hello, world!&lt;/h1&gt;&quot;</span>)</div>
+<div class="line">print(markdown)</div>
+</div><!-- fragment --><p >The <code>convert</code> function takes an HTML string as input and returns a markdown string.</p>
+<h1><a class="anchor" id="autotoc_md23"></a>
+Advanced usage</h1>
+<p >pyhtml2md provides a <code>Options</code> class to customize the generation process. <br  />
+ You can find all information on the c++ <a href="https://tim-gromeyer.github.io/html2md/index.html">documentation</a></p>
+<p >Here is an example:</p>
+<div class="fragment"><div class="line"><span class="keyword">import</span> pyhtml2md</div>
 <div class="line"> </div>
-<div class="line">std::cout &lt;&lt; <a class="code hl_function" href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">html2md::Convert</a>(<span class="stringliteral">&quot;&lt;h1&gt;foo&lt;/h1&gt;&quot;</span>); <span class="comment">// # foo</span></div>
-<div class="ttc" id="ahtml2md_8h_html"><div class="ttname"><a href="html2md_8h.html">html2md.h</a></div></div>
-<div class="ttc" id="anamespacehtml2md_html_af7fb981c863efed5049ce51d91ee5b0c"><div class="ttname"><a href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">html2md::Convert</a></div><div class="ttdeci">std::string Convert(std::string &amp;html, bool *ok=nullptr)</div><div class="ttdoc">Static wrapper around the Converter class.</div><div class="ttdef"><b>Definition:</b> <a href="html2md_8h_source.html#l00573">html2md.h:573</a></div></div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md4"></a>
+<div class="line">options = pyhtml2md.Options()</div>
+<div class="line">options.splitLines = <span class="keyword">False</span></div>
+<div class="line"> </div>
+<div class="line">converter = pyhtml2md.Converter(<span class="stringliteral">&quot;&lt;h1&gt;Hello Python!&lt;/h1&gt;&quot;</span>, options)</div>
+<div class="line">markdown = converter.convert()</div>
+<div class="line">print(markdown)</div>
+<div class="line">print(converter.ok())</div>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md24"></a>
 Supported Tags</h1>
-<p ><a class="el" href="namespacehtml2md.html" title="html2md namespace">html2md</a> supports the following HTML tags:</p>
+<p >pyhtml2md supports the following HTML tags:</p>
 <table class="markdownTable">
 <tr class="markdownTableHead">
 <th class="markdownTableHeadNone">Tag   </th><th class="markdownTableHeadNone">Description   </th><th class="markdownTableHeadNone">Comment    </th></tr>
@@ -206,7 +220,7 @@ Supported Tags</h1>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><code>meta</code>   </td><td class="markdownTableBodyNone">Meta-information   </td><td class="markdownTableBodyNone">Ignored.    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>ol</code>   </td><td class="markdownTableBodyNone">Ordered list   </td><td class="markdownTableBodyNone">Don't use other lists in this list.    </td></tr>
+<td class="markdownTableBodyNone"><code>ol</code>   </td><td class="markdownTableBodyNone">Ordered list   </td><td class="markdownTableBodyNone"></td></tr>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><code>p</code>   </td><td class="markdownTableBodyNone">Paragraph   </td><td class="markdownTableBodyNone"></td></tr>
 <tr class="markdownTableRowEven">
@@ -220,34 +234,29 @@ Supported Tags</h1>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><code>table</code>   </td><td class="markdownTableBodyNone">Table   </td><td class="markdownTableBodyNone"></td></tr>
 <tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>tbody</code>   </td><td class="markdownTableBodyNone">Table body   </td><td class="markdownTableBodyNone">Does nothing.    </td></tr>
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><code>td</code>   </td><td class="markdownTableBodyNone">Table data cell   </td><td class="markdownTableBodyNone">Uses <code>align</code> from <code>th</code>.    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>tfoot</code>   </td><td class="markdownTableBodyNone">Table footer   </td><td class="markdownTableBodyNone">Does nothing.    </td></tr>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><code>th</code>   </td><td class="markdownTableBodyNone">Table header cell   </td><td class="markdownTableBodyNone">Supports the <code>align</code> attribute.    </td></tr>
 <tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><code>thead</code>   </td><td class="markdownTableBodyNone">Table header   </td><td class="markdownTableBodyNone">Does nothing.    </td></tr>
+<tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><code>title</code>   </td><td class="markdownTableBodyNone">Document title   </td><td class="markdownTableBodyNone">Same as <code>h1</code>.    </td></tr>
-<tr class="markdownTableRowEven">
-<td class="markdownTableBodyNone"><code>tr</code>   </td><td class="markdownTableBodyNone">Table row   </td><td class="markdownTableBodyNone"></td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyNone"><code>u</code>   </td><td class="markdownTableBodyNone">Underlined   </td><td class="markdownTableBodyNone">Uses HTML.    </td></tr>
+<td class="markdownTableBodyNone"><code>tr</code>   </td><td class="markdownTableBodyNone">Table row   </td><td class="markdownTableBodyNone"></td></tr>
 <tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><code>u</code>   </td><td class="markdownTableBodyNone">Underlined   </td><td class="markdownTableBodyNone">Uses HTML.    </td></tr>
+<tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><code>ul</code>   </td><td class="markdownTableBodyNone">Unordered list   </td><td class="markdownTableBodyNone"></td></tr>
 </table>
-<h1><a class="anchor" id="autotoc_md5"></a>
-Bindings</h1>
-<ul>
-<li><a class="el" href="md_python_README.html">Python</a></li>
-</ul>
-<h1><a class="anchor" id="autotoc_md6"></a>
-Requirements</h1>
-<ol type="1">
-<li>A compiler with <b>c++11</b> support like <em>g++&gt;=9</em></li>
-</ol>
-<p >That's all!</p>
-<h1><a class="anchor" id="autotoc_md7"></a>
+<h1><a class="anchor" id="autotoc_md25"></a>
 License</h1>
-<p ><a class="el" href="namespacehtml2md.html" title="html2md namespace">html2md</a> is licensed under <a href="https://opensource.org/licenses/MIT">The MIT License (MIT)</a> </p>
-</div></div><!-- PageDoc -->
-</div><!-- contents -->
+<p >pyhtml2md is licensed under <a href="https://opensource.org/licenses/MIT">The MIT License (MIT)</a> </p>
+</div></div><!-- contents -->
+</div><!-- PageDoc -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

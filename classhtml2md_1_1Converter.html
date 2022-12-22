@@ -26,6 +26,17 @@
     DoxygenAwesomeParagraphLink.init()
     DoxygenAwesomeInteractiveToc.init()
 </script>
+<script>
+  window.onload = function() {
+    const directory = document.querySelector('.directory');
+    const table = directory.querySelector('table');
+    for (const row of table.rows) {
+      if (row.querySelector('.iconfclosed') && !row.querySelector('.arrow')) {
+        row.remove();
+      }
+    }
+  };
+</script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
 <script type="text/javascript" src="navtreedata.js"></script>
@@ -51,7 +62,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">html2md
-   &#160;<span id="projectnumber">v1.1.5</span>
+   &#160;<span id="projectnumber">v1.2.0</span>
    </div>
    <div id="projectbrief">Simple and fast HTML to Markdown converter</div>
   </td>
@@ -161,13 +172,13 @@ Usage example</h2>
 <div class="line"> </div>
 <div class="line"><span class="keywordflow">if</span> (!c.ok()) std::cout &lt;&lt; <span class="stringliteral">&quot;There was something wrong in the HTML\n&quot;</span>;</div>
 <div class="line">std::cout &lt;&lt; md; <span class="comment">// # example</span></div>
-<div class="ttc" id="aclasshtml2md_1_1Converter_html"><div class="ttname"><a href="classhtml2md_1_1Converter.html">html2md::Converter</a></div><div class="ttdoc">Class for converting HTML to Markdown.</div><div class="ttdef"><b>Definition:</b> <a href="html2md_8h_source.html#l00124">html2md.h:124</a></div></div>
+<div class="ttc" id="aclasshtml2md_1_1Converter_html"><div class="ttname"><a href="classhtml2md_1_1Converter.html">html2md::Converter</a></div><div class="ttdoc">Class for converting HTML to Markdown.</div><div class="ttdef"><b>Definition:</b> <a href="html2md_8h_source.html#l00132">html2md.h:132</a></div></div>
 </div><!-- fragment --><p >Option 2: Use the static wrapper:</p>
 <div class="fragment"><div class="line">std::string html = <span class="stringliteral">&quot;&lt;h1&gt;example&lt;/h1&gt;&quot;</span>;</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">auto</span> md = <a class="code hl_function" href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">html2md::Convert</a>(html);</div>
 <div class="line">std::cout &lt;&lt; md;</div>
-<div class="ttc" id="anamespacehtml2md_html_af7fb981c863efed5049ce51d91ee5b0c"><div class="ttname"><a href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">html2md::Convert</a></div><div class="ttdeci">std::string Convert(std::string &amp;html, bool *ok=nullptr)</div><div class="ttdoc">Static wrapper around the Converter class.</div><div class="ttdef"><b>Definition:</b> <a href="html2md_8h_source.html#l00563">html2md.h:563</a></div></div>
+<div class="ttc" id="anamespacehtml2md_html_af7fb981c863efed5049ce51d91ee5b0c"><div class="ttname"><a href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">html2md::Convert</a></div><div class="ttdeci">std::string Convert(std::string &amp;html, bool *ok=nullptr)</div><div class="ttdoc">Static wrapper around the Converter class.</div><div class="ttdef"><b>Definition:</b> <a href="html2md_8h_source.html#l00573">html2md.h:573</a></div></div>
 </div><!-- fragment --><p >Advanced: use options:</p>
 <div class="fragment"><div class="line">std::string html = <span class="stringliteral">&quot;&lt;h1&gt;example&lt;/h1&gt;&quot;</span>;</div>
 <div class="line"> </div>
@@ -184,7 +195,7 @@ Usage example</h2>
 <div class="ttc" id="astructhtml2md_1_1options_html_ac7c484a3be8674147537092c0be2b537"><div class="ttname"><a href="structhtml2md_1_1options.html#ac7c484a3be8674147537092c0be2b537">html2md::options::splitLines</a></div><div class="ttdeci">bool splitLines</div><div class="ttdoc">Add new line when a certain number of characters is reached.</div><div class="ttdef"><b>Definition:</b> <a href="html2md_8h_source.html#l00042">html2md.h:42</a></div></div>
 </div><!-- fragment --><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Rework <code>blockquote</code>s </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00124">124</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00132">132</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ad3cd9c053013f4e2dfe8d86eeb4e2abc" name="ad3cd9c053013f4e2dfe8d86eeb4e2abc"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad3cd9c053013f4e2dfe8d86eeb4e2abc">&#9670;&nbsp;</a></span>Converter()</h2>
@@ -232,7 +243,7 @@ Usage example</h2>
 <p>This is the default initializer.<br  />
  You can use <a class="el" href="classhtml2md_1_1Converter.html#a22de58b843063c394993552a255052cd" title="Append a char to the Markdown.">appendToMd()</a> to append something to the beginning of the generated output. </p>
 
-<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00136">136</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00144">144</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
 
 </div>
 </div>
@@ -375,7 +386,7 @@ Usage example</h2>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns a copy of the instance with the string appended. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00173">173</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00181">181</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
 
 </div>
 </div>
@@ -398,7 +409,7 @@ Usage example</h2>
 <dl class="section return"><dt>Returns</dt><dd>Returns the converted Markdown.</dd></dl>
 <p>This function actually converts the HTML into Markdown. It also cleans up the Markdown so you don't have to do anything. </p>
 
-<p class="definition">Definition at line <a class="el" href="html2md_8cpp_source.html#l00335">335</a> of file <a class="el" href="html2md_8cpp_source.html">html2md.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="html2md_8cpp_source.html#l00338">338</a> of file <a class="el" href="html2md_8cpp_source.html">html2md.cpp</a>.</p>
 
 </div>
 </div>

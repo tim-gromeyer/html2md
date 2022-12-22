@@ -28,17 +28,29 @@ var NAVTREE =
     [ "What does it do", "index.html#autotoc_md2", null ],
     [ "How to use this library", "index.html#autotoc_md3", null ],
     [ "Supported Tags", "index.html#autotoc_md4", null ],
-    [ "Requirements", "index.html#autotoc_md5", null ],
-    [ "License", "index.html#autotoc_md6", null ],
+    [ "Bindings", "index.html#autotoc_md5", null ],
+    [ "Requirements", "index.html#autotoc_md6", null ],
+    [ "License", "index.html#autotoc_md7", null ],
     [ "Change log", "md_CHANGELOG.html", [
-      [ "v1.1.5", "md_CHANGELOG.html#autotoc_md8", null ],
-      [ "v1.1.4", "md_CHANGELOG.html#autotoc_md9", null ],
-      [ "v1.1.3", "md_CHANGELOG.html#autotoc_md10", null ],
-      [ "v1.1.2", "md_CHANGELOG.html#autotoc_md11", null ],
-      [ "v.1.1.1", "md_CHANGELOG.html#autotoc_md12", null ],
-      [ "v1.1.0", "md_CHANGELOG.html#autotoc_md13", null ],
-      [ "v1.0.1", "md_CHANGELOG.html#autotoc_md14", null ],
-      [ "v1.0.0", "md_CHANGELOG.html#autotoc_md15", null ]
+      [ "v1.2.0", "md_CHANGELOG.html#autotoc_md9", null ],
+      [ "v1.1.5", "md_CHANGELOG.html#autotoc_md10", null ],
+      [ "v1.1.4", "md_CHANGELOG.html#autotoc_md11", null ],
+      [ "v1.1.3", "md_CHANGELOG.html#autotoc_md12", null ],
+      [ "v1.1.2", "md_CHANGELOG.html#autotoc_md13", null ],
+      [ "v.1.1.1", "md_CHANGELOG.html#autotoc_md14", null ],
+      [ "v1.1.0", "md_CHANGELOG.html#autotoc_md15", null ],
+      [ "v1.0.1", "md_CHANGELOG.html#autotoc_md16", null ],
+      [ "v1.0.0", "md_CHANGELOG.html#autotoc_md17", null ]
+    ] ],
+    [ "pyhtml2md", "md_python_README.html", [
+      [ "Installation", "md_python_README.html#autotoc_md19", [
+        [ "Pre-build", "md_python_README.html#autotoc_md20", null ],
+        [ "Manually", "md_python_README.html#autotoc_md21", null ]
+      ] ],
+      [ "Basic usage", "md_python_README.html#autotoc_md22", null ],
+      [ "Advanced usage", "md_python_README.html#autotoc_md23", null ],
+      [ "Supported Tags", "md_python_README.html#autotoc_md24", null ],
+      [ "License", "md_python_README.html#autotoc_md25", null ]
     ] ],
     [ "Todo List", "todo.html", null ],
     [ "Namespaces", "namespaces.html", [
