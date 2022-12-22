@@ -133,7 +133,7 @@ class CMakeBuild(build_ext):
 # logic and declaration, and simpler if you include description/version in a file.
 setup(
     name="pyhtml2md",
-    version="1.2.0",
+    version="1.2.1",
     author="Tim Gromeyer",
     author_email="sakul8826@gmail.com",
     description="Transform your HTML into clean, easy-to-read markdown with pyhtml2md.",
@@ -143,5 +143,6 @@ setup(
     ext_modules=[CMakeExtension("pyhtml2md")],
     cmdclass={"build_ext": CMakeBuild},
     zip_safe=False,
+    extras_require={"test": ["pytest>=6.0"]},
     python_requires=">=3.7",
 )

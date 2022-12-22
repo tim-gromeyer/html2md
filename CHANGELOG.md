@@ -2,6 +2,10 @@
 
 [TOC]
 
+## v1.2.2
+
+- Added missing python dependency
+
 ## v1.2.0
 
 - **Added python bindings**

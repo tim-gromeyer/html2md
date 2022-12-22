@@ -11,11 +11,7 @@ pyhtml2md provides a way to use the html2md C++ library in Python. html2md is a 
 
 ## Installation
 
-### Pre-build
-
-Download from [releases](https://github.com/tim-gromeyer/html2md/releases) (not available yet).
-
-You can also install from pip(not available yet):
+You can install using pip:
 
 ```bash
 pip3 install pyhtml2md
