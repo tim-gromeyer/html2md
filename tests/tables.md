@@ -22,6 +22,8 @@ Table with line breaks:
 | **HTML**     	|               Markdown<br>Plain               	|
 | **C-string** 		|                     Plain                     	|
 
+Table with code:
+
 | table   |
 |:-------:|
 | `code`  |

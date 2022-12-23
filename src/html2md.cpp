@@ -167,6 +167,7 @@ Converter* Converter::appendToMd(char ch) {
     if (IsInIgnoredTag()) return this;
 
     md_ += ch;
+    ++md_len_;
 
     if (ch == '\n')
       chars_in_curr_line_ = 0;
@@ -182,6 +183,8 @@ Converter* Converter::appendToMd(const char *str) {
   md_ += str;
 
   auto str_len = strlen(str);
+
+  md_len_ += str_len;
 
   for (int i = 0; i < str_len; ++i) {
     if (str[i] == '\n')
@@ -324,18 +327,20 @@ string Converter::ExtractAttributeFromTagLeftOf(const string& attr) {
 }
 
 void Converter::TurnLineIntoHeader1() {
-  md_ += '\n' + Repeat("=", chars_in_curr_line_) + "\n\n";
+  appendToMd('\n' + Repeat("=", chars_in_curr_line_) + "\n\n");
 
   chars_in_curr_line_ = 0;
 }
 
 void Converter::TurnLineIntoHeader2() {
-  md_ += '\n' + Repeat("-", chars_in_curr_line_) + "\n\n";
+  appendToMd('\n' + Repeat("-", chars_in_curr_line_) + "\n\n");
 
   chars_in_curr_line_ = 0;
 }
 
 string Converter::Convert2Md() {
+  if (index_ch_in_html_ == html_.size()) return md_;
+
   for (char ch : html_) {
     ++index_ch_in_html_;
 
@@ -366,9 +371,6 @@ void Converter::OnHasEnteredTag() {
 
   if (!md_.empty()) {
     UpdatePrevChFromMd();
-
-    // if (prev_ch_in_md_ != ' ' && prev_ch_in_md_ != '\n')
-    //   md_ += ' ';
   }
 }
 
@@ -473,6 +475,7 @@ Converter* Converter::ShortenMarkdown(size_t chars) {
 bool Converter::ParseCharInTagContent(char ch) {
   if (is_in_code_) {
     md_ += ch;
+    ++md_len_;
 
 
     ++chars_in_curr_line_;
@@ -486,6 +489,7 @@ bool Converter::ParseCharInTagContent(char ch) {
   if (ch == '\n') {
     if (prev_tag_ == kTagBlockquote && current_tag_ == kTagParagraph) {
       md_ += '\n';
+      ++md_len_;
       chars_in_curr_line_ = 0;
       appendToMd(Repeat("> ", index_blockquote));
     }
@@ -517,6 +521,7 @@ bool Converter::ParseCharInTagContent(char ch) {
   }
 
   md_ += ch;
+  ++md_len_;
 
   ++chars_in_curr_line_;
   ++char_index_in_tag_content;
@@ -526,6 +531,7 @@ bool Converter::ParseCharInTagContent(char ch) {
           option->splitLines) {
     if (ch == ' ') { // If the next char is - it will become a list
       md_ += '\n';
+      ++md_len_;
       chars_in_curr_line_ = 0;
     } else if (chars_in_curr_line_ > 100) {
         ReplacePreviousSpaceInLineByNewline();
@@ -906,6 +912,7 @@ void Converter::TagSeperator::OnHasLeftClosingTag(Converter *converter) {}
 void Converter::TagTable::OnHasLeftOpeningTag(Converter *converter) {
     converter->is_in_table_ = true;
     converter->appendToMd('\n');
+    converter->table_start = converter->md_len_;
 }
 
 void Converter::TagTable::OnHasLeftClosingTag(Converter *converter) {

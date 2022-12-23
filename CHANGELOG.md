@@ -4,6 +4,11 @@
 
 ## v1.2.2
 
+- Fixed bug when calling `Convert2Md()` multiple times
+- Corrected serval typos. Ignore the rest of the change log.
+
+## v1.2.1
+
 - Added missing python dependency
 
 ## v1.2.0
@@ -34,7 +39,7 @@ The user can now test his own Markdown files. Simply specify to the test program
 
 ## v1.1.0
 
-- Reworked command line programm
+- Reworked command line program
 - Renamed `AppendToMd` to `appendToMd`
 - Renamed `AppendBlank` to `appendBlank`
 - **Require *c++11* instead of *c++17*.** Only the tests require *c++17* now.
@@ -44,7 +49,7 @@ The user can now test his own Markdown files. Simply specify to the test program
 
 ## v1.0.1
 
-- Fixed multible bugs
+- Fixed several bugs
 - Added more tests: make test
 - Updated documentation: make doc
 - Added packaging: make package

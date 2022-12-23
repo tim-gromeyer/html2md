@@ -274,6 +274,9 @@ class Converter {
   bool is_in_ordered_list_ = false;
   int index_ol = 0;
 
+  // store the table start
+  size_t table_start = 0;
+
   // number of lists
   size_t index_li = 0;
 

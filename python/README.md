@@ -19,7 +19,7 @@ pip3 install pyhtml2md
 
 ### Manually
 
-1.  Make sure you have a compiler with c++11 and ccmake installed on you system
+1.  Make sure you have a compiler with c++11 and CMake installed on you system
 2. Clone html2md: `git clone https://github.com/tim-gromeyer/html2md --recurse-submodules --depth=1`
 3. Build and install the python package: `pip3 install ./html2md/`
 
