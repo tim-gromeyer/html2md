@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ok_0',['ok',['../classhtml2md_1_1Converter.html#a34437fc31922f996799afc0441ac68b1',1,'html2md::Converter']]]
+  ['formattable_0',['formatTable',['../namespacehtml2md_1_1markdownFormatter.html#a1048e014fe7efa7faa0bf6eb4ca629cb',1,'html2md::markdownFormatter']]]
 ];

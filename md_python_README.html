@@ -62,7 +62,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">html2md
-   &#160;<span id="projectnumber">v1.2.1</span>
+   &#160;<span id="projectnumber">v1.2.2</span>
    </div>
    <div id="projectbrief">Simple and fast HTML to Markdown converter</div>
   </td>
@@ -131,18 +131,18 @@ $(document).ready(function(){initNavTree('md_python_README.html',''); initResiza
 <li>Supported Tags</li>
 <li>License</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md20"></a>
+<h1><a class="anchor" id="autotoc_md21"></a>
 Installation</h1>
 <p >You can install using pip:</p>
 <div class="fragment"><div class="line">pip3 install pyhtml2md</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md21"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md22"></a>
 Manually</h2>
 <ol type="1">
-<li>Make sure you have a compiler with c++11 and ccmake installed on you system</li>
+<li>Make sure you have a compiler with c++11 and CMake installed on you system</li>
 <li>Clone <a class="el" href="namespacehtml2md.html" title="html2md namespace">html2md</a>: <code>git clone <a href="https://github.com/tim-gromeyer/html2md">https://github.com/tim-gromeyer/html2md</a> --recurse-submodules --depth=1</code></li>
 <li>Build and install the python package: <code>pip3 install ./html2md/</code></li>
 </ol>
-<h1><a class="anchor" id="autotoc_md22"></a>
+<h1><a class="anchor" id="autotoc_md23"></a>
 Basic usage</h1>
 <p >Here is an example of how to use the pyhtml2md to convert HTML to markdown:</p>
 <div class="fragment"><div class="line"><span class="keyword">import</span> pyhtml2md</div>
@@ -150,7 +150,7 @@ Basic usage</h1>
 <div class="line">markdown = pyhtml2md.convert(<span class="stringliteral">&quot;&lt;h1&gt;Hello, world!&lt;/h1&gt;&quot;</span>)</div>
 <div class="line">print(markdown)</div>
 </div><!-- fragment --><p >The <code>convert</code> function takes an HTML string as input and returns a markdown string.</p>
-<h1><a class="anchor" id="autotoc_md23"></a>
+<h1><a class="anchor" id="autotoc_md24"></a>
 Advanced usage</h1>
 <p >pyhtml2md provides a <code>Options</code> class to customize the generation process. <br  />
  You can find all information on the c++ <a href="https://tim-gromeyer.github.io/html2md/index.html">documentation</a></p>
@@ -164,7 +164,7 @@ Advanced usage</h1>
 <div class="line">markdown = converter.convert()</div>
 <div class="line">print(markdown)</div>
 <div class="line">print(converter.ok())</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md24"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md25"></a>
 Supported Tags</h1>
 <p >pyhtml2md supports the following HTML tags:</p>
 <table class="markdownTable">
@@ -249,7 +249,7 @@ Supported Tags</h1>
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyNone"><code>ul</code>   </td><td class="markdownTableBodyNone">Unordered list   </td><td class="markdownTableBodyNone"></td></tr>
 </table>
-<h1><a class="anchor" id="autotoc_md25"></a>
+<h1><a class="anchor" id="autotoc_md26"></a>
 License</h1>
 <p >pyhtml2md is licensed under <a href="https://opensource.org/licenses/MIT">The MIT License (MIT)</a> </p>
 </div></div><!-- contents -->

@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['includetitle_0',['includeTitle',['../structhtml2md_1_1options.html#a2354e244da43fb4fad8aa2efe7ca6340',1,'html2md::options']]],
-  ['index_2emd_1',['index.md',['../index_8md.html',1,'']]]
+  ['html2md_0',['html2md',['../namespacehtml2md.html',1,'html2md'],['../index.html',1,'(Global Namespace)']]],
+  ['html2md_2ecpp_1',['html2md.cpp',['../html2md_8cpp.html',1,'']]],
+  ['html2md_2eh_2',['html2md.h',['../html2md_8h.html',1,'']]],
+  ['markdownformatter_3',['markdownFormatter',['../namespacehtml2md_1_1markdownFormatter.html',1,'html2md']]]
 ];
