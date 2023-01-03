@@ -68,10 +68,10 @@ static string Repeat(const string &str, size_t amount) {
 
 namespace html2md {
 
-Converter::Converter(string *html, options *options)
+Converter::Converter(string *html, Options *options)
     : html_(*html), option(options) {
   options ? option = options
-          : option = new struct options();
+          : option = new struct Options();
 
   PrepareHtml();
 
@@ -338,7 +338,7 @@ void Converter::TurnLineIntoHeader2() {
   chars_in_curr_line_ = 0;
 }
 
-string Converter::Convert2Md() {
+string Converter::convert() {
   if (index_ch_in_html_ == html_.size()) return md_;
 
   for (char ch : html_) {

@@ -31,10 +31,10 @@ namespace html2md {
  * options->splitLines = false;
  *
  * html2md::Converter c(html, options);
- * auto md = c.Convert2Md();
+ * auto md = c.convert();
  * ```
  */
-struct options
+struct Options
 {
     /*!
      * \brief Add new line when a certain number of characters is reached
@@ -97,7 +97,7 @@ struct options
  * ```cpp
  * std::string html = "<h1>example</h1>";
  * html2md::Converter c(html);
- * auto md = c.Convert2Md();
+ * auto md = c.convert();
  *
  * if (!c.ok()) std::cout << "There was something wrong in the HTML\n";
  * std::cout << md; // # example
@@ -112,17 +112,17 @@ struct options
  * std::cout << md;
  * ```
  *
- * Advanced: use options:
+ * Advanced: use Options:
  *
  * ```cpp
  * std::string html = "<h1>example</h1>";
  *
- * auto *options = new html2md::options();
+ * auto *options = new html2md::Options();
  * options->splitLines = false;
  * options->unorderedList = '*';
  *
  * html2md::Converter c(html, options);
- * auto md = c.Convert2Md();
+ * auto md = c.convert();
  * if (!c.ok()) std::cout << "There was something wrong in the HTML\n";
  * std::cout << md; // # example
  * ```
@@ -134,14 +134,14 @@ class Converter {
   /*!
    * \brief Standard initializer, takes HTML as parameter. Also prepares everything.
    * \param html The HTML as std::string.
-   * \param options Options for the Conversation. See html2md::options() for more.
+   * \param options Options for the Conversation. See html2md::Options() for more.
    *
    * \note Don't pass anything else than HTML, otherwise the output will be a **mess**!
    *
    * This is the default initializer.<br>
    * You can use appendToMd() to append something to the beginning of the generated output.
    */
-  explicit inline Converter(std::string &html, struct options *options = nullptr) {
+  explicit inline Converter(std::string &html, struct Options *options = nullptr) {
       *this = Converter(&html, options);
   }
 
@@ -157,7 +157,7 @@ class Converter {
    * This function actually converts the HTML into Markdown.
    * It also cleans up the Markdown so you don't have to do anything.
    */
-  std::string Convert2Md();
+  std::string convert();
 
   /*!
    * \brief Append a char to the Markdown.
@@ -309,7 +309,7 @@ class Converter {
   std::string md_;
   size_t md_len_ = 0;
 
-  struct options *option;
+  struct Options *option;
 
   // Tag: base class for tag types
   struct Tag {
@@ -472,7 +472,7 @@ class Converter {
 
   std::map<std::string, Tag*> tags_;
 
-  explicit Converter(std::string *html, options *options = nullptr);
+  explicit Converter(std::string *html, Options *options = nullptr);
 
   void PrepareHtml();
 
@@ -575,7 +575,7 @@ class Converter {
  */
 inline std::string Convert(std::string &html, bool *ok = nullptr) {
   Converter c(html);
-  auto md = c.Convert2Md();
+  auto md = c.convert();
   if (ok)
     *ok = c.ok();
   return md;
@@ -583,11 +583,7 @@ inline std::string Convert(std::string &html, bool *ok = nullptr) {
 
 #ifndef PYTHON_BINDINGS
 inline std::string Convert(std::string &&html, bool *ok = nullptr) {
-  Converter c(html);
-  auto md = c.Convert2Md();
-  if (ok)
-    *ok = c.ok();
-  return md;
+  return Convert(html, ok);
 }
 #endif
 

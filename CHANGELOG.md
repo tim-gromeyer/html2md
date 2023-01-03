@@ -2,6 +2,13 @@
 
 [TOC]
 
+## v1.3.0
+
+**BREAKING CHANGES!**
+
+- Renamed `Converter::Convert2Md` -> `Converter::convert()`
+- Renamed `options` -> `Options`
+
 ## v1.2.2
 
 - Fixed bug when calling `Convert2Md()` multiple times
