@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['unorderedlist_0',['unorderedList',['../structhtml2md_1_1options.html#aa4e0cc2e52d9bcf532768b1f54ae81f3',1,'html2md::options']]]
+  ['unorderedlist_0',['unorderedList',['../structhtml2md_1_1Options.html#aea2772c27511f9480bf650dd4213563b',1,'html2md::Options']]]
 ];
