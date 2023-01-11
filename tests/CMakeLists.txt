@@ -18,6 +18,11 @@ target_compile_definitions(test-exe PUBLIC DIR="${CMAKE_CURRENT_LIST_DIR}")
 set_target_properties(test-exe PROPERTIES OUTPUT_NAME "tests")
 target_compile_features(test-exe PUBLIC cxx_std_17) # Require at least c++17
 
+
+if (CMAKE_VERSION VERSION_LESS 3.11.0)
+    return()
+endif()
+
 add_custom_target(test
     COMMAND $<TARGET_FILE:test-exe>
     COMMENT Runing tests..

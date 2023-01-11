@@ -472,7 +472,7 @@ class Converter {
 
   std::map<std::string, Tag*> tags_;
 
-  explicit Converter(std::string *html, Options *options = nullptr);
+  explicit Converter(std::string *html, struct Options *options = nullptr);
 
   void PrepareHtml();
 

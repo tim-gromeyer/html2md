@@ -8,6 +8,20 @@ html2md is a fast and reliable C++ library for converting HTML content into mark
 
 ## How to use this library
 
+### CMake
+
+Install html2md. Either use the pre-built packages found on [GitHub releases](https://github.com/tim-gromeyer/html2md/releases) or build and install it yourself.
+
+
+Afterwards:
+
+```cmake
+find_package(html2md)
+target_link_library(your_target PRIVATE html2md)
+```
+
+### Manually
+
 To use html2md, follow these steps:
 
 1. Clone the library: `git clone https://github.com/tim-gromeyer/html2md`

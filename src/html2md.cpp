@@ -69,7 +69,7 @@ static string Repeat(const string &str, size_t amount) {
 namespace html2md {
 
 Converter::Converter(string *html, Options *options)
-    : html_(*html), option(options) {
+    : html_(*html) {
   options ? option = options
           : option = new struct Options();
 

@@ -2,6 +2,13 @@
 
 [TOC]
 
+## v1.4.0
+
+- Improved CMake support massively!
+- Fixed tests
+- Added support for CMake 3.8
+- Fix Python source package
+
 ## v1.3.0
 
 **BREAKING CHANGES!**

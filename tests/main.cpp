@@ -39,11 +39,11 @@ string toHTML(const string &md) {
 };
 
 string fromHTML(string &html) {
-    html2md::options options;
+    static html2md::Options options;
     options.splitLines = false;
 
     html2md::Converter c(html, &options);
-    return c.Convert2Md();
+    return c.convert();
 }
 }
 
@@ -102,7 +102,7 @@ void runTest(const string& file, short *errorCount) {
     }
 }
 
-int main(int argc, char **argv){
+int main(int argc, const char **argv){
     // List to store all markdown files in this dir
     vector<string> files;
 
@@ -132,7 +132,9 @@ int main(int argc, char **argv){
 
     // Redirect errors to error.log
     FILE* errorFile = freopen(errorFileName, "w", stderr);
-    if (errorFile) {}
+    if (!errorFile)
+        cerr << "Failed to open " << errorFileName << " for whatever reason!\n"
+                 "Errors will be printed to the terminal instead of written to the mentioned file above.";
 
     // For measuring time.
     auto t1 = high_resolution_clock::now();
