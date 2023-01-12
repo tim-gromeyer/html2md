@@ -6,7 +6,7 @@ Simple table:
 | bar   | 5 |
 
 
-Table with aligment:
+Table with alignment:
 
 | Syntax | Description | Test Text |
 | :- | :-: | ---: |

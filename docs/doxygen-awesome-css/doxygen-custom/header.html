@@ -32,12 +32,19 @@
 <script>
   window.onload = function() {
     const directory = document.querySelector('.directory');
-    const table = directory.querySelector('table');
+    if (directory) {
+        const table = directory.querySelector('table');
 
-    for (const row of table.rows) {
-      if (row.querySelector('.iconfclosed') && !row.querySelector('.arrow')) {
-        row.remove();
-      }
+        for (const row of table.rows) {
+          if (row.querySelector('.iconfclosed') && !row.querySelector('.arrow')) {
+            row.remove();
+          }
+        }
+    }
+
+    const toc = document.querySelectorAll('.hidable-toc');
+    for (var i = 0; i < toc.length; i++) {
+        toc[i].hidden = true;
     }
   };
 </script>

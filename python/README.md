@@ -2,11 +2,21 @@
 
 pyhtml2md provides a way to use the html2md C++ library in Python. html2md is a fast and reliable library for converting HTML content into markdown.
 
+<div class="hidable-toc">
+
 - [Installation](#installation)
 - [Basic usage](#basic-usage)
 - [Advanced usage](#advanced-usage)
 - [Supported Tags](#supported-tags)
 - [License](#license)
+
+</div>
+
+<div id="doxygen-toc" hidden>
+
+[TOC]
+
+</div>
 
 
 ## Installation
