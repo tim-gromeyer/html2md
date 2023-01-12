@@ -1,4 +1,4 @@
-name: Create release and update website
+name: Create release and update assets
 
 on:
   push:
@@ -7,28 +7,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  website:
-    name: Build website and deploy to gh pages
-    runs-on: ubuntu-22.04
-
-    steps:
-    - uses: actions/checkout@v3
-
-    - name: Add version to Doxyfile
-      run: |
-        echo "PROJECT_NUMBER = ${{ github.action_ref }}" >> docs/Doxyfile
-
-    - name: Run Doxygen
-      uses: mattnotmitt/doxygen-action@v1.9.4
-      with:
-        doxyfile-path: 'docs/Doxyfile'
-
-    - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./doc
-
   build:
     name: Build and upload release assetes
     runs-on: ${{ matrix.os }}
