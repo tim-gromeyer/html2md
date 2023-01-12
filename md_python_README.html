@@ -29,11 +29,17 @@
 <script>
   window.onload = function() {
     const directory = document.querySelector('.directory');
-    const table = directory.querySelector('table');
-    for (const row of table.rows) {
-      if (row.querySelector('.iconfclosed') && !row.querySelector('.arrow')) {
-        row.remove();
-      }
+    if (directory) {
+        const table = directory.querySelector('table');
+        for (const row of table.rows) {
+          if (row.querySelector('.iconfclosed') && !row.querySelector('.arrow')) {
+            row.remove();
+          }
+        }
+    }
+    const toc = document.querySelectorAll('.hidable-toc');
+    for (var i = 0; i < toc.length; i++) {
+        toc[i].hidden = true;
     }
   };
 </script>
@@ -62,6 +68,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">html2md
+   &#160;<span id="projectnumber">main</span>
    </div>
    <div id="projectbrief">Simple and fast HTML to Markdown converter</div>
   </td>
@@ -122,15 +129,23 @@ $(document).ready(function(){initNavTree('md_python_README.html',''); initResiza
   <div class="headertitle"><div class="title">pyhtml2md </div></div>
 </div><!--header-->
 <div class="contents">
+<div class="toc"><h3>Table of Contents</h3>
+<ul><li class="level1"><a href="#autotoc_md25">Installation</a></li>
+<li class="level1"><a href="#autotoc_md26">Basic usage</a></li>
+<li class="level1"><a href="#autotoc_md27">Advanced usage</a></li>
+<li class="level1"><a href="#autotoc_md28">Supported Tags</a></li>
+<li class="level1"><a href="#autotoc_md29">License</a></li>
+</ul>
+</div>
 <div class="textblock"><p >pyhtml2md provides a way to use the <a class="el" href="namespacehtml2md.html" title="html2md namespace">html2md</a> C++ library in Python. <a class="el" href="namespacehtml2md.html" title="html2md namespace">html2md</a> is a fast and reliable library for converting HTML content into markdown.</p>
-<ul>
+<div class="hidable-toc"></div><div class="hidable-toc"><ul>
 <li>Installation</li>
 <li>Basic usage</li>
 <li>Advanced usage</li>
 <li>Supported Tags</li>
 <li>License</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md25"></a>
+</div><div class="hidable-toc"></div><div id="doxygen-toc"></div><div id="doxygen-toc"></div><h1><a class="anchor" id="autotoc_md25"></a>
 Installation</h1>
 <p >You can install using pip:</p>
 <div class="fragment"><div class="line">pip3 install pyhtml2md</div>

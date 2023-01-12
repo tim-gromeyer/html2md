@@ -29,11 +29,17 @@
 <script>
   window.onload = function() {
     const directory = document.querySelector('.directory');
-    const table = directory.querySelector('table');
-    for (const row of table.rows) {
-      if (row.querySelector('.iconfclosed') && !row.querySelector('.arrow')) {
-        row.remove();
-      }
+    if (directory) {
+        const table = directory.querySelector('table');
+        for (const row of table.rows) {
+          if (row.querySelector('.iconfclosed') && !row.querySelector('.arrow')) {
+            row.remove();
+          }
+        }
+    }
+    const toc = document.querySelectorAll('.hidable-toc');
+    for (var i = 0; i < toc.length; i++) {
+        toc[i].hidden = true;
     }
   };
 </script>
@@ -62,6 +68,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">html2md
+   &#160;<span id="projectnumber">main</span>
    </div>
    <div id="projectbrief">Simple and fast HTML to Markdown converter</div>
   </td>
