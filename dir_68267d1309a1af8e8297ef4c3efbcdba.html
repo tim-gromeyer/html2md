@@ -26,8 +26,8 @@
     DoxygenAwesomeParagraphLink.init()
     DoxygenAwesomeInteractiveToc.init()
 </script>
-<script>
-  window.onload = function() {
+<script type="text/javascript">
+  $( document ).ready(function() {
     const directory = document.querySelector('.directory');
     if (directory) {
         const table = directory.querySelector('table');
@@ -41,7 +41,7 @@
     for (var i = 0; i < toc.length; i++) {
         toc[i].hidden = true;
     }
-  };
+  });
 </script>
 <link href="navtree.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="resize.js"></script>
