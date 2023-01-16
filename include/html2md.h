@@ -5,9 +5,9 @@
 #define HTML2MD_H
 
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
-
 
 /*!
  * \brief html2md namespace
@@ -16,13 +16,15 @@
  * 1. The Converter class
  * 2. Static wrapper around Converter class
  *
- * \note Do NOT try to convert HTML that contains a list in an ordered list or a `blockquote` in a list!\n  This will be a **total** mess!
+ * \note Do NOT try to convert HTML that contains a list in an ordered list or a
+ * `blockquote` in a list!\n  This will be a **total** mess!
  */
 namespace html2md {
 
 /*!
  * \brief Options for the conversation from HTML to Markdown
- * \warning Make sure to pass valid options, otherwise the output will be invalid!
+ * \warning Make sure to pass valid options, otherwise the output will be
+ * invalid!
  *
  * Example from `tests/main.cpp`:
  *
@@ -34,54 +36,54 @@ namespace html2md {
  * auto md = c.convert();
  * ```
  */
-struct Options
-{
-    /*!
-     * \brief Add new line when a certain number of characters is reached
-     */
-    bool splitLines = true;
+struct Options {
+  /*!
+   * \brief Add new line when a certain number of characters is reached
+   */
+  bool splitLines = true;
 
-    /*!
-     * \brief The char used for unordered lists
-     *
-     * Valid:
-     * - `-`
-     * - `+`
-     * - `*`
-     *
-     * Example:
-     *
-     * ```markdown
-     * - List
-     * + Also a list
-     * * And this to
-     * ```
-     */
-    char unorderedList = '-';
+  /*!
+   * \brief The char used for unordered lists
+   *
+   * Valid:
+   * - `-`
+   * - `+`
+   * - `*`
+   *
+   * Example:
+   *
+   * ```markdown
+   * - List
+   * + Also a list
+   * * And this to
+   * ```
+   */
+  char unorderedList = '-';
 
-    /*!
-     * \brief The char used after the number of the item
-     *
-     * Valid:
-     * - `.`
-     * - `)`
-     *
-     * Example:
-     *
-     * ```markdown
-     * 1. Hello
-     * 2) World!
-     * ```
-     */
-    char orderedList = '.';
+  /*!
+   * \brief The char used after the number of the item
+   *
+   * Valid:
+   * - `.`
+   * - `)`
+   *
+   * Example:
+   *
+   * ```markdown
+   * 1. Hello
+   * 2) World!
+   * ```
+   */
+  char orderedList = '.';
 
-    /*!
-     * \brief Whether title is added as h1 heading at the very beginning of the markdown
-     *
-     * Whether title is added as h1 heading at the very beginning of the markdown.
-     * Default is true.
-     */
-    bool includeTitle = true;
+  /*!
+   * \brief Whether title is added as h1 heading at the very beginning of the
+   * markdown
+   *
+   * Whether title is added as h1 heading at the very beginning of the markdown.
+   * Default is true.
+   */
+  bool includeTitle = true;
 };
 
 /*!
@@ -130,19 +132,22 @@ struct Options
  * \todo Rework `blockquote`s
  */
 class Converter {
- public:
+public:
   /*!
-   * \brief Standard initializer, takes HTML as parameter. Also prepares everything.
-   * \param html The HTML as std::string.
-   * \param options Options for the Conversation. See html2md::Options() for more.
+   * \brief Standard initializer, takes HTML as parameter. Also prepares
+   * everything. \param html The HTML as std::string. \param options Options for
+   * the Conversation. See html2md::Options() for more.
    *
-   * \note Don't pass anything else than HTML, otherwise the output will be a **mess**!
+   * \note Don't pass anything else than HTML, otherwise the output will be a
+   * **mess**!
    *
    * This is the default initializer.<br>
-   * You can use appendToMd() to append something to the beginning of the generated output.
+   * You can use appendToMd() to append something to the beginning of the
+   * generated output.
    */
-  explicit inline Converter(std::string &html, struct Options *options = nullptr) {
-      *this = Converter(&html, options);
+  explicit inline Converter(std::string &html,
+                            struct Options *options = nullptr) {
+    *this = Converter(&html, options);
   }
 
   /*!
@@ -164,22 +169,22 @@ class Converter {
    * \param ch The char to append.
    * \return Returns a copy of the instance with the char appended.
    */
-  Converter* appendToMd(char ch);
+  Converter *appendToMd(char ch);
 
   /*!
    * \brief Append a char* to the Markdown.
    * \param str The char* to append.
    * \return Returns a copy of the instance with the char* appended.
    */
-  Converter* appendToMd(const char *str);
+  Converter *appendToMd(const char *str);
 
   /*!
    * \brief Append a string to the Markdown.
    * \param s The string to append.
    * \return Returns a copy of the instance with the string appended.
    */
-  inline Converter* appendToMd(const std::string &s) {
-      return appendToMd(s.c_str());
+  inline Converter *appendToMd(const std::string &s) {
+    return appendToMd(s.c_str());
   }
 
   /*!
@@ -190,7 +195,7 @@ class Converter {
    * - md does not end with `*`
    * - md does not end with `\n` aka newline
    */
-  Converter* appendBlank();
+  Converter *appendBlank();
 
   /*!
    * \brief Checks if everything was closed properly(in the HTML).
@@ -198,7 +203,16 @@ class Converter {
    */
   [[nodiscard]] bool ok() const;
 
- private:
+  /*!
+   * \brief == operator
+   * \param c
+   * \return
+   */
+  bool operator==(const Converter *c) const;
+  inline bool operator==(const Converter &c) const { return operator==(&c); };
+  inline explicit operator bool() const { return ok(); };
+
+private:
   // Attributes
   static constexpr const char *kAttributeHref = "href";
   static constexpr const char *kAttributeAlt = "alt";
@@ -257,30 +271,31 @@ class Converter {
   static constexpr const char *kTagTableHeader = "th";
   static constexpr const char *kTagTableData = "td";
 
-  uint16_t index_ch_in_html_ = 0;
+  size_t index_ch_in_html_ = 0;
 
   std::vector<std::string> dom_tags_;
 
-  bool is_in_tag_ = false;
   bool is_closing_tag_ = false;
   bool is_in_attribute_value_ = false;
-  bool is_in_pre_ = false;
   bool is_in_code_ = false;
-  bool is_in_table_ = false;
   bool is_in_list_ = false;
   bool is_in_p_ = false;
+  bool is_in_pre_ = false;
+  bool is_in_table_ = false;
+  bool is_in_table_row_ = false;
+  bool is_in_tag_ = false;
 
   // relevant for <li> only, false = is in unordered list
   bool is_in_ordered_list_ = false;
-  int index_ol = 0;
+  uint8_t index_ol = 0;
 
   // store the table start
   size_t table_start = 0;
 
   // number of lists
-  size_t index_li = 0;
+  uint8_t index_li = 0;
 
-  short index_blockquote = 0;
+  uint8_t index_blockquote = 0;
 
   char prev_ch_in_md_ = 0, prev_prev_ch_in_md_ = 0;
   char prev_ch_in_html_ = 'x';
@@ -309,168 +324,168 @@ class Converter {
   std::string md_;
   size_t md_len_ = 0;
 
-  struct Options *option;
+  struct Options *option{};
 
   // Tag: base class for tag types
   struct Tag {
-    virtual void OnHasLeftOpeningTag(Converter* converter) = 0;
-    virtual void OnHasLeftClosingTag(Converter* converter) = 0;
+    virtual void OnHasLeftOpeningTag(Converter *c) = 0;
+    virtual void OnHasLeftClosingTag(Converter *c) = 0;
   };
 
   // Tag types
 
   // tags that are not printed (nav, script, noscript, ...)
   struct TagIgnored : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override {};
-    void OnHasLeftClosingTag(Converter* converter) override {};
+    void OnHasLeftOpeningTag(Converter *c) override{};
+    void OnHasLeftClosingTag(Converter *c) override{};
   };
 
   struct TagAnchor : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override;
-    void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagBold : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override;
-    void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagItalic : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override;
-    void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagUnderline : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override;
-    void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagStrikethrought : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override;
-    void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagBreak : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override;
-    void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagDiv : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override;
-    void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagHeader1 : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override;
-    void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagHeader2 : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override;
-    void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagHeader3 : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override;
-    void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagHeader4 : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override;
-    void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagHeader5 : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override;
-    void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagHeader6 : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override;
-    void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagListItem : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override;
-    void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagOption : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override;
-    void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagOrderedList : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override;
-    void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagParagraph : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override;
-    void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagPre : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override;
-    void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagCode : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override;
-    void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagSpan : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override;
-    void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagTitle : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override;
-    void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagUnorderedList : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override;
-    void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagImage : Tag {
-      void OnHasLeftOpeningTag(Converter* converter) override;
-      void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagSeperator : Tag {
-      void OnHasLeftOpeningTag(Converter* converter) override;
-      void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagTable : Tag {
-      void OnHasLeftOpeningTag(Converter* converter) override;
-      void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagTableRow : Tag {
-      void OnHasLeftOpeningTag(Converter* converter) override;
-      void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagTableHeader : Tag {
-      void OnHasLeftOpeningTag(Converter* converter) override;
-      void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagTableData : Tag {
-      void OnHasLeftOpeningTag(Converter* converter) override;
-      void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
   struct TagBlockquote : Tag {
-    void OnHasLeftOpeningTag(Converter* converter) override;
-    void OnHasLeftClosingTag(Converter* converter) override;
+    void OnHasLeftOpeningTag(Converter *c) override;
+    void OnHasLeftClosingTag(Converter *c) override;
   };
 
-  std::map<std::string, Tag*> tags_;
+  std::map<std::string, std::shared_ptr<Tag>> tags_;
 
   explicit Converter(std::string *html, struct Options *options = nullptr);
 
@@ -482,16 +497,16 @@ class Converter {
   static void LTrim(std::string *s);
 
   // Trim from end (in place)
-  Converter* RTrim(std::string *s, bool trim_only_blank = false);
+  Converter *RTrim(std::string *s, bool trim_only_blank = false);
 
   // Trim from both ends (in place)
-  Converter * Trim(std::string *s);
+  Converter *Trim(std::string *s);
 
   // 1. trim all lines
   // 2. reduce consecutive newlines to maximum 3
   void TidyAllLines(std::string *str);
 
-  std::string ExtractAttributeFromTagLeftOf(const std::string& attr);
+  std::string ExtractAttributeFromTagLeftOf(const std::string &attr);
 
   void TurnLineIntoHeader1();
 
@@ -502,7 +517,7 @@ class Converter {
   // Current char: '<'
   void OnHasEnteredTag();
 
-  Converter* UpdatePrevChFromMd();
+  Converter *UpdatePrevChFromMd();
 
   /**
    * Handle next char within <...> tag
@@ -516,17 +531,18 @@ class Converter {
   bool OnHasLeftTag();
 
   inline static bool TagContainsAttributesToHide(std::string *tag) {
-    return (*tag).find(" aria=\"hidden\"") != std::string::npos
-        || (*tag).find("display:none") != std::string::npos
-        || (*tag).find("visibility:hidden") != std::string::npos
-        || (*tag).find("opacity:0") != std::string::npos
-        || (*tag).find("Details-content--hidden-not-important")
-            != std::string::npos;
+    return (*tag).find(" aria=\"hidden\"") != std::string::npos ||
+           (*tag).find("display:none") != std::string::npos ||
+           (*tag).find("visibility:hidden") != std::string::npos ||
+           (*tag).find("opacity:0") != std::string::npos ||
+           (*tag).find("Details-content--hidden-not-important") !=
+               std::string::npos;
   }
 
-  Converter* ShortenMarkdown(size_t chars = 1);
+  Converter *ShortenMarkdown(size_t chars = 1);
   inline void shortIfPrevCh(char prev) {
-    if (prev_ch_in_md_ == prev) ShortenMarkdown();
+    if (prev_ch_in_md_ == prev)
+      ShortenMarkdown();
   };
 
   /**
@@ -539,14 +555,11 @@ class Converter {
   bool ReplacePreviousSpaceInLineByNewline();
 
   [[nodiscard]] inline bool IsIgnoredTag(const std::string &tag) const {
-    if (tag == kTagTitle && !option->includeTitle) return true;
+    if (tag == kTagTitle && !option->includeTitle)
+      return true;
 
-    return (tag[0] == '-'
-        || kTagTemplate == tag
-        || kTagStyle == tag
-        || kTagScript == tag
-        || kTagNoScript == tag
-        || kTagNav == tag);
+    return (tag[0] == '-' || kTagTemplate == tag || kTagStyle == tag ||
+            kTagScript == tag || kTagNoScript == tag || kTagNav == tag);
 
     // meta: not ignored to tolerate if closing is omitted
   }
@@ -554,29 +567,30 @@ class Converter {
   [[nodiscard]] bool IsInIgnoredTag() const {
     auto len = dom_tags_.size();
 
-    for (int i = 0; i < len; ++i) {
+    for (auto i = 0; i < len; ++i) {
       std::string tag = dom_tags_[i];
 
-      if (kTagPre == tag
-       || kTagTitle == tag) return false;
+      if (kTagPre == tag || kTagTitle == tag)
+        return false;
 
-      if (IsIgnoredTag(tag)) return true;
+      if (IsIgnoredTag(tag))
+        return true;
     }
 
     return false;
   }
-};  // Converter
+}; // Converter
 
 /*!
  * \brief Static wrapper around the Converter class
  * \param html The HTML passed to Converter
- * \param ok Optional: Pass a reference to a local bool to store the output of Converter::ok()
- * \return Returns the by Converter generated Markdown
+ * \param ok Optional: Pass a reference to a local bool to store the output of
+ * Converter::ok() \return Returns the by Converter generated Markdown
  */
 inline std::string Convert(std::string &html, bool *ok = nullptr) {
   Converter c(html);
   auto md = c.convert();
-  if (ok)
+  if (ok != nullptr)
     *ok = c.ok();
   return md;
 }
@@ -587,6 +601,6 @@ inline std::string Convert(std::string &&html, bool *ok = nullptr) {
 }
 #endif
 
-}  // namespace html2md
+} // namespace html2md
 
 #endif // HTML2MD_H

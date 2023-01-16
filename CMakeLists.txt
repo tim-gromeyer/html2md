@@ -48,7 +48,12 @@ set(HEADERS
 if(PYTHON_BINDINGS)
     add_subdirectory(python/pybind11)
     pybind11_add_module(pyhtml2md python/bindings.cpp ${SOURCES} ${HEADER})
-    target_compile_features(pyhtml2md PUBLIC cxx_std_11) # Require at least c++11
+    target_compile_features(pyhtml2md PUBLIC
+        cxx_std_11 # Require at least c++11
+        cxx_constexpr # constexpr support
+        cxx_auto_type # auto keyword
+        cxx_range_for # for (auto test : tests)
+    )
     target_compile_definitions(pyhtml2md PRIVATE PYTHON_BINDINGS)
     target_include_directories(pyhtml2md PRIVATE include)
     return()

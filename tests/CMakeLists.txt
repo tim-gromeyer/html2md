@@ -1,16 +1,30 @@
-project("tests" LANGUAGES C CXX)
+project(tests LANGUAGES C CXX)
+
+if (NOT EXISTS ${CMAKE_CURRENT_LIST_DIR}/md4c/src/)
+    include(FindGit)
+
+    if(NOT GIT_FOUND)
+        message(WARNING "git not found. Please download md4c manually or disable tests.")
+        return()
+    endif()
+
+    get_directory_property(dir PARENT_DIRECTORY)
+
+    execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init --depth=1
+                    WORKING_DIRECTORY ${dir})
+endif()
 
 set(MD4C_FILES
-    ${CMAKE_CURRENT_LIST_DIR}/md4c/src/entity.c
-    ${CMAKE_CURRENT_LIST_DIR}/md4c/src/entity.h
-    ${CMAKE_CURRENT_LIST_DIR}/md4c/src/md4c-html.c
-    ${CMAKE_CURRENT_LIST_DIR}/md4c/src/md4c-html.h
-    ${CMAKE_CURRENT_LIST_DIR}/md4c/src/md4c.c
-    ${CMAKE_CURRENT_LIST_DIR}/md4c/src/md4c.h
+    md4c/src/entity.c
+    md4c/src/entity.h
+    md4c/src/md4c-html.c
+    md4c/src/md4c-html.h
+    md4c/src/md4c.c
+    md4c/src/md4c.h
 )
 
 add_library(md4c-html STATIC ${MD4C_FILES})
-target_include_directories(md4c-html PUBLIC ${CMAKE_CURRENT_LIST_DIR}/md4c/src)
+target_include_directories(md4c-html PUBLIC md4c/src)
 
 add_executable(test-exe main.cpp)
 target_link_libraries(test-exe md4c-html html2md-static)
