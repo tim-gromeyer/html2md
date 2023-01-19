@@ -220,7 +220,7 @@ Converter *Converter::appendBlank() {
 
 bool Converter::ok() const {
   return !is_in_pre_ && !is_in_list_ && !is_in_p_ && !is_in_table_ &&
-         !is_in_tag_ && index_blockquote == 0 && index_li;
+         !is_in_tag_ && index_blockquote == 0 && index_li == 0;
 }
 
 void Converter::LTrim(string *s) {
@@ -1031,7 +1031,5 @@ void Converter::TagBlockquote::OnHasLeftClosingTag(Converter *c) {
 bool Converter::operator==(const Converter *c) const {
   return html_ == c->html_ && option == c->option;
 }
-
-Converter::~Converter() = default;
 
 } // namespace html2md

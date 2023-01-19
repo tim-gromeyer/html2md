@@ -15,27 +15,27 @@ using std::ifstream;
 using std::string;
 using std::stringstream;
 using std::vector;
-namespace fs = std::filesystem;
 using std::chrono::duration;
 using std::chrono::duration_cast;
 using std::chrono::high_resolution_clock;
 using std::chrono::milliseconds;
+namespace fs = std::filesystem;
 
 namespace markdown {
 void captureHtmlFragment(const MD_CHAR *data, const MD_SIZE data_size,
                          void *userData) {
-  auto *str = static_cast<string *>(userData);
+  auto *str = static_cast<stringstream *>(userData);
 
-  str->append(data, data_size);
+  str->write(data, data_size);
 }
 
 string toHTML(const string &md) {
-  string html;
+  stringstream html;
 
   md_html(md.c_str(), md.size(), &captureHtmlFragment, &html, MD_DIALECT_GITHUB,
           MD_HTML_FLAG_SKIP_UTF8_BOM);
 
-  return html;
+  return html.str();
 };
 
 string fromHTML(string &html) {
@@ -99,6 +99,56 @@ void runTest(const string &file, short *errorCount) {
   }
 }
 
+void testOption(const char *name) {
+  cout << "Test option \"" << name << "\"...\t";
+}
+
+bool testUnorderedList() {
+  testOption("unorderedList");
+
+  string html = "<ul><li>List</li></ul>";
+
+  html2md::Options o;
+  o.unorderedList = '*';
+
+  html2md::Converter c(html, &o);
+
+  auto md = c.convert();
+
+  return md.find("* List\n") != string::npos;
+}
+
+bool testOrderedList() {
+  testOption("orderedList");
+
+  string html = "<ol><li>List</li></ol>";
+
+  html2md::Options o;
+  o.orderedList = ')';
+
+  html2md::Converter c(html, &o);
+
+  auto md = c.convert();
+
+  return md.find("1) List\n") != string::npos;
+}
+
+bool testDisableTitle() {
+  testOption("includeTitle");
+
+  string html = "<title>HTML title</title>";
+
+  html2md::Options o;
+  o.includeTitle = false;
+
+  html2md::Converter c(html, &o);
+
+  auto md = c.convert();
+
+  return md.empty() &&
+         html2md::Convert(html).find("HTML title") != string::npos;
+}
+
 int main(int argc, const char **argv) {
   // List to store all markdown files in this dir
   vector<string> files;
@@ -142,13 +192,23 @@ int main(int argc, const char **argv) {
   for (auto &file : files)
     runTest(file, &errorCount);
 
+  // Test the options
+  auto tests = {&testDisableTitle, &testUnorderedList, &testOrderedList};
+
+  for (const auto &test : tests)
+    if (!test()) {
+      ++errorCount;
+      error();
+    } else
+      passed();
+
   auto t2 = high_resolution_clock::now();
 
   /* Getting number of milliseconds as a double. */
   duration<double, std::milli> ms_double = t2 - t1;
 
-  cout << files.size() << " tests executed in " << ms_double.count() << "ms. "
-       << errorCount << " failed.\n";
+  cout << files.size() + tests.size() << " tests executed in "
+       << ms_double.count() << "ms. " << errorCount << " failed.\n";
 
   return 0;
 }

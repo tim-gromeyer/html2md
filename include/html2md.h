@@ -151,11 +151,6 @@ public:
   }
 
   /*!
-   * \brief Destructor, does nothing.
-   */
-  ~Converter();
-
-  /*!
    * \brief Convert HTML into Markdown.
    * \return Returns the converted Markdown.
    *
@@ -200,16 +195,21 @@ public:
   /*!
    * \brief Checks if everything was closed properly(in the HTML).
    * \return Returns false if there is a unclosed tag.
+   * \note As long as you have not called convert(), it always returns true.
    */
   [[nodiscard]] bool ok() const;
 
   /*!
-   * \brief == operator
-   * \param c
-   * \return
+   * \brief Checks if the HTML matches and the options are the same.
+   * \param The Converter object to compare with
+   * \return true if the HTML and options matches otherwise false
    */
   bool operator==(const Converter *c) const;
   inline bool operator==(const Converter &c) const { return operator==(&c); };
+
+  /*!
+   * \brief Returns ok().
+   */
   inline explicit operator bool() const { return ok(); };
 
 private:
@@ -554,10 +554,7 @@ private:
   // Replace previous space (if any) in current markdown line by newline
   bool ReplacePreviousSpaceInLineByNewline();
 
-  [[nodiscard]] inline bool IsIgnoredTag(const std::string &tag) const {
-    if (tag == kTagTitle && !option->includeTitle)
-      return true;
-
+  static inline bool IsIgnoredTag(const std::string &tag) {
     return (tag[0] == '-' || kTagTemplate == tag || kTagStyle == tag ||
             kTagScript == tag || kTagNoScript == tag || kTagNav == tag);
 
@@ -570,7 +567,10 @@ private:
     for (auto i = 0; i < len; ++i) {
       std::string tag = dom_tags_[i];
 
-      if (kTagPre == tag || kTagTitle == tag)
+      if (tag == kTagTitle && !option->includeTitle)
+        return true;
+
+      if (tag == kTagPre || tag == kTagTitle)
         return false;
 
       if (IsIgnoredTag(tag))
