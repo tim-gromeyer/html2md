@@ -79,7 +79,8 @@ static string Repeat(const string &str, size_t amount) {
 namespace html2md {
 
 Converter::Converter(string *html, Options *options) : html_(*html) {
-  options ? option = options : option = new struct Options();
+  if (options)
+    option = *options;
 
   PrepareHtml();
 
@@ -543,7 +544,7 @@ bool Converter::ParseCharInTagContent(char ch) {
 
   if (chars_in_curr_line_ > 80 && !is_in_table_ && !is_in_list_ &&
       current_tag_ != kTagImg && current_tag_ != kTagAnchor &&
-      option->splitLines) {
+      option.splitLines) {
     if (ch == ' ') { // If the next char is - it will become a list
       md_ += '\n';
       ++md_len_;
@@ -563,6 +564,9 @@ bool Converter::ReplacePreviousSpaceInLineByNewline() {
 
   UpdateMdLen();
   auto offset = md_len_ - 1;
+
+  if (md_len_ == 0)
+    return true;
 
   do {
     if (md_[offset] == '\n')
@@ -754,14 +758,14 @@ void Converter::TagListItem::OnHasLeftOpeningTag(Converter *c) {
     return;
 
   if (!c->is_in_ordered_list_) {
-    c->appendToMd(string({c->option->unorderedList, ' '}));
+    c->appendToMd(string({c->option.unorderedList, ' '}));
     return;
   }
 
   ++c->index_ol;
 
   string num = std::to_string(c->index_ol);
-  num.append({c->option->orderedList, ' '});
+  num.append({c->option.orderedList, ' '});
   c->appendToMd(num);
 }
 

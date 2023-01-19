@@ -84,6 +84,11 @@ struct Options {
    * Default is true.
    */
   bool includeTitle = true;
+
+  inline bool operator==(html2md::Options o) const {
+    return splitLines == o.splitLines && unorderedList == o.unorderedList &&
+           orderedList == o.orderedList && includeTitle == o.includeTitle;
+  };
 };
 
 /*!
@@ -324,7 +329,7 @@ private:
   std::string md_;
   size_t md_len_ = 0;
 
-  struct Options *option{};
+  Options option;
 
   // Tag: base class for tag types
   struct Tag {
@@ -487,7 +492,7 @@ private:
 
   std::map<std::string, std::shared_ptr<Tag>> tags_;
 
-  explicit Converter(std::string *html, struct Options *options = nullptr);
+  explicit Converter(std::string *html, struct Options *options);
 
   void PrepareHtml();
 
@@ -561,13 +566,14 @@ private:
     // meta: not ignored to tolerate if closing is omitted
   }
 
+  // Here we can improve the performance
   [[nodiscard]] bool IsInIgnoredTag() const {
     auto len = dom_tags_.size();
 
     for (auto i = 0; i < len; ++i) {
       std::string tag = dom_tags_[i];
 
-      if (tag == kTagTitle && !option->includeTitle)
+      if (tag == kTagTitle && !option.includeTitle)
         return true;
 
       if (tag == kTagPre || tag == kTagTitle)
