@@ -1,13 +1,14 @@
 <map id="src/html2md.cpp" name="src/html2md.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="325,5,444,32"/>
-<area shape="rect" id="node2" href="$html2md_8h.html" title=" " alt="" coords="62,80,145,107"/>
-<area shape="rect" id="node6" title=" " alt="" coords="169,80,230,107"/>
-<area shape="rect" id="node7" title=" " alt="" coords="255,80,333,107"/>
-<area shape="rect" id="node8" title=" " alt="" coords="358,80,411,107"/>
-<area shape="rect" id="node9" title=" " alt="" coords="435,80,505,107"/>
-<area shape="rect" id="node10" title=" " alt="" coords="529,80,584,107"/>
-<area shape="rect" id="node11" title=" " alt="" coords="608,80,660,107"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,155,52,181"/>
-<area shape="rect" id="node4" title=" " alt="" coords="76,155,131,181"/>
-<area shape="rect" id="node5" title=" " alt="" coords="155,155,214,181"/>
+<area shape="rect" id="node1" title=" " alt="" coords="297,5,416,31"/>
+<area shape="rect" id="node2" href="$html2md_8h.html" title=" " alt="" coords="79,79,162,104"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,152,73,177"/>
+<area shape="rect" id="node7" title=" " alt="" coords="186,79,247,104"/>
+<area shape="rect" id="node8" title=" " alt="" coords="272,79,351,104"/>
+<area shape="rect" id="node9" title=" " alt="" coords="375,79,429,104"/>
+<area shape="rect" id="node10" title=" " alt="" coords="453,79,522,104"/>
+<area shape="rect" id="node11" title=" " alt="" coords="547,79,601,104"/>
+<area shape="rect" id="node12" title=" " alt="" coords="625,79,677,104"/>
+<area shape="rect" id="node3" title=" " alt="" coords="97,152,144,177"/>
+<area shape="rect" id="node5" title=" " alt="" coords="168,152,223,177"/>
+<area shape="rect" id="node6" title=" " alt="" coords="247,152,306,177"/>
 </map>
