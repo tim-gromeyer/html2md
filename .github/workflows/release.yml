@@ -20,7 +20,9 @@ jobs:
           - os: ubuntu-22.04
             files: |
               build/packages/html2md*.deb
-
+          - os: windows-latest
+            files: |
+              build/packages/html2md*.zip
     steps:
     - name: Checkout repo
       uses: actions/checkout@v3

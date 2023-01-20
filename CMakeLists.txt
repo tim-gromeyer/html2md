@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(html2md VERSION 1.4.0
+project(html2md VERSION 1.4.1
                 LANGUAGES CXX)
 
 set(PROJECT_HOMEPAGE_URL "https://tim-gromeyer.github.io/html2md/")

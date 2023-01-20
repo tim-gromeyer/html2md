@@ -39,7 +39,7 @@ INTERACTIVE_SVG        = YES
 TOC_EXPAND             = YES
 TOC_INCLUDE_HEADINGS   = 5
 
-# Fix dark mode not deactivatable
+# Fix dark mode not deactivatable(Doxygen v1.9.6)
 HTML_COLORSTYLE = TOGGLE
 
 # Tests

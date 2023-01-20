@@ -2,6 +2,14 @@
 
 [TOC]
 
+## v1.4.1
+
+- **Fixed <u>ALL</u> memory leaks**
+- Fixed bugs(`html2md::Options::includeTitle` not working)
+- Added more tests
+- Documentation: Updated Doxygen to v1.9.6
+- Include Windows to releases
+
 ## v1.4.0
 
 - Improved CMake support massively!

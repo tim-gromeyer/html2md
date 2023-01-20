@@ -19,7 +19,7 @@ jobs:
         echo "PROJECT_NUMBER = ${{ github.ref_name }}" >> docs/Doxyfile
 
     - name: Run Doxygen
-      uses: mattnotmitt/doxygen-action@v1.9.4
+      uses: mattnotmitt/doxygen-action@edge
       with:
         doxyfile-path: 'docs/Doxyfile'
 
