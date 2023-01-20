@@ -12,7 +12,7 @@ pyhtml2md provides a way to use the html2md C++ library in Python. html2md is a 
 
 </div>
 
-<div id="doxygen-toc" hidden>
+<div id="doxygen-toc" style="visibility:hidden">
 
 [TOC]
 

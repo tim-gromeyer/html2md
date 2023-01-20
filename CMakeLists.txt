@@ -9,7 +9,7 @@ set(PROJECT_DESCRIPTION "Transform your HTML into clean, easy-to-read markdown w
 set(html2md_DESCRIPTION "${PROJECT_DESCRIPTION}")
 
 # If build type not specified we use release
-if (NOT DEFINED CMAKE_BUILD_TYPE)
+if (NOT CMAKE_BUILD_TYPE)
     message(STATUS "Build type not specified. Release is used.")
     set(CMAKE_BUILD_TYPE "Release")
 endif()
