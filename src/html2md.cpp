@@ -84,6 +84,8 @@ Converter::Converter(string *html, Options *options) : html_(*html) {
 
   PrepareHtml();
 
+  tags_.reserve(41);
+
   // non-printing tags
   auto tagIgnored = make_shared<Converter::TagIgnored>();
   tags_[kTagHead] = tagIgnored;

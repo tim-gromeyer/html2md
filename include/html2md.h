@@ -7,6 +7,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 /*!
@@ -490,7 +491,7 @@ private:
     void OnHasLeftClosingTag(Converter *c) override;
   };
 
-  std::map<std::string, std::shared_ptr<Tag>> tags_;
+  std::unordered_map<std::string, std::shared_ptr<Tag>> tags_;
 
   explicit Converter(std::string *html, struct Options *options);
 
