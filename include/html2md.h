@@ -23,14 +23,14 @@
 namespace html2md {
 
 /*!
- * \brief Options for the conversation from HTML to Markdown
- * \warning Make sure to pass valid options, otherwise the output will be
+ * \brief Options for the conversion from HTML to Markdown
+ * \warning Make sure to pass valid options; otherwise, the output will be
  * invalid!
  *
  * Example from `tests/main.cpp`:
  *
  * ```cpp
- * auto *options = new html2md::options();
+ * auto *options = new html2md::Options();
  * options->splitLines = false;
  *
  * html2md::Converter c(html, options);
@@ -210,8 +210,11 @@ public:
    * \param The Converter object to compare with
    * \return true if the HTML and options matches otherwise false
    */
-  bool operator==(const Converter *c) const;
-  inline bool operator==(const Converter &c) const { return operator==(&c); };
+  inline bool operator==(const Converter *c) const { return *this == *c; }
+
+  inline bool operator==(const Converter &c) const {
+    return html_ == c.html_ && option == c.option;
+  }
 
   /*!
    * \brief Returns ok().

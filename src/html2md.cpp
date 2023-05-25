@@ -191,7 +191,8 @@ Converter *Converter::appendToMd(char ch) {
   return this;
 }
 
-Converter *Converter::appendToMd(const char *str) {
+Converter *Converter::appendToMd(const char *str)
+{
   if (IsInIgnoredTag())
     return this;
 
@@ -1033,9 +1034,4 @@ void Converter::TagBlockquote::OnHasLeftOpeningTag(Converter *c) {
 void Converter::TagBlockquote::OnHasLeftClosingTag(Converter *c) {
   --c->index_blockquote;
 }
-
-bool Converter::operator==(const Converter *c) const {
-  return html_ == c->html_ && option == c->option;
-}
-
 } // namespace html2md
