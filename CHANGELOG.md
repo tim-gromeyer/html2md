@@ -2,6 +2,12 @@
 
 [TOC]
 
+## v1.4.3
+
+- Improved performance
+- Updated 3rdparty tools (for creating python packages and creating releases)
+- Fix code example
+
 ## v1.4.2
 
 - Fixed windows release build are linked against debug libraries
