@@ -1,7 +1,13 @@
 <map id="include/html2md.h" name="include/html2md.h">
-<area shape="rect" id="node1" title=" " alt="" coords="89,5,216,31"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,79,52,104"/>
-<area shape="rect" id="node3" title=" " alt="" coords="76,79,144,104"/>
-<area shape="rect" id="node4" title=" " alt="" coords="168,79,223,104"/>
-<area shape="rect" id="node5" title=" " alt="" coords="247,79,306,104"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="131,5,257,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,52,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,34,66,77,64,72,165,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="76,79,144,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="181,34,136,72,133,67,178,30"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="167,79,221,105"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="197,31,197,64,191,64,191,31"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="244,79,354,105"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="213,29,271,68,268,73,210,34"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="379,79,436,105"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="231,29,366,74,364,79,229,34"/>
 </map>
