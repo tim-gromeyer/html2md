@@ -17,6 +17,7 @@ jobs:
           - os: ubuntu-20.04
             files: |
               build/packages/html2md*.deb
+              build/packages/html2md*.tar.gz
           - os: ubuntu-22.04
             files: |
               build/packages/html2md*.deb
