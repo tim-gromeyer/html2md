@@ -2,6 +2,11 @@
 
 [TOC]
 
+## v1.4.4
+
+- New release with Python 3.11 support/packages
+- Updated internal dependencies
+
 ## v1.4.3
 
 - Improved performance
