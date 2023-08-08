@@ -20,7 +20,6 @@ set(CPACK_RPM_PACKAGE_LICENSE "MIT")
 set(CPACK_RPM_PACKAGE_GROUP "Development/Tools")
 set(CPACK_RPM_PACKAGE_URL ${PROJECT_HOMEPAGE_URL})
 # set(CPACK_RPM_PACKAGE_REQUIRES "/sbin/chkconfig, /bin/mktemp, /bin/rm, /bin/mv, libstdc++ >= 2.96") # TODO: Find correct packages
-# set(CPACK_RPM_PACKAGE_SUGGESTS "doxygen-latex, doxygen-doc, doxygen-gui, graphviz, libclang1")
 
 # Variables specific to CPack DEB generator
 set(CPACK_DEBIAN_PACKAGE_DESCRIPTION ${CPACK_PACKAGE_DESCRIPTION})
@@ -43,6 +42,10 @@ elseif(UNIX AND NOT EXMSCRIPTEN AND NOT ANDROID)
  execute_process(COMMAND lsb_release -si OUTPUT_VARIABLE distribution OUTPUT_STRIP_TRAILING_WHITESPACE)
  execute_process(COMMAND lsb_release -sc OUTPUT_VARIABLE release OUTPUT_STRIP_TRAILING_WHITESPACE)
  execute_process(COMMAND uname -m OUTPUT_VARIABLE CPACK_RPM_PACKAGE_ARCHITECTURE OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+ if(release STREQUAL "n/a")
+     execute_process(COMMAND lsb_release -sr OUTPUT_VARIABLE release OUTPUT_STRIP_TRAILING_WHITESPACE)
+ endif()
 
  if(distribution STREQUAL "Debian" OR distribution STREQUAL "Ubuntu" OR distribution STREQUAL "Linuxmint")
  set(CPACK_GENERATOR "DEB")
