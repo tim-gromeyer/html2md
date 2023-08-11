@@ -9,5 +9,6 @@ var classhtml2md_1_1Converter =
     [ "ok", "classhtml2md_1_1Converter.html#a34437fc31922f996799afc0441ac68b1", null ],
     [ "operator bool", "classhtml2md_1_1Converter.html#af6ac68e3fae0a644606663a74131a24e", null ],
     [ "operator==", "classhtml2md_1_1Converter.html#a6e286f301897f11bc7591ff48a7d04e0", null ],
-    [ "operator==", "classhtml2md_1_1Converter.html#a25801279d82032b2f22f15bad5625c04", null ]
+    [ "operator==", "classhtml2md_1_1Converter.html#a25801279d82032b2f22f15bad5625c04", null ],
+    [ "reset", "classhtml2md_1_1Converter.html#a9cba2b792fdc29464ea459f5715740c5", null ]
 ];

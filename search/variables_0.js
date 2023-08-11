@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['includetitle_0',['includeTitle',['../structhtml2md_1_1Options.html#aff177dfffa308411a98a84b5e5d5e45e',1,'html2md::Options']]]
+  ['formattable_0',['formatTable',['../structhtml2md_1_1Options.html#a8dbde00c2ebf71db101a191c43d27803',1,'html2md::Options']]]
 ];
