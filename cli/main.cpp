@@ -96,7 +96,8 @@ int main(int argc, const char *argv[]) {
   } else
     input = std::move(inFile);
 
-  auto md = html2md::Convert(input);
+  html2md::Converter converter(input);
+  auto md = converter.convert();
 
   if (print) {
     cout << md << endl;
