@@ -8,6 +8,7 @@
 
 #include "html2md.h"
 #include "md4c-html.h"
+#include "table.h"
 
 using std::cerr;
 using std::cout;
@@ -16,7 +17,6 @@ using std::string;
 using std::stringstream;
 using std::vector;
 using std::chrono::duration;
-using std::chrono::duration_cast;
 using std::chrono::high_resolution_clock;
 using std::chrono::milliseconds;
 namespace fs = std::filesystem;
@@ -32,8 +32,10 @@ void captureHtmlFragment(const MD_CHAR *data, const MD_SIZE data_size,
 string toHTML(const string &md) {
   stringstream html;
 
+  static MD_TOC_OPTIONS options;
+
   md_html(md.c_str(), md.size(), &captureHtmlFragment, &html, MD_DIALECT_GITHUB,
-          MD_HTML_FLAG_SKIP_UTF8_BOM);
+          MD_HTML_FLAG_SKIP_UTF8_BOM, &options);
 
   return html.str();
 };
@@ -149,6 +151,24 @@ bool testDisableTitle() {
          html2md::Convert(html).find("HTML title") != string::npos;
 }
 
+bool testFormatTable() {
+  testOption("formatTable");
+
+  string inputTable = "| 1 | 2 | 3 |\n"
+                      "| :-- | :-: | --: |\n"
+                      "| Hello | World | ! |\n"
+                      "| foo | bar | buzz |\n";
+
+  string expectedOutput = "| 1     | 2     | 3    |\n"
+                          "|:------|:-----:|-----:|\n"
+                          "| Hello | World | !    |\n"
+                          "| foo   | bar   | buzz |\n";
+
+  string formattedTable = formatMarkdownTable(inputTable);
+
+  return formattedTable == expectedOutput;
+}
+
 int main(int argc, const char **argv) {
   // List to store all markdown files in this dir
   vector<string> files;
@@ -193,7 +213,8 @@ int main(int argc, const char **argv) {
     runTest(file, &errorCount);
 
   // Test the options
-  auto tests = {&testDisableTitle, &testUnorderedList, &testOrderedList};
+  auto tests = {&testDisableTitle, &testUnorderedList, &testOrderedList,
+                &testFormatTable};
 
   for (const auto &test : tests)
     if (!test()) {

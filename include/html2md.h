@@ -86,6 +86,14 @@ struct Options {
    */
   bool includeTitle = true;
 
+  /*!
+   * \brief Whetever to format Markdown Tables
+   *
+   * Whetever to format Markdown Tables.
+   * Default is true.
+   */
+  bool formatTable = true;
+
   inline bool operator==(html2md::Options o) const {
     return splitLines == o.splitLines && unorderedList == o.unorderedList &&
            orderedList == o.orderedList && includeTitle == o.includeTitle;
@@ -163,7 +171,7 @@ public:
    * This function actually converts the HTML into Markdown.
    * It also cleans up the Markdown so you don't have to do anything.
    */
-  std::string convert();
+  [[nodiscard]] std::string convert();
 
   /*!
    * \brief Append a char to the Markdown.
@@ -204,6 +212,11 @@ public:
    * \note As long as you have not called convert(), it always returns true.
    */
   [[nodiscard]] bool ok() const;
+
+  /*!
+   * \brief Reset the generated Markdown
+   */
+  void reset();
 
   /*!
    * \brief Checks if the HTML matches and the options are the same.
@@ -282,8 +295,6 @@ private:
 
   size_t index_ch_in_html_ = 0;
 
-  std::vector<std::string> dom_tags_;
-
   bool is_closing_tag_ = false;
   bool is_in_attribute_value_ = false;
   bool is_in_code_ = false;
@@ -331,7 +342,6 @@ private:
   uint16_t char_index_in_tag_content = 0;
 
   std::string md_;
-  size_t md_len_ = 0;
 
   Options option;
 
@@ -521,8 +531,6 @@ private:
 
   void TurnLineIntoHeader2();
 
-  inline void UpdateMdLen() { md_len_ = md_.length(); }
-
   // Current char: '<'
   void OnHasEnteredTag();
 
@@ -540,12 +548,13 @@ private:
   bool OnHasLeftTag();
 
   inline static bool TagContainsAttributesToHide(std::string *tag) {
-    return (*tag).find(" aria=\"hidden\"") != std::string::npos ||
-           (*tag).find("display:none") != std::string::npos ||
-           (*tag).find("visibility:hidden") != std::string::npos ||
-           (*tag).find("opacity:0") != std::string::npos ||
-           (*tag).find("Details-content--hidden-not-important") !=
-               std::string::npos;
+    using std::string;
+
+    return (*tag).find(" aria=\"hidden\"") != string::npos ||
+           (*tag).find("display:none") != string::npos ||
+           (*tag).find("visibility:hidden") != string::npos ||
+           (*tag).find("opacity:0") != string::npos ||
+           (*tag).find("Details-content--hidden-not-important") != string::npos;
   }
 
   Converter *ShortenMarkdown(size_t chars = 1);
@@ -570,25 +579,7 @@ private:
     // meta: not ignored to tolerate if closing is omitted
   }
 
-  // Here we can improve the performance
-  [[nodiscard]] bool IsInIgnoredTag() const {
-    auto len = dom_tags_.size();
-
-    for (auto i = 0; i < len; ++i) {
-      std::string tag = dom_tags_[i];
-
-      if (tag == kTagTitle && !option.includeTitle)
-        return true;
-
-      if (tag == kTagPre || tag == kTagTitle)
-        return false;
-
-      if (IsIgnoredTag(tag))
-        return true;
-    }
-
-    return false;
-  }
+  [[nodiscard]] bool IsInIgnoredTag() const;
 }; // Converter
 
 /*!

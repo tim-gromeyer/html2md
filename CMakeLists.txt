@@ -39,9 +39,11 @@ option(PYTHON_BINDINGS "Build python bindings" OFF)
 
 set(SOURCES
     src/html2md.cpp
+    src/table.cpp
 )
 set(HEADERS
     include/html2md.h
+    include/table.h
 )
 
 if(PYTHON_BINDINGS)

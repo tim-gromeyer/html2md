@@ -2,6 +2,7 @@
 // Licensed under the MIT License - https://opensource.org/licenses/MIT
 
 #include "html2md.h"
+#include "table.h"
 
 #include <cstring>
 #include <functional>
@@ -16,18 +17,19 @@ using std::regex;
 using std::string;
 using std::vector;
 
-static bool startsWith(const string &str, const string &prefix) {
+namespace {
+bool startsWith(const string &str, const string &prefix) {
   return str.size() >= prefix.size() &&
          0 == str.compare(0, prefix.size(), prefix);
 }
 
-static bool endsWith(const string &str, const string &suffix) {
+bool endsWith(const string &str, const string &suffix) {
   return str.size() >= suffix.size() &&
          0 == str.compare(str.size() - suffix.size(), suffix.size(), suffix);
 }
 
-static size_t ReplaceAll(string *haystack, const string &needle,
-                         const string &replacement) {
+size_t ReplaceAll(string *haystack, const string &needle,
+                  const string &replacement) {
   // Get first occurrence
   size_t pos = (*haystack).find(needle);
 
@@ -47,12 +49,12 @@ static size_t ReplaceAll(string *haystack, const string &needle,
   return amount_replaced;
 }
 
-static size_t ReplaceAll(string *haystack, const string &needle, const char c) {
+size_t ReplaceAll(string *haystack, const string &needle, const char c) {
   return ReplaceAll(haystack, needle, string({c}));
 }
 
 // Split given string by given character delimiter into vector of strings
-static vector<string> Split(string const &str, char delimiter) {
+vector<string> Split(string const &str, char delimiter) {
   vector<string> result;
   std::stringstream iss(str);
 
@@ -62,7 +64,7 @@ static vector<string> Split(string const &str, char delimiter) {
   return result;
 }
 
-static string Repeat(const string &str, size_t amount) {
+string Repeat(const string &str, size_t amount) {
   if (amount == 0)
     return "";
   else if (amount == 1)
@@ -75,6 +77,7 @@ static string Repeat(const string &str, size_t amount) {
 
   return out;
 }
+} // namespace
 
 namespace html2md {
 
@@ -174,6 +177,8 @@ void Converter::CleanUpMarkdown() {
 
   ReplaceAll(&md_, "\t\t  ", "\t\t");
   ReplaceAll(&md_, " </u> ", "</u>");
+
+  ReplaceAll(&md_, "` !", "`!");
 }
 
 Converter *Converter::appendToMd(char ch) {
@@ -181,7 +186,6 @@ Converter *Converter::appendToMd(char ch) {
     return this;
 
   md_ += ch;
-  ++md_len_;
 
   if (ch == '\n')
     chars_in_curr_line_ = 0;
@@ -199,8 +203,6 @@ Converter *Converter::appendToMd(const char *str)
   md_ += str;
 
   auto str_len = strlen(str);
-
-  md_len_ += str_len;
 
   for (auto i = 0; i < str_len; ++i) {
     if (str[i] == '\n')
@@ -358,8 +360,11 @@ void Converter::TurnLineIntoHeader2() {
 }
 
 string Converter::convert() {
+  // We already converted
   if (index_ch_in_html_ == html_.size())
     return md_;
+
+  reset();
 
   for (char ch : html_) {
     ++index_ch_in_html_;
@@ -370,11 +375,10 @@ string Converter::convert() {
       continue;
     }
 
-    UpdateMdLen();
-
-    if ((is_in_tag_ && ParseCharInTag(ch)) ||
-        (!is_in_tag_ && ParseCharInTagContent(ch)))
-      continue;
+    if (is_in_tag_)
+      ParseCharInTag(ch);
+    else
+      ParseCharInTagContent(ch);
   }
 
   CleanUpMarkdown();
@@ -443,11 +447,12 @@ bool Converter::ParseCharInTag(char ch) {
 bool Converter::OnHasLeftTag() {
   is_in_tag_ = false;
 
-  UpdateMdLen();
   UpdatePrevChFromMd();
 
-  bool is_hidden =
-      is_closing_tag_ ? false : TagContainsAttributesToHide(&current_tag_);
+  bool is_hidden = false;
+  if (!is_closing_tag_) {
+    is_hidden = TagContainsAttributesToHide(&current_tag_);
+  }
 
   current_tag_ = Split(current_tag_, ' ')[0];
 
@@ -455,37 +460,27 @@ bool Converter::OnHasLeftTag() {
 
   auto tag = tags_[current_tag_];
 
-  if (tag) {
-    if (is_closing_tag_) {
-      is_closing_tag_ = false;
+  if (!tag)
+    return true;
 
-      tag->OnHasLeftClosingTag(this);
+  if (is_closing_tag_) {
+    is_closing_tag_ = false;
 
-      if (!dom_tags_.empty()) {
-        if (dom_tags_[dom_tags_.size() - 1] == kTagPre)
-          is_in_pre_ = false;
+    tag->OnHasLeftClosingTag(this);
+  } else {
+    auto breadcrump_tag = current_tag_;
 
-        dom_tags_.pop_back();
-      }
-    } else {
-      auto breadcrump_tag = current_tag_;
+    if (is_hidden)
+      breadcrump_tag = "-" + current_tag_;
 
-      if (is_hidden)
-        breadcrump_tag = "-" + current_tag_;
-
-      dom_tags_.push_back(breadcrump_tag);
-
-      tag->OnHasLeftOpeningTag(this);
-    }
+    tag->OnHasLeftOpeningTag(this);
   }
 
   return true;
 }
 
 Converter *Converter::ShortenMarkdown(size_t chars) {
-  UpdateMdLen();
-
-  md_ = md_.substr(0, md_len_ - chars);
+  md_ = md_.substr(0, md_.length() - chars);
 
   if (chars > chars_in_curr_line_)
     chars_in_curr_line_ = 0;
@@ -498,8 +493,6 @@ Converter *Converter::ShortenMarkdown(size_t chars) {
 bool Converter::ParseCharInTagContent(char ch) {
   if (is_in_code_) {
     md_ += ch;
-    ++md_len_;
-
     ++chars_in_curr_line_;
     ++char_index_in_tag_content;
 
@@ -511,7 +504,6 @@ bool Converter::ParseCharInTagContent(char ch) {
   if (ch == '\n') {
     if (prev_tag_ == kTagBlockquote && current_tag_ == kTagParagraph) {
       md_ += '\n';
-      ++md_len_;
       chars_in_curr_line_ = 0;
       appendToMd(Repeat("> ", index_blockquote));
     }
@@ -529,7 +521,7 @@ bool Converter::ParseCharInTagContent(char ch) {
 
   // prevent more than one consecutive spaces
   if (ch == ' ') {
-    if (md_len_ == 0 || char_index_in_tag_content == 0 ||
+    if (md_.length() == 0 || char_index_in_tag_content == 0 ||
         prev_ch_in_md_ == ' ' || prev_ch_in_md_ == '\n')
       return true;
   }
@@ -540,7 +532,6 @@ bool Converter::ParseCharInTagContent(char ch) {
   }
 
   md_ += ch;
-  ++md_len_;
 
   ++chars_in_curr_line_;
   ++char_index_in_tag_content;
@@ -550,7 +541,6 @@ bool Converter::ParseCharInTagContent(char ch) {
       option.splitLines) {
     if (ch == ' ') { // If the next char is - it will become a list
       md_ += '\n';
-      ++md_len_;
       chars_in_curr_line_ = 0;
     } else if (chars_in_curr_line_ > 100) {
       ReplacePreviousSpaceInLineByNewline();
@@ -565,10 +555,9 @@ bool Converter::ReplacePreviousSpaceInLineByNewline() {
       is_in_table_ && (prev_tag_ != kTagCode && prev_tag_ != kTagPre))
     return false;
 
-  UpdateMdLen();
-  auto offset = md_len_ - 1;
+  auto offset = md_.length() - 1;
 
-  if (md_len_ == 0)
+  if (md_.length() == 0)
     return true;
 
   do {
@@ -577,7 +566,7 @@ bool Converter::ReplacePreviousSpaceInLineByNewline() {
 
     if (md_[offset] == ' ') {
       md_[offset] = '\n';
-      chars_in_curr_line_ = md_len_ - offset;
+      chars_in_curr_line_ = md_.length() - offset;
 
       return true;
     }
@@ -684,7 +673,7 @@ void Converter::TagBreak::OnHasLeftOpeningTag(Converter *c) {
     c->appendToMd("<br>");
   } else if (!c->is_in_p_) {
     c->appendToMd("\n<br>\n\n");
-  } else if (c->md_len_ > 0)
+  } else if (c->md_.length() > 0)
     c->appendToMd("  \n");
 
   c->appendToMd(Repeat("> ", c->index_blockquote));
@@ -783,7 +772,7 @@ void Converter::TagListItem::OnHasLeftClosingTag(Converter *c) {
 void Converter::TagOption::OnHasLeftOpeningTag(Converter *c) {}
 
 void Converter::TagOption::OnHasLeftClosingTag(Converter *c) {
-  if (c->md_len_ > 0)
+  if (c->md_.length() > 0)
     c->appendToMd("  \n");
 }
 
@@ -966,12 +955,20 @@ void Converter::TagSeperator::OnHasLeftClosingTag(Converter *c) {}
 void Converter::TagTable::OnHasLeftOpeningTag(Converter *c) {
   c->is_in_table_ = true;
   c->appendToMd('\n');
-  c->table_start = c->md_len_;
+  c->table_start = c->md_.length();
 }
 
 void Converter::TagTable::OnHasLeftClosingTag(Converter *c) {
   c->is_in_table_ = false;
   c->appendToMd('\n');
+
+  if (!c->option.formatTable)
+    return;
+
+  string table = c->md_.substr(c->table_start);
+  table = formatMarkdownTable(table);
+  c->ShortenMarkdown(c->md_.size() - c->table_start);
+  c->appendToMd(table);
 }
 
 void Converter::TagTableRow::OnHasLeftOpeningTag(Converter *c) {
@@ -1033,5 +1030,22 @@ void Converter::TagBlockquote::OnHasLeftOpeningTag(Converter *c) {
 
 void Converter::TagBlockquote::OnHasLeftClosingTag(Converter *c) {
   --c->index_blockquote;
+}
+
+void Converter::reset() {
+  md_.clear();
+  prev_ch_in_md_ = 0;
+  prev_prev_ch_in_md_ = 0;
+  index_ch_in_html_ = 0;
+}
+
+bool Converter::IsInIgnoredTag() const {
+  if (current_tag_ == kTagTitle && !option.includeTitle)
+    return true;
+
+  if (IsIgnoredTag(current_tag_))
+    return true;
+
+  return false;
 }
 } // namespace html2md
