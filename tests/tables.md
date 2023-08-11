@@ -1,17 +1,17 @@
 Simple table:
 
-| foo   | 1 |
-|-------|---|
-| 1     | 3 |
-| bar   | 5 |
+| foo | 1 |
+|-----|---|
+| 1   | 3 |
+| bar | 5 |
 
 
 Table with alignment:
 
-| Syntax | Description | Test Text |
-| :- | :-: | ---: |
-| Header | Title | Here's this |
-| Paragraph | Text | And more |
+| Syntax    | Description | Test Text   |
+| :-------- | :---------: | ----------: |
+| Header    | Title       | Here's this |
+| Paragraph | Text        | And more    |
 
 Table with line breaks:  
 
