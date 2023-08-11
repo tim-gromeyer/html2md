@@ -2,6 +2,12 @@
 
 [TOC]
 
+## v1.5.0
+
+- **Added a option to Format Markdown Tables**
+- More tests
+- Reworked cli program for better usability
+
 ## v1.4.4
 
 - New release with Python 3.11 support/packages
