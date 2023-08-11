@@ -14,7 +14,7 @@ Transform your HTML into clean, easy-to-read markdown with html2md
 
 ## What does it do
 
-html2md is a fast and reliable C++ library for converting HTML content into markdown. It offers support for a wide range of HTML tags, including those for formatting text, creating lists, and inserting images and links. In addition, html2md is the only HTML to markdown converter that offers support for table formatting, making it a valuable tool for users who need to convert HTML tables into markdown.
+html2md is a fast and reliable C++ library for converting HTML content into markdown. It offers support for a wide range of HTML tags, including those for formatting text, creating lists, and inserting images and links. In addition, html2md is the only HTML to markdown converter that offers support for **table formatting**, making it a valuable tool for users who need to convert HTML tables into markdown.
 
 
 ## How to use this library
