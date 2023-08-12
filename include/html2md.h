@@ -508,8 +508,6 @@ private:
 
   explicit Converter(std::string *html, struct Options *options);
 
-  void PrepareHtml();
-
   void CleanUpMarkdown();
 
   // Trim from start (in place)

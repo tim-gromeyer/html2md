@@ -85,8 +85,6 @@ Converter::Converter(string *html, Options *options) : html_(*html) {
   if (options)
     option = *options;
 
-  PrepareHtml();
-
   tags_.reserve(41);
 
   // non-printing tags
@@ -145,10 +143,6 @@ Converter::Converter(string *html, Options *options) : html_(*html) {
   tags_[kTagTableRow] = make_shared<Converter::TagTableRow>();
   tags_[kTagTableHeader] = make_shared<Converter::TagTableHeader>();
   tags_[kTagTableData] = make_shared<Converter::TagTableData>();
-}
-
-void Converter::PrepareHtml() {
-  ReplaceAll(&html_, "\t", ' ');
 }
 
 void Converter::CleanUpMarkdown() {
