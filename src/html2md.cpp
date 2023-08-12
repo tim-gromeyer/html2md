@@ -85,8 +85,6 @@ Converter::Converter(string *html, Options *options) : html_(*html) {
   if (options)
     option = *options;
 
-  PrepareHtml();
-
   tags_.reserve(41);
 
   // non-printing tags
