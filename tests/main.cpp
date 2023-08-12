@@ -154,15 +154,15 @@ bool testDisableTitle() {
 bool testFormatTable() {
   testOption("formatTable");
 
-  string inputTable = "| 1 | 2 | 3 |\n"
-                      "| :-- | :-: | --: |\n"
-                      "| Hello | World | ! |\n"
-                      "| foo | bar | buzz |\n";
+  constexpr const char *inputTable = "| 1 | 2 | 3 |\n"
+                                     "| :-- | :-: | --: |\n"
+                                     "| Hello | World | ! |\n"
+                                     "| foo | bar | buzz |\n";
 
-  string expectedOutput = "| 1     | 2     | 3    |\n"
-                          "|:------|:-----:|-----:|\n"
-                          "| Hello | World | !    |\n"
-                          "| foo   | bar   | buzz |\n";
+  constexpr const char *expectedOutput = "| 1     | 2     | 3    |\n"
+                                         "|:------|:-----:|-----:|\n"
+                                         "| Hello | World | !    |\n"
+                                         "| foo   | bar   | buzz |\n";
 
   string formattedTable = formatMarkdownTable(inputTable);
 
