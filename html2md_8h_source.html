@@ -68,7 +68,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">html2md
-   &#160;<span id="projectnumber">v1.5.0</span>
+   &#160;<span id="projectnumber">v1.5.1</span>
    </div>
    <div id="projectbrief">Simple and fast HTML to Markdown converter</div>
   </td>
@@ -472,99 +472,100 @@ $(document).ready(function(){initNavTree('html2md_8h_source.html',''); initResiz
 <div class="line"><a id="l00508" name="l00508"></a><span class="lineno">  508</span> </div>
 <div class="line"><a id="l00509" name="l00509"></a><span class="lineno">  509</span>  <span class="keyword">explicit</span> <a class="code hl_function" href="classhtml2md_1_1Converter.html#a3dac7e7aadfdf82f468bf9da602c13fa">Converter</a>(std::string *html, <span class="keyword">struct</span> Options *options);</div>
 <div class="line"><a id="l00510" name="l00510"></a><span class="lineno">  510</span> </div>
-<div class="line"><a id="l00511" name="l00511"></a><span class="lineno">  511</span>  <span class="keywordtype">void</span> PrepareHtml();</div>
+<div class="line"><a id="l00511" name="l00511"></a><span class="lineno">  511</span>  <span class="keywordtype">void</span> CleanUpMarkdown();</div>
 <div class="line"><a id="l00512" name="l00512"></a><span class="lineno">  512</span> </div>
-<div class="line"><a id="l00513" name="l00513"></a><span class="lineno">  513</span>  <span class="keywordtype">void</span> CleanUpMarkdown();</div>
-<div class="line"><a id="l00514" name="l00514"></a><span class="lineno">  514</span> </div>
-<div class="line"><a id="l00515" name="l00515"></a><span class="lineno">  515</span>  <span class="comment">// Trim from start (in place)</span></div>
-<div class="line"><a id="l00516" name="l00516"></a><span class="lineno">  516</span>  <span class="keyword">static</span> <span class="keywordtype">void</span> LTrim(std::string *s);</div>
-<div class="line"><a id="l00517" name="l00517"></a><span class="lineno">  517</span> </div>
-<div class="line"><a id="l00518" name="l00518"></a><span class="lineno">  518</span>  <span class="comment">// Trim from end (in place)</span></div>
-<div class="line"><a id="l00519" name="l00519"></a><span class="lineno">  519</span>  <a class="code hl_function" href="classhtml2md_1_1Converter.html#a3dac7e7aadfdf82f468bf9da602c13fa">Converter</a> *RTrim(std::string *s, <span class="keywordtype">bool</span> trim_only_blank = <span class="keyword">false</span>);</div>
-<div class="line"><a id="l00520" name="l00520"></a><span class="lineno">  520</span> </div>
-<div class="line"><a id="l00521" name="l00521"></a><span class="lineno">  521</span>  <span class="comment">// Trim from both ends (in place)</span></div>
-<div class="line"><a id="l00522" name="l00522"></a><span class="lineno">  522</span>  <a class="code hl_function" href="classhtml2md_1_1Converter.html#a3dac7e7aadfdf82f468bf9da602c13fa">Converter</a> *Trim(std::string *s);</div>
-<div class="line"><a id="l00523" name="l00523"></a><span class="lineno">  523</span> </div>
-<div class="line"><a id="l00524" name="l00524"></a><span class="lineno">  524</span>  <span class="comment">// 1. trim all lines</span></div>
-<div class="line"><a id="l00525" name="l00525"></a><span class="lineno">  525</span>  <span class="comment">// 2. reduce consecutive newlines to maximum 3</span></div>
-<div class="line"><a id="l00526" name="l00526"></a><span class="lineno">  526</span>  <span class="keywordtype">void</span> TidyAllLines(std::string *str);</div>
+<div class="line"><a id="l00513" name="l00513"></a><span class="lineno">  513</span>  <span class="comment">// Trim from start (in place)</span></div>
+<div class="line"><a id="l00514" name="l00514"></a><span class="lineno">  514</span>  <span class="keyword">static</span> <span class="keywordtype">void</span> LTrim(std::string *s);</div>
+<div class="line"><a id="l00515" name="l00515"></a><span class="lineno">  515</span> </div>
+<div class="line"><a id="l00516" name="l00516"></a><span class="lineno">  516</span>  <span class="comment">// Trim from end (in place)</span></div>
+<div class="line"><a id="l00517" name="l00517"></a><span class="lineno">  517</span>  <a class="code hl_function" href="classhtml2md_1_1Converter.html#a3dac7e7aadfdf82f468bf9da602c13fa">Converter</a> *RTrim(std::string *s, <span class="keywordtype">bool</span> trim_only_blank = <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00518" name="l00518"></a><span class="lineno">  518</span> </div>
+<div class="line"><a id="l00519" name="l00519"></a><span class="lineno">  519</span>  <span class="comment">// Trim from both ends (in place)</span></div>
+<div class="line"><a id="l00520" name="l00520"></a><span class="lineno">  520</span>  <a class="code hl_function" href="classhtml2md_1_1Converter.html#a3dac7e7aadfdf82f468bf9da602c13fa">Converter</a> *Trim(std::string *s);</div>
+<div class="line"><a id="l00521" name="l00521"></a><span class="lineno">  521</span> </div>
+<div class="line"><a id="l00522" name="l00522"></a><span class="lineno">  522</span>  <span class="comment">// 1. trim all lines</span></div>
+<div class="line"><a id="l00523" name="l00523"></a><span class="lineno">  523</span>  <span class="comment">// 2. reduce consecutive newlines to maximum 3</span></div>
+<div class="line"><a id="l00524" name="l00524"></a><span class="lineno">  524</span>  <span class="keywordtype">void</span> TidyAllLines(std::string *str);</div>
+<div class="line"><a id="l00525" name="l00525"></a><span class="lineno">  525</span> </div>
+<div class="line"><a id="l00526" name="l00526"></a><span class="lineno">  526</span>  std::string ExtractAttributeFromTagLeftOf(<span class="keyword">const</span> std::string &amp;attr);</div>
 <div class="line"><a id="l00527" name="l00527"></a><span class="lineno">  527</span> </div>
-<div class="line"><a id="l00528" name="l00528"></a><span class="lineno">  528</span>  std::string ExtractAttributeFromTagLeftOf(<span class="keyword">const</span> std::string &amp;attr);</div>
+<div class="line"><a id="l00528" name="l00528"></a><span class="lineno">  528</span>  <span class="keywordtype">void</span> TurnLineIntoHeader1();</div>
 <div class="line"><a id="l00529" name="l00529"></a><span class="lineno">  529</span> </div>
-<div class="line"><a id="l00530" name="l00530"></a><span class="lineno">  530</span>  <span class="keywordtype">void</span> TurnLineIntoHeader1();</div>
+<div class="line"><a id="l00530" name="l00530"></a><span class="lineno">  530</span>  <span class="keywordtype">void</span> TurnLineIntoHeader2();</div>
 <div class="line"><a id="l00531" name="l00531"></a><span class="lineno">  531</span> </div>
-<div class="line"><a id="l00532" name="l00532"></a><span class="lineno">  532</span>  <span class="keywordtype">void</span> TurnLineIntoHeader2();</div>
-<div class="line"><a id="l00533" name="l00533"></a><span class="lineno">  533</span> </div>
-<div class="line"><a id="l00534" name="l00534"></a><span class="lineno">  534</span>  <span class="comment">// Current char: &#39;&lt;&#39;</span></div>
-<div class="line"><a id="l00535" name="l00535"></a><span class="lineno">  535</span>  <span class="keywordtype">void</span> OnHasEnteredTag();</div>
+<div class="line"><a id="l00532" name="l00532"></a><span class="lineno">  532</span>  <span class="comment">// Current char: &#39;&lt;&#39;</span></div>
+<div class="line"><a id="l00533" name="l00533"></a><span class="lineno">  533</span>  <span class="keywordtype">void</span> OnHasEnteredTag();</div>
+<div class="line"><a id="l00534" name="l00534"></a><span class="lineno">  534</span> </div>
+<div class="line"><a id="l00535" name="l00535"></a><span class="lineno">  535</span>  <a class="code hl_function" href="classhtml2md_1_1Converter.html#a3dac7e7aadfdf82f468bf9da602c13fa">Converter</a> *UpdatePrevChFromMd();</div>
 <div class="line"><a id="l00536" name="l00536"></a><span class="lineno">  536</span> </div>
-<div class="line"><a id="l00537" name="l00537"></a><span class="lineno">  537</span>  <a class="code hl_function" href="classhtml2md_1_1Converter.html#a3dac7e7aadfdf82f468bf9da602c13fa">Converter</a> *UpdatePrevChFromMd();</div>
-<div class="line"><a id="l00538" name="l00538"></a><span class="lineno">  538</span> </div>
-<div class="line"><a id="l00545" name="l00545"></a><span class="lineno">  545</span>  <span class="keywordtype">bool</span> ParseCharInTag(<span class="keywordtype">char</span> ch);</div>
-<div class="line"><a id="l00546" name="l00546"></a><span class="lineno">  546</span> </div>
-<div class="line"><a id="l00547" name="l00547"></a><span class="lineno">  547</span>  <span class="comment">// Current char: &#39;&gt;&#39;</span></div>
-<div class="line"><a id="l00548" name="l00548"></a><span class="lineno">  548</span>  <span class="keywordtype">bool</span> OnHasLeftTag();</div>
-<div class="line"><a id="l00549" name="l00549"></a><span class="lineno">  549</span> </div>
-<div class="line"><a id="l00550" name="l00550"></a><span class="lineno">  550</span>  <span class="keyword">inline</span> <span class="keyword">static</span> <span class="keywordtype">bool</span> TagContainsAttributesToHide(std::string *tag) {</div>
-<div class="line"><a id="l00551" name="l00551"></a><span class="lineno">  551</span>    <span class="keyword">using </span>std::string;</div>
-<div class="line"><a id="l00552" name="l00552"></a><span class="lineno">  552</span> </div>
-<div class="line"><a id="l00553" name="l00553"></a><span class="lineno">  553</span>    <span class="keywordflow">return</span> (*tag).find(<span class="stringliteral">&quot; aria=\&quot;hidden\&quot;&quot;</span>) != string::npos ||</div>
-<div class="line"><a id="l00554" name="l00554"></a><span class="lineno">  554</span>           (*tag).find(<span class="stringliteral">&quot;display:none&quot;</span>) != string::npos ||</div>
-<div class="line"><a id="l00555" name="l00555"></a><span class="lineno">  555</span>           (*tag).find(<span class="stringliteral">&quot;visibility:hidden&quot;</span>) != string::npos ||</div>
-<div class="line"><a id="l00556" name="l00556"></a><span class="lineno">  556</span>           (*tag).find(<span class="stringliteral">&quot;opacity:0&quot;</span>) != string::npos ||</div>
-<div class="line"><a id="l00557" name="l00557"></a><span class="lineno">  557</span>           (*tag).find(<span class="stringliteral">&quot;Details-content--hidden-not-important&quot;</span>) != string::npos;</div>
-<div class="line"><a id="l00558" name="l00558"></a><span class="lineno">  558</span>  }</div>
-<div class="line"><a id="l00559" name="l00559"></a><span class="lineno">  559</span> </div>
-<div class="line"><a id="l00560" name="l00560"></a><span class="lineno">  560</span>  <a class="code hl_function" href="classhtml2md_1_1Converter.html#a3dac7e7aadfdf82f468bf9da602c13fa">Converter</a> *ShortenMarkdown(<span class="keywordtype">size_t</span> chars = 1);</div>
-<div class="line"><a id="l00561" name="l00561"></a><span class="lineno">  561</span>  <span class="keyword">inline</span> <span class="keywordtype">void</span> shortIfPrevCh(<span class="keywordtype">char</span> prev) {</div>
-<div class="line"><a id="l00562" name="l00562"></a><span class="lineno">  562</span>    <span class="keywordflow">if</span> (prev_ch_in_md_ == prev)</div>
-<div class="line"><a id="l00563" name="l00563"></a><span class="lineno">  563</span>      ShortenMarkdown();</div>
-<div class="line"><a id="l00564" name="l00564"></a><span class="lineno">  564</span>  };</div>
-<div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span> </div>
-<div class="line"><a id="l00570" name="l00570"></a><span class="lineno">  570</span>  <span class="keywordtype">bool</span> ParseCharInTagContent(<span class="keywordtype">char</span> ch);</div>
-<div class="line"><a id="l00571" name="l00571"></a><span class="lineno">  571</span> </div>
-<div class="line"><a id="l00572" name="l00572"></a><span class="lineno">  572</span>  <span class="comment">// Replace previous space (if any) in current markdown line by newline</span></div>
-<div class="line"><a id="l00573" name="l00573"></a><span class="lineno">  573</span>  <span class="keywordtype">bool</span> ReplacePreviousSpaceInLineByNewline();</div>
-<div class="line"><a id="l00574" name="l00574"></a><span class="lineno">  574</span> </div>
-<div class="line"><a id="l00575" name="l00575"></a><span class="lineno">  575</span>  <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> IsIgnoredTag(<span class="keyword">const</span> std::string &amp;tag) {</div>
-<div class="line"><a id="l00576" name="l00576"></a><span class="lineno">  576</span>    <span class="keywordflow">return</span> (tag[0] == <span class="charliteral">&#39;-&#39;</span> || kTagTemplate == tag || kTagStyle == tag ||</div>
-<div class="line"><a id="l00577" name="l00577"></a><span class="lineno">  577</span>            kTagScript == tag || kTagNoScript == tag || kTagNav == tag);</div>
-<div class="line"><a id="l00578" name="l00578"></a><span class="lineno">  578</span> </div>
-<div class="line"><a id="l00579" name="l00579"></a><span class="lineno">  579</span>    <span class="comment">// meta: not ignored to tolerate if closing is omitted</span></div>
-<div class="line"><a id="l00580" name="l00580"></a><span class="lineno">  580</span>  }</div>
-<div class="line"><a id="l00581" name="l00581"></a><span class="lineno">  581</span> </div>
-<div class="line"><a id="l00582" name="l00582"></a><span class="lineno">  582</span>  [[nodiscard]] <span class="keywordtype">bool</span> IsInIgnoredTag() <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00583" name="l00583"></a><span class="lineno">  583</span>}; <span class="comment">// Converter</span></div>
-<div class="line"><a id="l00584" name="l00584"></a><span class="lineno">  584</span> </div>
-<div class="line"><a id="l00591" name="l00591"></a><span class="lineno"><a class="line" href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">  591</a></span><span class="keyword">inline</span> std::string <a class="code hl_function" href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">Convert</a>(std::string &amp;html, <span class="keywordtype">bool</span> *ok = <span class="keyword">nullptr</span>) {</div>
-<div class="line"><a id="l00592" name="l00592"></a><span class="lineno">  592</span>  <a class="code hl_class" href="classhtml2md_1_1Converter.html">Converter</a> c(html);</div>
-<div class="line"><a id="l00593" name="l00593"></a><span class="lineno">  593</span>  <span class="keyword">auto</span> md = c.<a class="code hl_function" href="classhtml2md_1_1Converter.html#a1607991893247c9b26525135cc4a0e50">convert</a>();</div>
-<div class="line"><a id="l00594" name="l00594"></a><span class="lineno">  594</span>  <span class="keywordflow">if</span> (ok != <span class="keyword">nullptr</span>)</div>
-<div class="line"><a id="l00595" name="l00595"></a><span class="lineno">  595</span>    *ok = c.<a class="code hl_function" href="classhtml2md_1_1Converter.html#a34437fc31922f996799afc0441ac68b1">ok</a>();</div>
-<div class="line"><a id="l00596" name="l00596"></a><span class="lineno">  596</span>  <span class="keywordflow">return</span> md;</div>
-<div class="line"><a id="l00597" name="l00597"></a><span class="lineno">  597</span>}</div>
-<div class="line"><a id="l00598" name="l00598"></a><span class="lineno">  598</span> </div>
-<div class="line"><a id="l00599" name="l00599"></a><span class="lineno">  599</span><span class="preprocessor">#ifndef PYTHON_BINDINGS</span></div>
-<div class="line"><a id="l00600" name="l00600"></a><span class="lineno"><a class="line" href="namespacehtml2md.html#a573931f1bc7baee04e41f84fa1f00cc2">  600</a></span><span class="keyword">inline</span> std::string <a class="code hl_function" href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">Convert</a>(std::string &amp;&amp;html, <span class="keywordtype">bool</span> *ok = <span class="keyword">nullptr</span>) {</div>
-<div class="line"><a id="l00601" name="l00601"></a><span class="lineno">  601</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">Convert</a>(html, ok);</div>
-<div class="line"><a id="l00602" name="l00602"></a><span class="lineno">  602</span>}</div>
-<div class="line"><a id="l00603" name="l00603"></a><span class="lineno">  603</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00604" name="l00604"></a><span class="lineno">  604</span> </div>
-<div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span>} <span class="comment">// namespace html2md</span></div>
-<div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span> </div>
-<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span><span class="preprocessor">#endif </span><span class="comment">// HTML2MD_H</span></div>
+<div class="line"><a id="l00543" name="l00543"></a><span class="lineno">  543</span>  <span class="keywordtype">bool</span> ParseCharInTag(<span class="keywordtype">char</span> ch);</div>
+<div class="line"><a id="l00544" name="l00544"></a><span class="lineno">  544</span> </div>
+<div class="line"><a id="l00545" name="l00545"></a><span class="lineno">  545</span>  <span class="comment">// Current char: &#39;&gt;&#39;</span></div>
+<div class="line"><a id="l00546" name="l00546"></a><span class="lineno">  546</span>  <span class="keywordtype">bool</span> OnHasLeftTag();</div>
+<div class="line"><a id="l00547" name="l00547"></a><span class="lineno">  547</span> </div>
+<div class="line"><a id="l00548" name="l00548"></a><span class="lineno">  548</span>  <span class="keyword">inline</span> <span class="keyword">static</span> <span class="keywordtype">bool</span> TagContainsAttributesToHide(std::string *tag) {</div>
+<div class="line"><a id="l00549" name="l00549"></a><span class="lineno">  549</span>    <span class="keyword">using </span>std::string;</div>
+<div class="line"><a id="l00550" name="l00550"></a><span class="lineno">  550</span> </div>
+<div class="line"><a id="l00551" name="l00551"></a><span class="lineno">  551</span>    <span class="keywordflow">return</span> (*tag).find(<span class="stringliteral">&quot; aria=\&quot;hidden\&quot;&quot;</span>) != string::npos ||</div>
+<div class="line"><a id="l00552" name="l00552"></a><span class="lineno">  552</span>           (*tag).find(<span class="stringliteral">&quot;display:none&quot;</span>) != string::npos ||</div>
+<div class="line"><a id="l00553" name="l00553"></a><span class="lineno">  553</span>           (*tag).find(<span class="stringliteral">&quot;visibility:hidden&quot;</span>) != string::npos ||</div>
+<div class="line"><a id="l00554" name="l00554"></a><span class="lineno">  554</span>           (*tag).find(<span class="stringliteral">&quot;opacity:0&quot;</span>) != string::npos ||</div>
+<div class="line"><a id="l00555" name="l00555"></a><span class="lineno">  555</span>           (*tag).find(<span class="stringliteral">&quot;Details-content--hidden-not-important&quot;</span>) != string::npos;</div>
+<div class="line"><a id="l00556" name="l00556"></a><span class="lineno">  556</span>  }</div>
+<div class="line"><a id="l00557" name="l00557"></a><span class="lineno">  557</span> </div>
+<div class="line"><a id="l00558" name="l00558"></a><span class="lineno">  558</span>  <a class="code hl_function" href="classhtml2md_1_1Converter.html#a3dac7e7aadfdf82f468bf9da602c13fa">Converter</a> *ShortenMarkdown(<span class="keywordtype">size_t</span> chars = 1);</div>
+<div class="line"><a id="l00559" name="l00559"></a><span class="lineno">  559</span>  <span class="keyword">inline</span> <span class="keywordtype">bool</span> shortIfPrevCh(<span class="keywordtype">char</span> prev) {</div>
+<div class="line"><a id="l00560" name="l00560"></a><span class="lineno">  560</span>    <span class="keywordflow">if</span> (prev_ch_in_md_ == prev) {</div>
+<div class="line"><a id="l00561" name="l00561"></a><span class="lineno">  561</span>      ShortenMarkdown();</div>
+<div class="line"><a id="l00562" name="l00562"></a><span class="lineno">  562</span>      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00563" name="l00563"></a><span class="lineno">  563</span>    }</div>
+<div class="line"><a id="l00564" name="l00564"></a><span class="lineno">  564</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span>  };</div>
+<div class="line"><a id="l00566" name="l00566"></a><span class="lineno">  566</span> </div>
+<div class="line"><a id="l00571" name="l00571"></a><span class="lineno">  571</span>  <span class="keywordtype">bool</span> ParseCharInTagContent(<span class="keywordtype">char</span> ch);</div>
+<div class="line"><a id="l00572" name="l00572"></a><span class="lineno">  572</span> </div>
+<div class="line"><a id="l00573" name="l00573"></a><span class="lineno">  573</span>  <span class="comment">// Replace previous space (if any) in current markdown line by newline</span></div>
+<div class="line"><a id="l00574" name="l00574"></a><span class="lineno">  574</span>  <span class="keywordtype">bool</span> ReplacePreviousSpaceInLineByNewline();</div>
+<div class="line"><a id="l00575" name="l00575"></a><span class="lineno">  575</span> </div>
+<div class="line"><a id="l00576" name="l00576"></a><span class="lineno">  576</span>  <span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">bool</span> IsIgnoredTag(<span class="keyword">const</span> std::string &amp;tag) {</div>
+<div class="line"><a id="l00577" name="l00577"></a><span class="lineno">  577</span>    <span class="keywordflow">return</span> (tag[0] == <span class="charliteral">&#39;-&#39;</span> || kTagTemplate == tag || kTagStyle == tag ||</div>
+<div class="line"><a id="l00578" name="l00578"></a><span class="lineno">  578</span>            kTagScript == tag || kTagNoScript == tag || kTagNav == tag);</div>
+<div class="line"><a id="l00579" name="l00579"></a><span class="lineno">  579</span> </div>
+<div class="line"><a id="l00580" name="l00580"></a><span class="lineno">  580</span>    <span class="comment">// meta: not ignored to tolerate if closing is omitted</span></div>
+<div class="line"><a id="l00581" name="l00581"></a><span class="lineno">  581</span>  }</div>
+<div class="line"><a id="l00582" name="l00582"></a><span class="lineno">  582</span> </div>
+<div class="line"><a id="l00583" name="l00583"></a><span class="lineno">  583</span>  [[nodiscard]] <span class="keywordtype">bool</span> IsInIgnoredTag() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00584" name="l00584"></a><span class="lineno">  584</span>}; <span class="comment">// Converter</span></div>
+<div class="line"><a id="l00585" name="l00585"></a><span class="lineno">  585</span> </div>
+<div class="line"><a id="l00592" name="l00592"></a><span class="lineno"><a class="line" href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">  592</a></span><span class="keyword">inline</span> std::string <a class="code hl_function" href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">Convert</a>(std::string &amp;html, <span class="keywordtype">bool</span> *ok = <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00593" name="l00593"></a><span class="lineno">  593</span>  <a class="code hl_class" href="classhtml2md_1_1Converter.html">Converter</a> c(html);</div>
+<div class="line"><a id="l00594" name="l00594"></a><span class="lineno">  594</span>  <span class="keyword">auto</span> md = c.<a class="code hl_function" href="classhtml2md_1_1Converter.html#a1607991893247c9b26525135cc4a0e50">convert</a>();</div>
+<div class="line"><a id="l00595" name="l00595"></a><span class="lineno">  595</span>  <span class="keywordflow">if</span> (ok != <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00596" name="l00596"></a><span class="lineno">  596</span>    *ok = c.<a class="code hl_function" href="classhtml2md_1_1Converter.html#a34437fc31922f996799afc0441ac68b1">ok</a>();</div>
+<div class="line"><a id="l00597" name="l00597"></a><span class="lineno">  597</span>  <span class="keywordflow">return</span> md;</div>
+<div class="line"><a id="l00598" name="l00598"></a><span class="lineno">  598</span>}</div>
+<div class="line"><a id="l00599" name="l00599"></a><span class="lineno">  599</span> </div>
+<div class="line"><a id="l00600" name="l00600"></a><span class="lineno">  600</span><span class="preprocessor">#ifndef PYTHON_BINDINGS</span></div>
+<div class="line"><a id="l00601" name="l00601"></a><span class="lineno"><a class="line" href="namespacehtml2md.html#a573931f1bc7baee04e41f84fa1f00cc2">  601</a></span><span class="keyword">inline</span> std::string <a class="code hl_function" href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">Convert</a>(std::string &amp;&amp;html, <span class="keywordtype">bool</span> *ok = <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00602" name="l00602"></a><span class="lineno">  602</span>  <span class="keywordflow">return</span> <a class="code hl_function" href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">Convert</a>(html, ok);</div>
+<div class="line"><a id="l00603" name="l00603"></a><span class="lineno">  603</span>}</div>
+<div class="line"><a id="l00604" name="l00604"></a><span class="lineno">  604</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span> </div>
+<div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span>} <span class="comment">// namespace html2md</span></div>
+<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span> </div>
+<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span><span class="preprocessor">#endif </span><span class="comment">// HTML2MD_H</span></div>
 <div class="ttc" id="aclasshtml2md_1_1Converter_html"><div class="ttname"><a href="classhtml2md_1_1Converter.html">html2md::Converter</a></div><div class="ttdoc">Class for converting HTML to Markdown.</div><div class="ttdef"><b>Definition</b> <a href="html2md_8h_source.html#l00148">html2md.h:148</a></div></div>
-<div class="ttc" id="aclasshtml2md_1_1Converter_html_a1607991893247c9b26525135cc4a0e50"><div class="ttname"><a href="classhtml2md_1_1Converter.html#a1607991893247c9b26525135cc4a0e50">html2md::Converter::convert</a></div><div class="ttdeci">std::string convert()</div><div class="ttdoc">Convert HTML into Markdown.</div><div class="ttdef"><b>Definition</b> <a href="html2md_8cpp_source.html#l00362">html2md.cpp:362</a></div></div>
-<div class="ttc" id="aclasshtml2md_1_1Converter_html_a22de58b843063c394993552a255052cd"><div class="ttname"><a href="classhtml2md_1_1Converter.html#a22de58b843063c394993552a255052cd">html2md::Converter::appendToMd</a></div><div class="ttdeci">Converter * appendToMd(char ch)</div><div class="ttdoc">Append a char to the Markdown.</div><div class="ttdef"><b>Definition</b> <a href="html2md_8cpp_source.html#l00184">html2md.cpp:184</a></div></div>
+<div class="ttc" id="aclasshtml2md_1_1Converter_html_a1607991893247c9b26525135cc4a0e50"><div class="ttname"><a href="classhtml2md_1_1Converter.html#a1607991893247c9b26525135cc4a0e50">html2md::Converter::convert</a></div><div class="ttdeci">std::string convert()</div><div class="ttdoc">Convert HTML into Markdown.</div><div class="ttdef"><b>Definition</b> <a href="html2md_8cpp_source.html#l00353">html2md.cpp:353</a></div></div>
+<div class="ttc" id="aclasshtml2md_1_1Converter_html_a22de58b843063c394993552a255052cd"><div class="ttname"><a href="classhtml2md_1_1Converter.html#a22de58b843063c394993552a255052cd">html2md::Converter::appendToMd</a></div><div class="ttdeci">Converter * appendToMd(char ch)</div><div class="ttdoc">Append a char to the Markdown.</div><div class="ttdef"><b>Definition</b> <a href="html2md_8cpp_source.html#l00175">html2md.cpp:175</a></div></div>
 <div class="ttc" id="aclasshtml2md_1_1Converter_html_a25801279d82032b2f22f15bad5625c04"><div class="ttname"><a href="classhtml2md_1_1Converter.html#a25801279d82032b2f22f15bad5625c04">html2md::Converter::operator==</a></div><div class="ttdeci">bool operator==(const Converter *c) const</div><div class="ttdoc">Checks if the HTML matches and the options are the same.</div><div class="ttdef"><b>Definition</b> <a href="html2md_8h_source.html#l00226">html2md.h:226</a></div></div>
-<div class="ttc" id="aclasshtml2md_1_1Converter_html_a27e12c1966c7285969bfe069f9132c03"><div class="ttname"><a href="classhtml2md_1_1Converter.html#a27e12c1966c7285969bfe069f9132c03">html2md::Converter::appendBlank</a></div><div class="ttdeci">Converter * appendBlank()</div><div class="ttdoc">Appends a ' ' in certain cases.</div><div class="ttdef"><b>Definition</b> <a href="html2md_8cpp_source.html#l00217">html2md.cpp:217</a></div></div>
-<div class="ttc" id="aclasshtml2md_1_1Converter_html_a34437fc31922f996799afc0441ac68b1"><div class="ttname"><a href="classhtml2md_1_1Converter.html#a34437fc31922f996799afc0441ac68b1">html2md::Converter::ok</a></div><div class="ttdeci">bool ok() const</div><div class="ttdoc">Checks if everything was closed properly(in the HTML).</div><div class="ttdef"><b>Definition</b> <a href="html2md_8cpp_source.html#l00227">html2md.cpp:227</a></div></div>
+<div class="ttc" id="aclasshtml2md_1_1Converter_html_a27e12c1966c7285969bfe069f9132c03"><div class="ttname"><a href="classhtml2md_1_1Converter.html#a27e12c1966c7285969bfe069f9132c03">html2md::Converter::appendBlank</a></div><div class="ttdeci">Converter * appendBlank()</div><div class="ttdoc">Appends a ' ' in certain cases.</div><div class="ttdef"><b>Definition</b> <a href="html2md_8cpp_source.html#l00208">html2md.cpp:208</a></div></div>
+<div class="ttc" id="aclasshtml2md_1_1Converter_html_a34437fc31922f996799afc0441ac68b1"><div class="ttname"><a href="classhtml2md_1_1Converter.html#a34437fc31922f996799afc0441ac68b1">html2md::Converter::ok</a></div><div class="ttdeci">bool ok() const</div><div class="ttdoc">Checks if everything was closed properly(in the HTML).</div><div class="ttdef"><b>Definition</b> <a href="html2md_8cpp_source.html#l00218">html2md.cpp:218</a></div></div>
 <div class="ttc" id="aclasshtml2md_1_1Converter_html_a3dac7e7aadfdf82f468bf9da602c13fa"><div class="ttname"><a href="classhtml2md_1_1Converter.html#a3dac7e7aadfdf82f468bf9da602c13fa">html2md::Converter::Converter</a></div><div class="ttdeci">Converter(std::string &amp;html, struct Options *options=nullptr)</div><div class="ttdoc">Standard initializer, takes HTML as parameter. Also prepares everything.</div><div class="ttdef"><b>Definition</b> <a href="html2md_8h_source.html#l00162">html2md.h:162</a></div></div>
 <div class="ttc" id="aclasshtml2md_1_1Converter_html_a6e286f301897f11bc7591ff48a7d04e0"><div class="ttname"><a href="classhtml2md_1_1Converter.html#a6e286f301897f11bc7591ff48a7d04e0">html2md::Converter::operator==</a></div><div class="ttdeci">bool operator==(const Converter &amp;c) const</div><div class="ttdef"><b>Definition</b> <a href="html2md_8h_source.html#l00228">html2md.h:228</a></div></div>
-<div class="ttc" id="aclasshtml2md_1_1Converter_html_a9cba2b792fdc29464ea459f5715740c5"><div class="ttname"><a href="classhtml2md_1_1Converter.html#a9cba2b792fdc29464ea459f5715740c5">html2md::Converter::reset</a></div><div class="ttdeci">void reset()</div><div class="ttdoc">Reset the generated Markdown.</div><div class="ttdef"><b>Definition</b> <a href="html2md_8cpp_source.html#l01035">html2md.cpp:1035</a></div></div>
+<div class="ttc" id="aclasshtml2md_1_1Converter_html_a9cba2b792fdc29464ea459f5715740c5"><div class="ttname"><a href="classhtml2md_1_1Converter.html#a9cba2b792fdc29464ea459f5715740c5">html2md::Converter::reset</a></div><div class="ttdeci">void reset()</div><div class="ttdoc">Reset the generated Markdown.</div><div class="ttdef"><b>Definition</b> <a href="html2md_8cpp_source.html#l01018">html2md.cpp:1018</a></div></div>
 <div class="ttc" id="aclasshtml2md_1_1Converter_html_ade9de96bbba1bb74bd4e92e83581fef7"><div class="ttname"><a href="classhtml2md_1_1Converter.html#ade9de96bbba1bb74bd4e92e83581fef7">html2md::Converter::appendToMd</a></div><div class="ttdeci">Converter * appendToMd(const std::string &amp;s)</div><div class="ttdoc">Append a string to the Markdown.</div><div class="ttdef"><b>Definition</b> <a href="html2md_8h_source.html#l00195">html2md.h:195</a></div></div>
 <div class="ttc" id="anamespacehtml2md_html"><div class="ttname"><a href="namespacehtml2md.html">html2md</a></div><div class="ttdoc">html2md namespace</div><div class="ttdef"><b>Definition</b> <a href="html2md_8h_source.html#l00023">html2md.h:23</a></div></div>
-<div class="ttc" id="anamespacehtml2md_html_af7fb981c863efed5049ce51d91ee5b0c"><div class="ttname"><a href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">html2md::Convert</a></div><div class="ttdeci">std::string Convert(std::string &amp;html, bool *ok=nullptr)</div><div class="ttdoc">Static wrapper around the Converter class.</div><div class="ttdef"><b>Definition</b> <a href="html2md_8h_source.html#l00591">html2md.h:591</a></div></div>
+<div class="ttc" id="anamespacehtml2md_html_af7fb981c863efed5049ce51d91ee5b0c"><div class="ttname"><a href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">html2md::Convert</a></div><div class="ttdeci">std::string Convert(std::string &amp;html, bool *ok=nullptr)</div><div class="ttdoc">Static wrapper around the Converter class.</div><div class="ttdef"><b>Definition</b> <a href="html2md_8h_source.html#l00592">html2md.h:592</a></div></div>
 <div class="ttc" id="astructhtml2md_1_1Options_html"><div class="ttname"><a href="structhtml2md_1_1Options.html">html2md::Options</a></div><div class="ttdoc">Options for the conversion from HTML to Markdown.</div><div class="ttdef"><b>Definition</b> <a href="html2md_8h_source.html#l00040">html2md.h:40</a></div></div>
 <div class="ttc" id="astructhtml2md_1_1Options_html_a0f629e5051d4097d85d8560f3f3904bf"><div class="ttname"><a href="structhtml2md_1_1Options.html#a0f629e5051d4097d85d8560f3f3904bf">html2md::Options::operator==</a></div><div class="ttdeci">bool operator==(html2md::Options o) const</div><div class="ttdef"><b>Definition</b> <a href="html2md_8h_source.html#l00097">html2md.h:97</a></div></div>
 <div class="ttc" id="astructhtml2md_1_1Options_html_a8c6e58161cda0be183f15df1c62c930a"><div class="ttname"><a href="structhtml2md_1_1Options.html#a8c6e58161cda0be183f15df1c62c930a">html2md::Options::orderedList</a></div><div class="ttdeci">char orderedList</div><div class="ttdoc">The char used after the number of the item.</div><div class="ttdef"><b>Definition</b> <a href="html2md_8h_source.html#l00078">html2md.h:78</a></div></div>
