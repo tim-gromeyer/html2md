@@ -85,6 +85,8 @@ Converter::Converter(string *html, Options *options) : html_(*html) {
   if (options)
     option = *options;
 
+  PrepareHtml();
+
   tags_.reserve(41);
 
   // non-printing tags
@@ -147,12 +149,6 @@ Converter::Converter(string *html, Options *options) : html_(*html) {
 
 void Converter::PrepareHtml() {
   ReplaceAll(&html_, "\t", ' ');
-  ReplaceAll(&html_, "&amp;", '&');
-  ReplaceAll(&html_, "&nbsp;", ' ');
-  ReplaceAll(&html_, "&rarr;", "→");
-
-  regex exp("<!--(.*?)-->");
-  html_ = regex_replace(html_, exp, "");
 }
 
 void Converter::CleanUpMarkdown() {
@@ -172,6 +168,9 @@ void Converter::CleanUpMarkdown() {
   ReplaceAll(&md_, "&quot;", '"');
   ReplaceAll(&md_, "&lt;", "<");
   ReplaceAll(&md_, "&gt;", ">");
+  ReplaceAll(&html_, "&amp;", '&');
+  ReplaceAll(&html_, "&nbsp;", ' ');
+  ReplaceAll(&html_, "&rarr;", "→");
 
   ReplaceAll(&md_, "\t\t  ", "\t\t");
   ReplaceAll(&md_, " </u> ", "</u>");
