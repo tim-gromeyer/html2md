@@ -2,6 +2,10 @@
 
 [TOC]
 
+## v1.5.1
+
+- **~40% Performance Improvement**
+
 ## v1.5.0
 
 - **Added a option to Format Markdown Tables**
