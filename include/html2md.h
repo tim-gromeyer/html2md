@@ -558,9 +558,12 @@ private:
   }
 
   Converter *ShortenMarkdown(size_t chars = 1);
-  inline void shortIfPrevCh(char prev) {
-    if (prev_ch_in_md_ == prev)
+  inline bool shortIfPrevCh(char prev) {
+    if (prev_ch_in_md_ == prev) {
       ShortenMarkdown();
+      return true;
+    }
+    return false;
   };
 
   /**

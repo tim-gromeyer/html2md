@@ -596,12 +596,9 @@ void Converter::TagAnchor::OnHasLeftClosingTag(Converter *c) {
   if (c->IsInIgnoredTag())
     return;
 
-  if (c->prev_ch_in_md_ == ' ')
-    c->ShortenMarkdown();
+  c->shortIfPrevCh(' ');
 
-  if (c->prev_ch_in_md_ == '[')
-    c->ShortenMarkdown();
-  else {
+  if (!c->shortIfPrevCh('[')) {
     c->appendToMd("](")->appendToMd(c->current_href_);
 
     // If title is set append it
@@ -656,8 +653,7 @@ void Converter::TagStrikethrought::OnHasLeftOpeningTag(Converter *c) {
 }
 
 void Converter::TagStrikethrought::OnHasLeftClosingTag(Converter *c) {
-  if (c->prev_ch_in_md_ == ' ')
-    c->ShortenMarkdown();
+  c->shortIfPrevCh(' ');
 
   c->appendToMd("~ ");
 }
@@ -667,8 +663,7 @@ void Converter::TagBreak::OnHasLeftOpeningTag(Converter *c) {
     c->appendToMd("  \n");
     c->appendToMd(Repeat("  ", c->index_li));
   } else if (c->is_in_table_) {
-    if (c->prev_ch_in_md_ == ' ')
-      c->ShortenMarkdown();
+    c->shortIfPrevCh(' ');
 
     c->appendToMd("<br>");
   } else if (!c->is_in_p_) {
@@ -830,10 +825,10 @@ void Converter::TagPre::OnHasLeftOpeningTag(Converter *c) {
   c->is_in_pre_ = true;
 
   if (c->prev_ch_in_md_ != '\n')
-    c->appendToMd("\n");
+    c->appendToMd('\n');
 
   if (c->prev_prev_ch_in_md_ != '\n')
-    c->appendToMd("\n");
+    c->appendToMd('\n');
 
   if (c->index_blockquote != 0) {
     c->appendToMd(Repeat("> ", c->index_blockquote));
@@ -861,8 +856,7 @@ void Converter::TagCode::OnHasLeftOpeningTag(Converter *c) {
 
   if (c->is_in_pre_) {
     // Remove space
-    if (c->prev_ch_in_md_ == ' ')
-      c->ShortenMarkdown();
+    c->shortIfPrevCh(' ');
 
     if (c->is_in_list_ || c->index_blockquote != 0)
       return;
@@ -884,8 +878,7 @@ void Converter::TagCode::OnHasLeftClosingTag(Converter *c) {
   if (c->is_in_pre_)
     return;
 
-  if (c->prev_ch_in_md_ == ' ')
-    c->ShortenMarkdown();
+  c->shortIfPrevCh(' ');
 
   c->appendToMd("` ");
 }
@@ -946,12 +939,11 @@ void Converter::TagImage::OnHasLeftClosingTag(Converter *c) {
 }
 
 void Converter::TagSeperator::OnHasLeftOpeningTag(Converter *c) {
-  c->appendToMd("\n---\n");
+  c->appendToMd("\n---\n"); // NOTE: We can make this an option
 }
 
 void Converter::TagSeperator::OnHasLeftClosingTag(Converter *c) {}
 
-// NOTE: There is no table formatting. It'll be hard to implement.
 void Converter::TagTable::OnHasLeftOpeningTag(Converter *c) {
   c->is_in_table_ = true;
   c->appendToMd('\n');
@@ -1043,9 +1035,6 @@ bool Converter::IsInIgnoredTag() const {
   if (current_tag_ == kTagTitle && !option.includeTitle)
     return true;
 
-  if (IsIgnoredTag(current_tag_))
-    return true;
-
-  return false;
+  return IsIgnoredTag(current_tag_);
 }
 } // namespace html2md
