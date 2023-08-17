@@ -66,7 +66,7 @@ set_target_properties(html2md PROPERTIES
     SOVERSION ${PROJECT_VERSION_MAJOR}
     PUBLIC_HEADER "${HEADERS}"
 )
-target_include_directories(html2md PUBLIC include)
+target_include_directories(html2md PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
 target_compile_features(html2md PUBLIC cxx_std_11) # Require at least c++11
 
 if (subproject OR BUILD_EXE)
