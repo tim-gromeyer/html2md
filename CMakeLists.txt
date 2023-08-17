@@ -69,7 +69,7 @@ set_target_properties(html2md PROPERTIES
 target_include_directories(html2md PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>)
 target_compile_features(html2md PUBLIC cxx_std_11) # Require at least c++11
 
-if (subproject OR BUILD_EXE)
+if ((subproject AND BUILD_SHARED_LIBS) OR BUILD_EXE)
     add_library(html2md-static STATIC ${HEADERS} ${SOURCES})
     target_include_directories(html2md-static PUBLIC include)
     target_compile_features(html2md-static PUBLIC cxx_std_11) # Require at least c++11
