@@ -60,13 +60,13 @@ if(PYTHON_BINDINGS)
     return()
 endif()
 
-add_library(html2md SHARED ${SOURCES})
+add_library(html2md ${SOURCES})
 set_target_properties(html2md PROPERTIES
     VERSION ${PROJECT_VERSION}
     SOVERSION ${PROJECT_VERSION_MAJOR}
     PUBLIC_HEADER "${HEADERS}"
 )
-target_include_directories(html2md PRIVATE include)
+target_include_directories(html2md PUBLIC include)
 target_compile_features(html2md PUBLIC cxx_std_11) # Require at least c++11
 
 if (subproject OR BUILD_EXE)
