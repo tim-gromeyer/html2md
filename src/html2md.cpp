@@ -7,13 +7,11 @@
 #include <cstring>
 #include <functional>
 #include <memory>
-#include <regex> // NOLINT [build/c++11]
 #include <sstream>
 #include <stack>
 #include <utility>
 
 using std::make_shared;
-using std::regex;
 using std::string;
 using std::vector;
 
@@ -155,10 +153,6 @@ void Converter::CleanUpMarkdown() {
   ReplaceAll(&md_, "\n*\n", "\n");
   ReplaceAll(&md_, "\n. ", ".\n");
 
-  ReplaceAll(&md_, " [ ", " [");
-  ReplaceAll(&md_, "\n[ ", "\n[");
-  ReplaceAll(&md_, "[ ![", "[![");
-
   ReplaceAll(&md_, "&quot;", '"');
   ReplaceAll(&md_, "&lt;", "<");
   ReplaceAll(&md_, "&gt;", ">");
@@ -167,9 +161,6 @@ void Converter::CleanUpMarkdown() {
   ReplaceAll(&html_, "&rarr;", "→");
 
   ReplaceAll(&md_, "\t\t  ", "\t\t");
-  ReplaceAll(&md_, " </u> ", "</u>");
-
-  ReplaceAll(&md_, "` !", "`!");
 }
 
 Converter *Converter::appendToMd(char ch) {
@@ -257,8 +248,16 @@ void Converter::TidyAllLines(string *str) {
   string res;
 
   uint8_t amount_newlines = 0;
+  bool in_code_block = false;
 
   for (auto line : lines) {
+    if (startsWith(line, "```") || startsWith(line, "~~~"))
+      in_code_block = !in_code_block;
+    if (in_code_block) {
+      res += line + '\n';
+      continue;
+    }
+
     Trim(&line);
 
     if (line.empty()) {
@@ -415,19 +414,11 @@ bool Converter::ParseCharInTag(char ch) {
   if (ch == '"') {
     if (is_in_attribute_value_) {
       is_in_attribute_value_ = false;
-      current_attribute_ = "";
-      current_attribute_value_ = "";
     } else if (prev_ch_in_md_ == '=') {
       is_in_attribute_value_ = true;
     }
 
     return true;
-  }
-
-  if (is_in_attribute_value_) {
-    current_attribute_value_ += ch;
-  } else {
-    current_attribute_ += ch;
   }
 
   current_tag_ += ch;
@@ -440,14 +431,11 @@ bool Converter::OnHasLeftTag() {
 
   UpdatePrevChFromMd();
 
-  bool is_hidden = false;
-  if (!is_closing_tag_) {
-    is_hidden = TagContainsAttributesToHide(&current_tag_);
-  }
+  if (!is_closing_tag_)
+    if (TagContainsAttributesToHide(&current_tag_))
+      return true;
 
   current_tag_ = Split(current_tag_, ' ')[0];
-
-  char_index_in_tag_content = 0;
 
   auto tag = tags_[current_tag_];
 
@@ -459,11 +447,6 @@ bool Converter::OnHasLeftTag() {
 
     tag->OnHasLeftClosingTag(this);
   } else {
-    auto breadcrump_tag = current_tag_;
-
-    if (is_hidden)
-      breadcrump_tag = "-" + current_tag_;
-
     tag->OnHasLeftOpeningTag(this);
   }
 
@@ -484,11 +467,6 @@ Converter *Converter::ShortenMarkdown(size_t chars) {
 bool Converter::ParseCharInTagContent(char ch) {
   if (is_in_code_) {
     md_ += ch;
-    ++chars_in_curr_line_;
-    ++char_index_in_tag_content;
-
-    UpdatePrevChFromMd();
-
     return false;
   }
 
@@ -508,24 +486,21 @@ bool Converter::ParseCharInTagContent(char ch) {
     return true;
   }
 
-  UpdatePrevChFromMd();
-
-  // prevent more than one consecutive spaces
-  if (ch == ' ') {
-    if (md_.length() == 0 || char_index_in_tag_content == 0 ||
-        prev_ch_in_md_ == ' ' || prev_ch_in_md_ == '\n')
-      return true;
+  switch (ch) {
+  case '*':
+    appendToMd("\\*");
+    break;
+  case '`':
+    appendToMd("\\`");
+    break;
+  case '\\':
+    appendToMd("\\\\");
+    break;
+  default:
+    md_ += ch;
+    ++chars_in_curr_line_;
+    break;
   }
-
-  if (ch == '.' && prev_ch_in_md_ == ' ') {
-    ShortenMarkdown();
-    --chars_in_curr_line_;
-  }
-
-  md_ += ch;
-
-  ++chars_in_curr_line_;
-  ++char_index_in_tag_content;
 
   if (chars_in_curr_line_ > 80 && !is_in_table_ && !is_in_list_ &&
       current_tag_ != kTagImg && current_tag_ != kTagAnchor &&
@@ -569,35 +544,26 @@ bool Converter::ReplacePreviousSpaceInLineByNewline() {
 }
 
 void Converter::TagAnchor::OnHasLeftOpeningTag(Converter *c) {
-  if (c->IsInIgnoredTag())
-    return;
-
   if (c->prev_tag_ == kTagImg)
     c->appendToMd('\n');
 
-  c->current_title_ = c->ExtractAttributeFromTagLeftOf(kAttributeTitle);
+  current_title_ = c->ExtractAttributeFromTagLeftOf(kAttributeTitle);
 
-  c->current_href_ = c->RTrim(&c->md_, true)
-                         ->appendBlank()
-                         ->appendToMd("[")
-                         ->ExtractAttributeFromTagLeftOf(kAttributeHref);
+  c->appendToMd('[');
+  current_href_ = c->ExtractAttributeFromTagLeftOf(kAttributeHref);
 }
 
 void Converter::TagAnchor::OnHasLeftClosingTag(Converter *c) {
-  if (c->IsInIgnoredTag())
-    return;
-
-  c->shortIfPrevCh(' ');
-
   if (!c->shortIfPrevCh('[')) {
-    c->appendToMd("](")->appendToMd(c->current_href_);
+    c->appendToMd("](")->appendToMd(current_href_);
 
     // If title is set append it
-    if (!c->current_title_.empty()) {
-      c->appendToMd(" \"")->appendToMd(c->current_title_)->appendToMd('"');
+    if (!current_title_.empty()) {
+      c->appendToMd(" \"")->appendToMd(current_title_)->appendToMd('"');
+      current_title_.clear();
     }
 
-    c->appendToMd(") ");
+    c->appendToMd(')');
 
     if (c->prev_tag_ == kTagImg)
       c->appendToMd('\n');
@@ -609,9 +575,7 @@ void Converter::TagBold::OnHasLeftOpeningTag(Converter *c) {
 }
 
 void Converter::TagBold::OnHasLeftClosingTag(Converter *c) {
-  c->shortIfPrevCh(' ');
-
-  c->appendToMd("** ");
+  c->appendToMd("**");
 }
 
 void Converter::TagItalic::OnHasLeftOpeningTag(Converter *c) {
@@ -619,34 +583,23 @@ void Converter::TagItalic::OnHasLeftOpeningTag(Converter *c) {
 }
 
 void Converter::TagItalic::OnHasLeftClosingTag(Converter *c) {
-  c->shortIfPrevCh(' ');
-
-  c->appendToMd("* ");
+  c->appendToMd('*');
 }
 
 void Converter::TagUnderline::OnHasLeftOpeningTag(Converter *c) {
-  if (c->prev_prev_ch_in_md_ == ' ' && c->prev_ch_in_md_ == ' ')
-    c->ShortenMarkdown();
-
   c->appendToMd("<u>");
 }
 
 void Converter::TagUnderline::OnHasLeftClosingTag(Converter *c) {
-  c->shortIfPrevCh(' ');
-
   c->appendToMd("</u>");
 }
 
 void Converter::TagStrikethrought::OnHasLeftOpeningTag(Converter *c) {
-  c->shortIfPrevCh(' ');
-
   c->appendToMd('~');
 }
 
 void Converter::TagStrikethrought::OnHasLeftClosingTag(Converter *c) {
-  c->shortIfPrevCh(' ');
-
-  c->appendToMd("~ ");
+  c->appendToMd('~');
 }
 
 void Converter::TagBreak::OnHasLeftOpeningTag(Converter *c) {
@@ -654,8 +607,6 @@ void Converter::TagBreak::OnHasLeftOpeningTag(Converter *c) {
     c->appendToMd("  \n");
     c->appendToMd(Repeat("  ", c->index_li));
   } else if (c->is_in_table_) {
-    c->shortIfPrevCh(' ');
-
     c->appendToMd("<br>");
   } else if (!c->is_in_p_) {
     c->appendToMd("\n<br>\n\n");
@@ -846,9 +797,6 @@ void Converter::TagCode::OnHasLeftOpeningTag(Converter *c) {
   c->is_in_code_ = true;
 
   if (c->is_in_pre_) {
-    // Remove space
-    c->shortIfPrevCh(' ');
-
     if (c->is_in_list_ || c->index_blockquote != 0)
       return;
 
@@ -869,17 +817,12 @@ void Converter::TagCode::OnHasLeftClosingTag(Converter *c) {
   if (c->is_in_pre_)
     return;
 
-  c->shortIfPrevCh(' ');
-
-  c->appendToMd("` ");
+  c->appendToMd('`');
 }
 
 void Converter::TagSpan::OnHasLeftOpeningTag(Converter *c) {}
 
-void Converter::TagSpan::OnHasLeftClosingTag(Converter *c) {
-  if (c->prev_ch_in_md_ != ' ' && c->char_index_in_tag_content > 0)
-    c->appendBlank();
-}
+void Converter::TagSpan::OnHasLeftClosingTag(Converter *c) {}
 
 void Converter::TagTitle::OnHasLeftOpeningTag(Converter *c) {}
 
@@ -920,8 +863,14 @@ void Converter::TagImage::OnHasLeftOpeningTag(Converter *c) {
   c->appendToMd("![")
       ->appendToMd(c->ExtractAttributeFromTagLeftOf(kAttributeAlt))
       ->appendToMd("](")
-      ->appendToMd(c->ExtractAttributeFromTagLeftOf(kAttributeSrc))
-      ->appendToMd(")");
+      ->appendToMd(c->ExtractAttributeFromTagLeftOf(kAttributeSrc));
+
+  auto title = c->ExtractAttributeFromTagLeftOf(kAttributeTitle);
+  if (!title.empty()) {
+    c->appendToMd(" \"")->appendToMd(title)->appendToMd('"');
+  }
+
+  c->appendToMd(")");
 }
 
 void Converter::TagImage::OnHasLeftClosingTag(Converter *c) {

@@ -326,20 +326,10 @@ private:
   std::string current_tag_;
   std::string prev_tag_;
 
-  std::string current_attribute_;
-  std::string current_attribute_value_;
-
-  std::string current_href_;
-  std::string current_title_;
-
-  std::string current_alt_;
-  std::string current_src_;
-
   // Line which separates header from data
   std::string tableLine;
 
   size_t chars_in_curr_line_ = 0;
-  uint16_t char_index_in_tag_content = 0;
 
   std::string md_;
 
@@ -362,6 +352,9 @@ private:
   struct TagAnchor : Tag {
     void OnHasLeftOpeningTag(Converter *c) override;
     void OnHasLeftClosingTag(Converter *c) override;
+
+    std::string current_href_;
+    std::string current_title_;
   };
 
   struct TagBold : Tag {
