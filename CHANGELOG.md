@@ -2,6 +2,15 @@
 
 [TOC]
 
+## 1.5.2
+
+- FIXED: Add `titile` support for images
+- FIXED: Code got formatted (Spaces removed)
+- Fixed some formatting issues (like a space infront of `!`)
+- FIXED: Escaping of `*`, \`, and `\`
+- Reduced memory usage
+- Improved performance
+
 ## v1.5.1
 
 - **~40% Performance Improvement**
