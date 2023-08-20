@@ -4,6 +4,7 @@
 #include "html2md.h"
 #include "table.h"
 
+#include <algorithm>
 #include <cstring>
 #include <functional>
 #include <memory>
