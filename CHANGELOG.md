@@ -2,6 +2,11 @@
 
 [TOC]
 
+## 1.5.3
+
+- Make `blockquote` work correctly!
+- Additional note for 1.5.2: Add Python 12 packages
+
 ## 1.5.2
 
 - FIXED: Add `titile` support for images
