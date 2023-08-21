@@ -142,8 +142,6 @@ struct Options {
  * if (!c.ok()) std::cout << "There was something wrong in the HTML\n";
  * std::cout << md; // # example
  * ```
- *
- * \todo Rework `blockquote`s
  */
 class Converter {
 public:
