@@ -168,6 +168,16 @@ Converter *Converter::appendToMd(char ch) {
   if (IsInIgnoredTag())
     return this;
 
+  if (index_blockquote != 0 && ch == '\n') {
+    if (is_in_pre_) {
+      md_ += ch;
+      chars_in_curr_line_ = 0;
+      appendToMd(Repeat("> ", index_blockquote));
+    }
+
+    return this;
+  }
+
   md_ += ch;
 
   if (ch == '\n')
@@ -468,21 +478,25 @@ Converter *Converter::ShortenMarkdown(size_t chars) {
 bool Converter::ParseCharInTagContent(char ch) {
   if (is_in_code_) {
     md_ += ch;
-    return false;
-  }
 
-  if (ch == '\n') {
-    if (prev_tag_ == kTagBlockquote && current_tag_ == kTagParagraph) {
-      md_ += '\n';
-      chars_in_curr_line_ = 0;
+    if (index_blockquote != 0 && ch == '\n')
       appendToMd(Repeat("> ", index_blockquote));
-    }
 
     return true;
   }
 
   if (IsInIgnoredTag() || current_tag_ == kTagLink) {
     prev_ch_in_html_ = ch;
+
+    return true;
+  }
+
+  if (ch == '\n') {
+    if (index_blockquote != 0) {
+      md_ += '\n';
+      chars_in_curr_line_ = 0;
+      appendToMd(Repeat("> ", index_blockquote));
+    }
 
     return true;
   }
@@ -613,8 +627,6 @@ void Converter::TagBreak::OnHasLeftOpeningTag(Converter *c) {
     c->appendToMd("\n<br>\n\n");
   } else if (c->md_.length() > 0)
     c->appendToMd("  \n");
-
-  c->appendToMd(Repeat("> ", c->index_blockquote));
 }
 
 void Converter::TagBreak::OnHasLeftClosingTag(Converter *c) {}
@@ -748,20 +760,18 @@ void Converter::TagParagraph::OnHasLeftOpeningTag(Converter *c) {
 
   if (c->is_in_list_ && c->prev_tag_ == kTagParagraph)
     c->appendToMd("\n\t");
-  else if (!c->is_in_list_ && c->index_blockquote == 0)
+  else if (!c->is_in_list_)
     c->appendToMd('\n');
-
-  if (c->index_blockquote > 0) {
-    c->appendToMd("> \n");
-    c->appendToMd(Repeat("> ", c->index_blockquote));
-  }
 }
 
 void Converter::TagParagraph::OnHasLeftClosingTag(Converter *c) {
   c->is_in_p_ = false;
 
   if (!c->md_.empty())
-    c->appendToMd('\n');
+    c->appendToMd("\n"); // Workaround \n restriction for blockquotes
+
+  if (c->index_blockquote != 0)
+    c->appendToMd(Repeat("> ", c->index_blockquote));
 }
 
 void Converter::TagPre::OnHasLeftOpeningTag(Converter *c) {
@@ -773,15 +783,10 @@ void Converter::TagPre::OnHasLeftOpeningTag(Converter *c) {
   if (c->prev_prev_ch_in_md_ != '\n')
     c->appendToMd('\n');
 
-  if (c->index_blockquote != 0) {
-    c->appendToMd(Repeat("> ", c->index_blockquote));
-    c->ShortenMarkdown();
-  }
-
   if (c->is_in_list_ && c->prev_tag_ != kTagParagraph)
     c->ShortenMarkdown(2);
 
-  if (c->is_in_list_ || c->index_blockquote != 0)
+  if (c->is_in_list_)
     c->appendToMd("\t\t");
   else
     c->appendToMd("```");
@@ -790,15 +795,18 @@ void Converter::TagPre::OnHasLeftOpeningTag(Converter *c) {
 void Converter::TagPre::OnHasLeftClosingTag(Converter *c) {
   c->is_in_pre_ = false;
 
-  if (!c->is_in_list_ && c->index_blockquote == 0)
-    c->appendToMd("```\n");
+  if (c->is_in_list_)
+    return;
+
+  c->appendToMd("```");
+  c->appendToMd('\n'); // Don't combine because of blockquote
 }
 
 void Converter::TagCode::OnHasLeftOpeningTag(Converter *c) {
   c->is_in_code_ = true;
 
   if (c->is_in_pre_) {
-    if (c->is_in_list_ || c->index_blockquote != 0)
+    if (c->is_in_list_)
       return;
 
     auto code = c->ExtractAttributeFromTagLeftOf(kAttributeClass);
@@ -956,13 +964,11 @@ void Converter::TagTableData::OnHasLeftClosingTag(Converter *c) {}
 
 void Converter::TagBlockquote::OnHasLeftOpeningTag(Converter *c) {
   ++c->index_blockquote;
-
-  if (c->index_blockquote == 1)
-    c->appendToMd('\n');
 }
 
 void Converter::TagBlockquote::OnHasLeftClosingTag(Converter *c) {
   --c->index_blockquote;
+  c->ShortenMarkdown(2); // Remove the '> '
 }
 
 void Converter::reset() {
