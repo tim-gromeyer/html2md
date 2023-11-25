@@ -173,9 +173,13 @@ int main(int argc, const char **argv) {
   // List to store all markdown files in this dir
   vector<string> files;
 
+  static vector<string> markdownExtensions = {".md", ".markdown", ".mkd"};
+
   // Find the files
   for (const auto &p : fs::recursive_directory_iterator(DIR)) {
-    if (p.path().extension() == ".md" && p.path().parent_path() == DIR)
+    if (std::find(markdownExtensions.begin(), markdownExtensions.end(),
+                  p.path().extension()) != markdownExtensions.end() &&
+        p.path().parent_path() == DIR)
       files.emplace_back(p.path().string());
   }
 
