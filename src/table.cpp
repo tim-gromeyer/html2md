@@ -70,6 +70,10 @@ string formatMarkdownTable(const string &inputTable) {
   // Determine maximum width of each column
   vector<size_t> columnWidths(tableData[0].size(), 0);
   for (const auto &row : tableData) {
+    if (columnWidths.size() < row.size()) {
+      columnWidths.resize(row.size(), 0);
+    }
+
     for (size_t i = 0; i < row.size(); ++i) {
       columnWidths[i] = std::max(columnWidths[i], row[i].size());
     }
