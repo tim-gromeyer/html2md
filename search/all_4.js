@@ -1,6 +1,9 @@
 var searchData=
 [
-  ['html2md_0',['html2md',['../namespacehtml2md.html',1,'html2md'],['../index.html',1,'(Global Namespace)']]],
-  ['html2md_2ecpp_1',['html2md.cpp',['../html2md_8cpp.html',1,'']]],
-  ['html2md_2eh_2',['html2md.h',['../html2md_8h.html',1,'']]]
+  ['4_0',['4',['../md_CHANGELOG.html#autotoc_md11',1,'1.5.4'],['../md_CHANGELOG.html#autotoc_md26',1,'v1.1.4']]],
+  ['4_200_1',['v1.4.0',['../md_CHANGELOG.html#autotoc_md20',1,'']]],
+  ['4_201_2',['v1.4.1',['../md_CHANGELOG.html#autotoc_md19',1,'']]],
+  ['4_202_3',['v1.4.2',['../md_CHANGELOG.html#autotoc_md18',1,'']]],
+  ['4_203_4',['v1.4.3',['../md_CHANGELOG.html#autotoc_md17',1,'']]],
+  ['4_204_5',['v1.4.4',['../md_CHANGELOG.html#autotoc_md16',1,'']]]
 ];

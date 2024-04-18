@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['splitlines_0',['splitLines',['../structhtml2md_1_1Options.html#a9c7ff3534b019736494d465b94411035',1,'html2md::Options']]]
+  ['enlargetableheaderline_0',['enlargeTableHeaderLine',['../table_8cpp.html#abacbda48b75b4bc1d746e88b3d899783',1,'table.cpp']]],
+  ['example_1',['Usage example',['../classhtml2md_1_1Converter.html#autotoc_md0',1,'']]]
 ];
