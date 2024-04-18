@@ -2,6 +2,11 @@
 
 [TOC]
 
+## 1.5.4
+
+- Fix crash (see #67)
+- Add support for newer Python versions
+
 ## 1.5.3
 
 - Make `blockquote` work correctly!
