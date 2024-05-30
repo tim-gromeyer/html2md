@@ -12,6 +12,25 @@ readme = "python/README.md"
 requires-python = ">=3.7"
 license = { text = "MIT" }
 version = "1.5.4"
+classifiers = [
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: C++",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Topic :: File Formats",
+    "Topic :: Text Processing :: Markup :: Markdown",
+    "Topic :: Text Processing :: Markup :: HTML",
+]
+keywords = [
+    "html", "markdown", "html-to-markdown",
+    "python3", "cpp17", "cpp-library",
+    "html2markdown", "html2md"
+]
 
 [project.urls]
 Repository = "https://github.com/tim-gromeyer/html2md"
