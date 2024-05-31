@@ -43,7 +43,7 @@ cmake.verbose = true
 logging.level = "INFO"
 minimum-version = "0.8"
 # TODO: Figure out when CMake added FindPython
-cmake.version = ">=3.8"
+cmake.version = ">=3.12"
 
 [tool.scikit-build.cmake.define]
 PYTHON_BINDINGS = "ON"
