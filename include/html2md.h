@@ -4,11 +4,9 @@
 #ifndef HTML2MD_H
 #define HTML2MD_H
 
-#include <map>
 #include <memory>
 #include <string>
 #include <unordered_map>
-#include <vector>
 
 /*!
  * \brief html2md namespace

@@ -6,11 +6,9 @@
 
 #include <algorithm>
 #include <cstring>
-#include <functional>
 #include <memory>
 #include <sstream>
-#include <stack>
-#include <utility>
+#include <vector>
 
 using std::make_shared;
 using std::string;
