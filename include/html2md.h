@@ -300,6 +300,7 @@ private:
   bool is_in_table_ = false;
   bool is_in_table_row_ = false;
   bool is_in_tag_ = false;
+  bool is_self_closing_tag_ = false;
 
   // relevant for <li> only, false = is in unordered list
   bool is_in_ordered_list_ = false;

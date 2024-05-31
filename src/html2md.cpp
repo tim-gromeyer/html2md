@@ -408,9 +408,9 @@ Converter *Converter::UpdatePrevChFromMd() {
 }
 
 bool Converter::ParseCharInTag(char ch) {
-  // The check for current:tag_.empty() is needed for links to work
-  if (ch == '/' && (current_tag_.empty() || current_tag_ == kTagBreak)) {
-    is_closing_tag_ = true;
+  if (ch == '/' && !is_in_attribute_value_) {
+    is_closing_tag_ = current_tag_.empty();
+    is_self_closing_tag_ = !is_closing_tag_;
 
     return true;
   }
@@ -418,13 +418,10 @@ bool Converter::ParseCharInTag(char ch) {
   if (ch == '>')
     return OnHasLeftTag();
 
-  if (ch == '=')
-    return true;
-
   if (ch == '"') {
     if (is_in_attribute_value_) {
       is_in_attribute_value_ = false;
-    } else if (prev_ch_in_md_ == '=') {
+    } else if (current_tag_[current_tag_.length() - 1] == '=') {
       is_in_attribute_value_ = true;
     }
 
@@ -452,12 +449,13 @@ bool Converter::OnHasLeftTag() {
   if (!tag)
     return true;
 
-  if (is_closing_tag_) {
+  if (!is_closing_tag_) {
+    tag->OnHasLeftOpeningTag(this);
+  }
+  if (is_closing_tag_ || is_self_closing_tag_) {
     is_closing_tag_ = false;
 
     tag->OnHasLeftClosingTag(this);
-  } else {
-    tag->OnHasLeftOpeningTag(this);
   }
 
   return true;
