@@ -514,13 +514,13 @@ bool Converter::ParseCharInTagContent(char ch) {
     break;
   }
 
-  if (chars_in_curr_line_ > 80 && !is_in_table_ && !is_in_list_ &&
+  if (chars_in_curr_line_ > option.softBreak && !is_in_table_ && !is_in_list_ &&
       current_tag_ != kTagImg && current_tag_ != kTagAnchor &&
       option.splitLines) {
     if (ch == ' ') { // If the next char is - it will become a list
       md_ += '\n';
       chars_in_curr_line_ = 0;
-    } else if (chars_in_curr_line_ > 100) {
+    } else if (chars_in_curr_line_ > option.hardBreak) {
       ReplacePreviousSpaceInLineByNewline();
     }
   }

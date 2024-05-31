@@ -38,8 +38,22 @@ namespace html2md {
 struct Options {
   /*!
    * \brief Add new line when a certain number of characters is reached
+   *
+   * \see softBreak
+   * \see hardBreak
    */
   bool splitLines = true;
+
+  /*!
+   * \brief softBreak Wrap after ...  characters when the next space is reached
+   * and as long as it's not in a list, table, image or anchor (link).
+   */
+  int softBreak = 80;
+
+  /*!
+   * \brief hardBreak Force a break after ... characters in a line
+   */
+  int hardBreak = 100;
 
   /*!
    * \brief The char used for unordered lists
@@ -94,7 +108,8 @@ struct Options {
 
   inline bool operator==(html2md::Options o) const {
     return splitLines == o.splitLines && unorderedList == o.unorderedList &&
-           orderedList == o.orderedList && includeTitle == o.includeTitle;
+           orderedList == o.orderedList && includeTitle == o.includeTitle &&
+           softBreak == o.softBreak && hardBreak == o.hardBreak;
   };
 };
 
