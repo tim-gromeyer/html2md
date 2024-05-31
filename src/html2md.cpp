@@ -408,7 +408,8 @@ Converter *Converter::UpdatePrevChFromMd() {
 }
 
 bool Converter::ParseCharInTag(char ch) {
-  if (ch == '/' && current_tag_.empty()) {
+  // The check for current:tag_.empty() is needed for links to work
+  if (ch == '/' && (current_tag_.empty() || current_tag_ == kTagBreak)) {
     is_closing_tag_ = true;
 
     return true;
@@ -627,7 +628,9 @@ void Converter::TagBreak::OnHasLeftOpeningTag(Converter *c) {
     c->appendToMd("  \n");
 }
 
-void Converter::TagBreak::OnHasLeftClosingTag(Converter *c) {}
+void Converter::TagBreak::OnHasLeftClosingTag(Converter *c) {
+  OnHasLeftOpeningTag(c);
+}
 
 void Converter::TagDiv::OnHasLeftOpeningTag(Converter *c) {
   if (c->prev_ch_in_md_ != '\n')
