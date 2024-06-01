@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['table_2ecpp_0',['table.cpp',['../table_8cpp.html',1,'']]],
-  ['table_2eh_1',['table.h',['../table_8h.html',1,'']]],
-  ['tags_2',['Tags',['../index.html#autotoc_md6',1,'Supported Tags'],['../md_python_2README.html#autotoc_md37',1,'Supported Tags']]],
-  ['this_20library_3',['How to use this library',['../index.html#autotoc_md3',1,'']]],
-  ['to_20use_20this_20library_4',['How to use this library',['../index.html#autotoc_md3',1,'']]]
+  ['softbreak_0',['softBreak',['../structhtml2md_1_1Options.html#a2bf15de3775a49867a2d7ad87d3b4159',1,'html2md::Options']]],
+  ['splitlines_1',['splitLines',['../structhtml2md_1_1Options.html#a9c7ff3534b019736494d465b94411035',1,'html2md::Options']]],
+  ['supported_20tags_2',['Supported Tags',['../index.html#autotoc_md6',1,'Supported Tags'],['../md_python_2README.html#autotoc_md38',1,'Supported Tags']]]
 ];

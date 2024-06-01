@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['manually_0',['Manually',['../index.html#autotoc_md5',1,'']]],
-  ['min_5fline_5flength_1',['MIN_LINE_LENGTH',['../table_8cpp.html#af2a74fd9221fb9fe8d8d65c7cb8d063c',1,'table.cpp']]]
+  ['library_0',['How to use this library',['../index.html#autotoc_md3',1,'']]],
+  ['license_1',['License',['../index.html#autotoc_md9',1,'License'],['../md_python_2README.html#autotoc_md39',1,'License']]],
+  ['log_2',['Change log',['../md_CHANGELOG.html',1,'']]]
 ];

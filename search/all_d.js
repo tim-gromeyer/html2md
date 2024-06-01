@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['includetitle_0',['includeTitle',['../structhtml2md_1_1Options.html#aff177dfffa308411a98a84b5e5d5e45e',1,'html2md::Options']]],
-  ['index_2emd_1',['index.md',['../index_8md.html',1,'']]],
-  ['installation_2',['Installation',['../md_python_2README.html#autotoc_md34',1,'']]],
-  ['it_20do_3',['What does it do',['../index.html#autotoc_md2',1,'']]]
+  ['hardbreak_0',['hardBreak',['../structhtml2md_1_1Options.html#a502e0d3a15349f35b70d248d43f70f71',1,'html2md::Options']]],
+  ['how_20to_20use_20this_20library_1',['How to use this library',['../index.html#autotoc_md3',1,'']]],
+  ['html2md_2',['html2md',['../namespacehtml2md.html',1,'html2md'],['../index.html',1,'html2md']]],
+  ['html2md_2ecpp_3',['html2md.cpp',['../html2md_8cpp.html',1,'']]],
+  ['html2md_2eh_4',['html2md.h',['../html2md_8h.html',1,'']]]
 ];

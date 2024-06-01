@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['formatmarkdowntable_0',['formatMarkdownTable',['../table_8h.html#aa05a1cc69eba702139b3fa20859afd79',1,'formatMarkdownTable(const std::string &amp;inputTable):&#160;table.h'],['../table_8cpp.html#ad2ad01b00316ab664aa3e81242ebc802',1,'formatMarkdownTable(const string &amp;inputTable):&#160;table.cpp']]],
-  ['formattable_1',['formatTable',['../structhtml2md_1_1Options.html#a8dbde00c2ebf71db101a191c43d27803',1,'html2md::Options']]]
+  ['enlargetableheaderline_0',['enlargeTableHeaderLine',['../table_8cpp.html#abacbda48b75b4bc1d746e88b3d899783',1,'table.cpp']]],
+  ['example_1',['Usage example',['../classhtml2md_1_1Converter.html#autotoc_md0',1,'']]]
 ];

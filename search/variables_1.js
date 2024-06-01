@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['includetitle_0',['includeTitle',['../structhtml2md_1_1Options.html#aff177dfffa308411a98a84b5e5d5e45e',1,'html2md::Options']]]
+  ['hardbreak_0',['hardBreak',['../structhtml2md_1_1Options.html#a502e0d3a15349f35b70d248d43f70f71',1,'html2md::Options']]]
 ];
