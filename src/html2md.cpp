@@ -626,9 +626,7 @@ void Converter::TagBreak::OnHasLeftOpeningTag(Converter *c) {
     c->appendToMd("  \n");
 }
 
-void Converter::TagBreak::OnHasLeftClosingTag(Converter *c) {
-  OnHasLeftOpeningTag(c);
-}
+void Converter::TagBreak::OnHasLeftClosingTag(Converter *c) {}
 
 void Converter::TagDiv::OnHasLeftOpeningTag(Converter *c) {
   if (c->prev_ch_in_md_ != '\n')
