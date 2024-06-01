@@ -2,6 +2,13 @@
 
 [TOC]
 
+## 1.6.0
+
+- Add option for soft line break
+- Add option for hard line break
+- Fix handling of self-closing tags
+- Updated python package building (see #100)
+
 ## 1.5.4
 
 - Fix crash (see #67)
