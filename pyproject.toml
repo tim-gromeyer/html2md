@@ -1,11 +1,53 @@
 [build-system]
-requires = [
-    "setuptools>=42",
-    "wheel",
-    "ninja",
-    "cmake>=3.12",
+requires = ["scikit-build-core", "pybind11>=2.12,<2.14"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "pyhtml2md"
+authors = [
+    { name = "Tim Gromeyer", email = "sakul8826@gmail.com" }
 ]
-build-backend = "setuptools.build_meta"
+description = "Transform your HTML into clean, easy-to-read markdown with pyhtml2md."
+readme = "python/README.md"
+requires-python = ">=3.7"
+license = { text = "MIT" }
+version = "1.5.4"
+classifiers = [
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: C++",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Topic :: File Formats",
+    "Topic :: Text Processing :: Markup :: Markdown",
+    "Topic :: Text Processing :: Markup :: HTML",
+]
+keywords = [
+    "html", "markdown", "html-to-markdown",
+    "python3", "cpp17", "cpp-library",
+    "html2markdown", "html2md"
+]
+
+[project.urls]
+Repository = "https://github.com/tim-gromeyer/html2md"
+
+[project.optional-dependencies]
+test = ["pytest>=6.0"]
+
+[tool.scikit-build]
+cmake.verbose = true
+logging.level = "INFO"
+minimum-version = "0.8"
+# TODO: Figure out when CMake added FindPython
+cmake.version = ">=3.12"
+
+[tool.scikit-build.cmake.define]
+PYTHON_BINDINGS = "ON"
+PYBIND11_FINDPYTHON = "ON"
 
 [tool.isort]
 profile = "black"
