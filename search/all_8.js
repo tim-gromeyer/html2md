@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['basic_20usage_0',['Basic usage',['../md_python_2README.html#autotoc_md36',1,'']]],
+  ['basic_20usage_0',['Basic usage',['..//github/workspace/python/README.md#autotoc_md36',1,'']]],
   ['bindings_1',['Bindings',['../index.html#autotoc_md7',1,'']]]
 ];

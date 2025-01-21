@@ -59,13 +59,6 @@ var NAVTREE =
       [ "v1.0.1", "md_CHANGELOG.html#autotoc_md32", null ],
       [ "v1.0.0", "md_CHANGELOG.html#autotoc_md33", null ]
     ] ],
-    [ "pyhtml2md", "md_python_2README.html", [
-      [ "Installation", "md_python_2README.html#autotoc_md35", null ],
-      [ "Basic usage", "md_python_2README.html#autotoc_md36", null ],
-      [ "Advanced usage", "md_python_2README.html#autotoc_md37", null ],
-      [ "Supported Tags", "md_python_2README.html#autotoc_md38", null ],
-      [ "License", "md_python_2README.html#autotoc_md39", null ]
-    ] ],
     [ "Namespaces", "namespaces.html", [
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
@@ -98,5 +91,5 @@ var NAVTREEINDEX =
 "annotated.html"
 ];
 
-var SYNCONMSG = 'click to disable panel synchronisation';
-var SYNCOFFMSG = 'click to enable panel synchronisation';
+var SYNCONMSG = 'click to disable panel synchronization';
+var SYNCOFFMSG = 'click to enable panel synchronization';
