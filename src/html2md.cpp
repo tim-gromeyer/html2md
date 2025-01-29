@@ -155,9 +155,9 @@ void Converter::CleanUpMarkdown() {
   ReplaceAll(&md_, "&quot;", '"');
   ReplaceAll(&md_, "&lt;", "<");
   ReplaceAll(&md_, "&gt;", ">");
-  ReplaceAll(&html_, "&amp;", '&');
-  ReplaceAll(&html_, "&nbsp;", ' ');
-  ReplaceAll(&html_, "&rarr;", "→");
+  ReplaceAll(&md_, "&amp;", '&');
+  ReplaceAll(&md_, "&nbsp;", ' ');
+  ReplaceAll(&md_, "&rarr;", "→");
 
   ReplaceAll(&md_, "\t\t  ", "\t\t");
 }
