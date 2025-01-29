@@ -2,6 +2,9 @@
 
 [TOC]
 
+## 1.6.2
+- Fix HTML entities not converted (see #131)
+
 ## 1.6.0
 
 - Add option for soft line break
