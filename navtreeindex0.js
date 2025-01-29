@@ -74,6 +74,7 @@ var NAVTREEINDEX0 =
 "md_CHANGELOG.html#autotoc_md31":[6,20],
 "md_CHANGELOG.html#autotoc_md32":[6,21],
 "md_CHANGELOG.html#autotoc_md33":[6,22],
+"md_CHANGELOG.html#autotoc_md34":[6,23],
 "namespacehtml2md.html":[7,0,0],
 "namespacehtml2md.html#a573931f1bc7baee04e41f84fa1f00cc2":[7,0,0,2],
 "namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c":[7,0,0,3],
