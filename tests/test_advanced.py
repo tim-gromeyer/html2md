@@ -68,7 +68,7 @@ def test_table_formatting():
     result = converter.convert()
 
     assert "|" in result
-    # assert "Header 1" in result  # BUG: The generated table is wrong
+    # assert "Header 1" in result  # BUG: The generated table is wrong, don't uncomment this
     assert "Data 1" in result
 
 def test_line_breaks():
@@ -105,6 +105,18 @@ def test_special_characters():
     assert "<special>" in result
     assert '"characters"' in result
     assert "&" in result
+
+def test_html_entities():
+    html = """
+    <p>&quot;Double quotes&quot; &lt;less than&gt; &gt;greater than&lt; &amp; ampersand &nbsp; non-breaking space &rarr; right arrow</p>
+    """
+    result = pyhtml2md.convert(html)
+    assert '"Double quotes"' in result
+    assert "<less than>" in result
+    assert ">greater than<" in result
+    assert "& ampersand" in result
+    assert " non-breaking space" in result
+    assert "→ right arrow" in result
 
 def test_nested_structures():
     html = """
