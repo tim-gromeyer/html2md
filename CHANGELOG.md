@@ -2,6 +2,9 @@
 
 [TOC]
 
+## 1.6.3
+- Update python dependencies, hopefully fixes (#133)
+
 ## 1.6.2
 - Fix HTML entities not converted (see #131)
 
