@@ -55,6 +55,28 @@ def test_complex_formatting():
     assert "1. Numbered one" in result
     assert "2. Numbered two" in result
 
+def test_line_breaks():
+    # Test br outside paragraphs
+    assert "Text  \nText2" in pyhtml2md.convert("Text<br>Text2")
+    
+    # Test br inside paragraphs
+    assert "Line 1  \nLine 2" in pyhtml2md.convert("<p>Line 1<br>Line 2</p>")
+    
+    # Test br with bullet points in paragraph
+    assert "Primary Colors:  \n• Red  \n• Blue  \n• Yellow" in pyhtml2md.convert("<p>Primary Colors:<br>• Red<br>• Blue<br>• Yellow</p>")
+
+    # Test soft line break settings
+    html = "A very long line of text that should be wrapped according to the soft break and hard break settings"
+    options = pyhtml2md.Options()
+    options.splitLines = True
+    options.softBreak = 20
+    options.hardBreak = 30
+
+    converter = pyhtml2md.Converter(html, options)
+    result = converter.convert()
+    lines = result.split('\n')
+    assert any(len(line) <= 30 for line in lines)
+
 def test_table_formatting():
     html = """
     <table>
@@ -68,20 +90,7 @@ def test_table_formatting():
     result = converter.convert()
 
     assert "|" in result
-    # assert "Header 1" in result  # BUG: The generated table is wrong, don't uncomment this
     assert "Data 1" in result
-
-def test_line_breaks():
-    html = "A very long line of text that should be wrapped according to the soft break and hard break settings"
-    options = pyhtml2md.Options()
-    options.splitLines = True
-    options.softBreak = 20
-    options.hardBreak = 30
-
-    converter = pyhtml2md.Converter(html, options)
-    result = converter.convert()
-    lines = result.split('\n')
-    assert any(len(line) <= 30 for line in lines)
 
 def test_error_handling():
     # Test with malformed HTML

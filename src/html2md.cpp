@@ -620,7 +620,7 @@ void Converter::TagBreak::OnHasLeftOpeningTag(Converter *c) {
     c->appendToMd(Repeat("  ", c->index_li));
   } else if (c->is_in_table_) {
     c->appendToMd("<br>");
-  } else if (!c->is_in_p_) {
+  } else if (!c->is_in_p_ && !c->prev_tag_.empty()) {
     c->appendToMd("\n<br>\n\n");
   } else if (c->md_.length() > 0)
     c->appendToMd("  \n");
