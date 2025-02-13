@@ -2,6 +2,9 @@
 
 [TOC]
 
+## 1.6.4
+- Fix handling of `<br>` tags outside of paragraphs (`<p>`)
+
 ## 1.6.3
 - Update python dependencies, hopefully fixes (#133)
 
