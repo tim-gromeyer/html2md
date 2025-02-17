@@ -39,7 +39,7 @@ jobs:
       with:
         submodules: true
 
-    - uses: pypa/cibuildwheel@v2.19.1
+    - uses: pypa/cibuildwheel@v2.22.0
       env:
         CIBW_ARCHS_MACOS: "auto universal2"
         CIBW_SKIP: "{cp36-*, cp37-*}" # Skip Python 3.6/3.7
