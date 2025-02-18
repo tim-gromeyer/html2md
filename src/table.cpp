@@ -67,6 +67,10 @@ string formatMarkdownTable(const string &inputTable) {
     }
   }
 
+  if (tableData.empty()) { 
+    return ""; 
+  }
+
   // Determine maximum width of each column
   vector<size_t> columnWidths(tableData[0].size(), 0);
   for (const auto &row : tableData) {
