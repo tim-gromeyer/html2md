@@ -579,7 +579,8 @@ private:
   bool ReplacePreviousSpaceInLineByNewline();
 
   static inline bool IsIgnoredTag(const std::string &tag) {
-    return (tag[0] == '-' || kTagTemplate == tag || kTagStyle == tag ||
+    return (tag.empty() ||
+            tag[0] == '-' || kTagTemplate == tag || kTagStyle == tag ||
             kTagScript == tag || kTagNoScript == tag || kTagNav == tag);
 
     // meta: not ignored to tolerate if closing is omitted

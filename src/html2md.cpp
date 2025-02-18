@@ -442,7 +442,11 @@ bool Converter::OnHasLeftTag() {
     if (TagContainsAttributesToHide(&current_tag_))
       return true;
 
-  current_tag_ = Split(current_tag_, ' ')[0];
+  auto cut_tags = Split(current_tag_, ' ');
+  if (cut_tags.empty())
+    return true;
+
+  current_tag_ = cut_tags[0];
 
   auto tag = tags_[current_tag_];
 
