@@ -69,7 +69,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">html2md
-   &#160;<span id="projectnumber">v1.6.4</span>
+   &#160;<span id="projectnumber">v1.6.5</span>
    </div>
    <div id="projectbrief">Simple and fast HTML to Markdown converter</div>
   </td>
@@ -216,39 +216,43 @@ $(function(){initNavTree('table_8cpp_source.html',''); initResizable(true); });
 <div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    }</div>
 <div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>  }</div>
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>  <span class="comment">// Determine maximum width of each column</span></div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>  vector&lt;size_t&gt; columnWidths(tableData[0].size(), 0);</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;row : tableData) {</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keywordflow">if</span> (columnWidths.size() &lt; row.size()) {</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>      columnWidths.resize(row.size(), 0);</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    }</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; row.size(); ++i) {</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>      columnWidths[i] = std::max(columnWidths[i], row[i].size());</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>  <span class="keywordflow">if</span> (tableData.empty()) { </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>; </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>  }</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>  <span class="comment">// Determine maximum width of each column</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>  vector&lt;size_t&gt; columnWidths(tableData[0].size(), 0);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>  <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span> &amp;row : tableData) {</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keywordflow">if</span> (columnWidths.size() &lt; row.size()) {</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>      columnWidths.resize(row.size(), 0);</div>
 <div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    }</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>  }</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>  <span class="comment">// Build the formatted table</span></div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>  std::ostringstream formattedTable;</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>  <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> rowNumber = 0; rowNumber &lt; tableData.size(); ++rowNumber) {</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;row = tableData[rowNumber];</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    formattedTable &lt;&lt; <span class="stringliteral">&quot;|&quot;</span>;</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; row.size(); ++i) {</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>      <span class="keywordflow">if</span> (rowNumber == 1) {</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        formattedTable &lt;&lt; <a class="code hl_function" href="table_8cpp.html#abacbda48b75b4bc1d746e88b3d899783">enlargeTableHeaderLine</a>(row[i], columnWidths[i] + 2)</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>                       &lt;&lt; <span class="stringliteral">&quot;|&quot;</span>;</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <span class="keywordflow">continue</span>;</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>      }</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>      formattedTable &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; std::setw(columnWidths[i]) &lt;&lt; std::left &lt;&lt; row[i]</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>                     &lt;&lt; <span class="stringliteral">&quot; |&quot;</span>;</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    }</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    formattedTable &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>  }</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>  <span class="keywordflow">return</span> formattedTable.str();</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>}</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; row.size(); ++i) {</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>      columnWidths[i] = std::max(columnWidths[i], row[i].size());</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    }</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>  }</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>  <span class="comment">// Build the formatted table</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>  std::ostringstream formattedTable;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>  <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> rowNumber = 0; rowNumber &lt; tableData.size(); ++rowNumber) {</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keyword">const</span> <span class="keyword">auto</span> &amp;row = tableData[rowNumber];</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    formattedTable &lt;&lt; <span class="stringliteral">&quot;|&quot;</span>;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; row.size(); ++i) {</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>      <span class="keywordflow">if</span> (rowNumber == 1) {</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        formattedTable &lt;&lt; <a class="code hl_function" href="table_8cpp.html#abacbda48b75b4bc1d746e88b3d899783">enlargeTableHeaderLine</a>(row[i], columnWidths[i] + 2)</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>                       &lt;&lt; <span class="stringliteral">&quot;|&quot;</span>;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>      }</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>      formattedTable &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; std::setw(columnWidths[i]) &lt;&lt; std::left &lt;&lt; row[i]</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>                     &lt;&lt; <span class="stringliteral">&quot; |&quot;</span>;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    }</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    formattedTable &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>  }</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>  <span class="keywordflow">return</span> formattedTable.str();</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>}</div>
 </div>
 <div class="ttc" id="atable_8cpp_html_a7682b4373c58514053a6edbdd75c1526"><div class="ttname"><a href="table_8cpp.html#a7682b4373c58514053a6edbdd75c1526">removeLeadingTrailingSpaces</a></div><div class="ttdeci">void removeLeadingTrailingSpaces(string &amp;str)</div><div class="ttdef"><b>Definition</b> <a href="#l00016">table.cpp:16</a></div></div>
 <div class="ttc" id="atable_8cpp_html_abacbda48b75b4bc1d746e88b3d899783"><div class="ttname"><a href="table_8cpp.html#abacbda48b75b4bc1d746e88b3d899783">enlargeTableHeaderLine</a></div><div class="ttdeci">string enlargeTableHeaderLine(const string &amp;str, size_t length)</div><div class="ttdef"><b>Definition</b> <a href="#l00027">table.cpp:27</a></div></div>
