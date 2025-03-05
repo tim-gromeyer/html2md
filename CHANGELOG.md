@@ -2,6 +2,12 @@
 
 [TOC]
 
+## 1.6.6
+- Python: Fix wheels not uploaded
+
+## 1.6.5
+- Fix handling of `<br>` tags
+
 ## 1.6.4
 - Fix handling of `<br>` tags outside of paragraphs (`<p>`)
 
