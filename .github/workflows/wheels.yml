@@ -23,8 +23,8 @@ jobs:
 
     - uses: actions/upload-artifact@v4
       with:
+        name: dist-sdist
         path: dist/*.tar.gz
-
 
   build_wheels:
     name: Wheels on ${{ matrix.os }}
@@ -51,9 +51,8 @@ jobs:
     - name: Upload wheels
       uses: actions/upload-artifact@v4
       with:
+        name: dist-${{ matrix.os }}
         path: wheelhouse/*.whl
-        name: ${{ matrix.os }}
-
 
   upload_all:
     name: Upload wheels
@@ -63,8 +62,9 @@ jobs:
     steps:
     - uses: actions/download-artifact@v4
       with:
-        name: artifact
         path: dist
+        pattern: dist-*
+        merge-multiple: true
 
     - uses: pypa/gh-action-pypi-publish@v1.9.0
       with:
