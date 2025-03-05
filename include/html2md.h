@@ -357,8 +357,8 @@ private:
 
   // tags that are not printed (nav, script, noscript, ...)
   struct TagIgnored : Tag {
-    void OnHasLeftOpeningTag(Converter *c) override{};
-    void OnHasLeftClosingTag(Converter *c) override{};
+    void OnHasLeftOpeningTag(Converter *c) override {};
+    void OnHasLeftClosingTag(Converter *c) override {};
   };
 
   struct TagAnchor : Tag {
@@ -579,8 +579,7 @@ private:
   bool ReplacePreviousSpaceInLineByNewline();
 
   static inline bool IsIgnoredTag(const std::string &tag) {
-    return (tag.empty() ||
-            tag[0] == '-' || kTagTemplate == tag || kTagStyle == tag ||
+    return (tag[0] == '-' || kTagTemplate == tag || kTagStyle == tag ||
             kTagScript == tag || kTagNoScript == tag || kTagNav == tag);
 
     // meta: not ignored to tolerate if closing is omitted
