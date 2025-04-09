@@ -78,7 +78,7 @@ string Repeat(const string &str, size_t amount) {
 
 namespace html2md {
 
-Converter::Converter(string *html, Options *options) : html_(*html) {
+Converter::Converter(const string *html, Options *options) : html_(*html) {
   if (options)
     option = *options;
 

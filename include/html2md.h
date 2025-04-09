@@ -170,7 +170,7 @@ public:
    * You can use appendToMd() to append something to the beginning of the
    * generated output.
    */
-  explicit inline Converter(std::string &html,
+  explicit inline Converter(const std::string &html,
                             struct Options *options = nullptr) {
     *this = Converter(&html, options);
   }
@@ -511,7 +511,7 @@ private:
 
   std::unordered_map<std::string, std::shared_ptr<Tag>> tags_;
 
-  explicit Converter(std::string *html, struct Options *options);
+  explicit Converter(const std::string *html, struct Options *options);
 
   void CleanUpMarkdown();
 
@@ -594,7 +594,7 @@ private:
  * \param ok Optional: Pass a reference to a local bool to store the output of
  * Converter::ok() \return Returns the by Converter generated Markdown
  */
-inline std::string Convert(std::string &html, bool *ok = nullptr) {
+inline std::string Convert(const std::string &html, bool *ok = nullptr) {
   Converter c(html);
   auto md = c.convert();
   if (ok != nullptr)
@@ -603,7 +603,7 @@ inline std::string Convert(std::string &html, bool *ok = nullptr) {
 }
 
 #ifndef PYTHON_BINDINGS
-inline std::string Convert(std::string &&html, bool *ok = nullptr) {
+inline std::string Convert(const std::string &&html, bool *ok = nullptr) {
   return Convert(html, ok);
 }
 #endif
