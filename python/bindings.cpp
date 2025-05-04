@@ -34,6 +34,16 @@ PYBIND11_MODULE(pyhtml2md, m) {
            "This function actually converts the HTML into Markdown.")
       .def("ok", &html2md::Converter::ok,
            "Checks if everything was closed properly(in the HTML).")
+      .def("add_html_symbol_conversion",
+           &html2md::Converter::addHtmlSymbolConversion,
+           "Add or modify an HTML symbol conversion", py::arg("html_symbol"),
+           py::arg("replacement"))
+      .def("remove_html_symbol_conversion",
+           &html2md::Converter::removeHtmlSymbolConversion,
+           "Remove an HTML symbol conversion", py::arg("html_symbol"))
+      .def("clear_html_symbol_conversions",
+           &html2md::Converter::clearHtmlSymbolConversions,
+           "Clear all HTML symbol conversions")
       .def("__call__", &html2md::Converter::operator bool);
 
   m.def("convert", &html2md::Convert,
