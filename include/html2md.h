@@ -218,6 +218,39 @@ public:
   Converter *appendBlank();
 
   /*!
+    * \brief Add an HTML symbol conversion
+    * \param htmlSymbol The HTML symbol to convert
+    * \param replacement The replacement string
+    * \note This is useful for converting HTML entities to their Markdown
+    * equivalents. For example, you can add a conversion for "&nbsp;" to
+    * " " (space) or "&lt;" to "<" (less than).
+    * \note This is not a standard feature of the Converter class, but it can
+    * be added to the class to allow for more flexibility in the conversion
+    * process. You can use this feature to add custom conversions for any HTML
+    * symbol that you want to convert to a specific Markdown representation.
+   */
+  void addHtmlSymbolConversion(const std::string &htmlSymbol,
+                               const std::string &replacement) {
+    htmlSymbolConversions_[htmlSymbol] = replacement;
+  }
+
+  /*!
+   * \brief Remove an HTML symbol conversion
+   * \param htmlSymbol The HTML symbol to remove
+   * \note This is useful for removing custom conversions that you have added
+   * previously.
+   */
+  void removeHtmlSymbolConversion(const std::string &htmlSymbol) {
+    htmlSymbolConversions_.erase(htmlSymbol);
+  }
+
+  /*!
+   * \brief Clear all HTML symbol conversions
+   * \note This is useful for clearing the conversion map (it's empty afterwards).
+   */
+  void clearHtmlSymbolConversions() { htmlSymbolConversions_.clear(); }
+
+  /*!
    * \brief Checks if everything was closed properly(in the HTML).
    * \return Returns false if there is a unclosed tag.
    * \note As long as you have not called convert(), it always returns true.
@@ -346,6 +379,10 @@ private:
   std::string md_;
 
   Options option;
+
+  std::unordered_map<std::string, std::string> htmlSymbolConversions_ = {
+      {"&quot;", "\""}, {"&lt;", "<"},   {"&gt;", ">"},
+      {"&amp;", "&"},   {"&nbsp;", " "}, {"&rarr;", "→"}};
 
   // Tag: base class for tag types
   struct Tag {

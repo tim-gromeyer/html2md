@@ -152,12 +152,10 @@ void Converter::CleanUpMarkdown() {
   ReplaceAll(&md_, "\n*\n", "\n");
   ReplaceAll(&md_, "\n. ", ".\n");
 
-  ReplaceAll(&md_, "&quot;", '"');
-  ReplaceAll(&md_, "&lt;", "<");
-  ReplaceAll(&md_, "&gt;", ">");
-  ReplaceAll(&md_, "&amp;", '&');
-  ReplaceAll(&md_, "&nbsp;", ' ');
-  ReplaceAll(&md_, "&rarr;", "→");
+  // Replace using the conversions map
+  for (const auto &conversion : htmlSymbolConversions_) {
+    ReplaceAll(&md_, conversion.first, conversion.second);
+  }
 
   ReplaceAll(&md_, "\t\t  ", "\t\t");
 }
