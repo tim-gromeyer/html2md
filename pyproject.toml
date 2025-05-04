@@ -73,7 +73,7 @@ filterwarnings = ["error"]
 testpaths = ["tests"]
 
 [tool.cibuildwheel]
-test-command = "pytest {project}/tests"
+test-command = "pytest {project}/tests/python"
 test-extras = ["test"]
 test-skip = ["*universal2:arm64"]
 # Setuptools bug causes collision between pypy and cpython artifacts
