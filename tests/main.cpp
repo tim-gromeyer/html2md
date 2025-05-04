@@ -170,6 +170,38 @@ bool testFormatTable() {
   return formattedTable == expectedOutput;
 }
 
+bool testAttributeWhitespace() {
+  testOption("attributeWhitespace");
+
+  // Test different variations of whitespace around equals sign
+  vector<string> testCases = {
+      "<a href=\"http://example.com/\">no space</a>",
+      "<a href =\"http://example.com/\">space before</a>",
+      "<a href= \"http://example.com/\">space after</a>",
+      "<a href = \"http://example.com/\">space both sides</a>"};
+
+  for (const auto &html : testCases) {
+    html2md::Converter c(html);
+    auto md = c.convert();
+
+    // Basic check that the conversion worked
+    if (md.empty()) {
+      cerr << "Failed to convert: " << html << "\n";
+      return false;
+    }
+
+    // For anchor tags, check if URL was properly extracted
+    if (html.find("<a") != string::npos) {
+      if (md.find("http://example.com/") == string::npos) {
+        cerr << "Failed to extract URL from: " << html << "\n";
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
+
 int main(int argc, const char **argv) {
   // List to store all markdown files in this dir
   vector<string> files;
@@ -219,7 +251,7 @@ int main(int argc, const char **argv) {
 
   // Test the options
   auto tests = {&testDisableTitle, &testUnorderedList, &testOrderedList,
-                &testFormatTable};
+                &testFormatTable, &testAttributeWhitespace};
 
   for (const auto &test : tests)
     if (!test()) {

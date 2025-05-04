@@ -418,10 +418,16 @@ bool Converter::ParseCharInTag(char ch) {
   if (ch == '"') {
     if (is_in_attribute_value_) {
       is_in_attribute_value_ = false;
-    } else if (current_tag_[current_tag_.length() - 1] == '=') {
-      is_in_attribute_value_ = true;
+    } else {
+      // Look backwards for '=' possibly with whitespace after it
+      size_t pos = current_tag_.length();
+      while (pos > 0 && isspace(current_tag_[pos - 1])) {
+        pos--;
+      }
+      if (pos > 0 && current_tag_[pos - 1] == '=') {
+        is_in_attribute_value_ = true;
+      }
     }
-
     return true;
   }
 
