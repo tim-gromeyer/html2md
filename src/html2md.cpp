@@ -74,6 +74,16 @@ string Repeat(const string &str, size_t amount) {
 
   return out;
 }
+
+string toLower(const string &str) {
+  string lower;
+  lower.reserve(str.size());
+  for (char ch : str) {
+    lower += tolower(ch);
+  }
+  return lower;
+}
+
 } // namespace
 
 namespace html2md {
@@ -284,9 +294,10 @@ void Converter::TidyAllLines(string *str) {
 string Converter::ExtractAttributeFromTagLeftOf(const string &attr) {
   // Extract the whole tag from current offset, e.g. from '>', backwards
   auto tag = html_.substr(offset_lt_, index_ch_in_html_ - offset_lt_);
+  string lowerTag = toLower(tag); // Convert tag to lowercase for comparison
 
-  // locate given attribute
-  auto offset_attr = tag.find(attr);
+  // locate given attribute (case-insensitive)
+  auto offset_attr = lowerTag.find(attr);
 
   if (offset_attr == string::npos)
     return "";
@@ -431,7 +442,8 @@ bool Converter::ParseCharInTag(char ch) {
     return true;
   }
 
-  current_tag_ += ch;
+  // Convert tag characters to lowercase as we build them
+  current_tag_ += tolower(ch);
 
   return false;
 }

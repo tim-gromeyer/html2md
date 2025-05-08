@@ -202,6 +202,130 @@ bool testAttributeWhitespace() {
   return true;
 }
 
+bool testUppercaseTags() {
+  testOption("uppercaseTags");
+
+  vector<string> testCases = {"<DIV>Uppercase div</DIV>",
+                              "<P>Uppercase paragraph</P>",
+                              "<STRONG>Uppercase strong</STRONG>",
+                              "<EM>Uppercase em</EM>",
+                              "<H1>Uppercase h1</H1>",
+                              "<BLOCKQUOTE>Uppercase blockquote</BLOCKQUOTE>"};
+
+  for (const auto &html : testCases) {
+    html2md::Converter c(html);
+    auto md = c.convert();
+
+    if (md.empty()) {
+      cerr << "Failed to convert uppercase tag: " << html << "\n";
+      return false;
+    }
+
+    // Check that content was properly converted
+    if (md.find("Uppercase") == string::npos) {
+      cerr << "Content missing from uppercase tag conversion: " << html << "\n";
+      return false;
+    }
+  }
+
+  return true;
+}
+
+bool testUppercaseAttributes() {
+  testOption("uppercaseAttributes");
+
+  vector<string> testCases = {
+      "<a HREF=\"http://example.com\" TITLE=\"Example\">link</a>",
+      "<img SRC=\"image.png\" ALT=\"Image\">",
+      "<div CLASS=\"container\" STYLE=\"color:red\">content</div>"};
+
+  for (const auto &html : testCases) {
+    html2md::Converter c(html);
+    auto md = c.convert();
+
+    if (md.empty()) {
+      cerr << "Failed to convert uppercase attributes: " << html << "\n";
+      return false;
+    }
+
+    // For anchor tags, check if URL was properly extracted
+    if (html.find("<a") != string::npos) {
+      if (md.find("http://example.com") == string::npos) {
+        cerr << "Failed to extract URL from uppercase attributes: " << html
+             << "\n";
+        return false;
+      }
+    }
+
+    // For images, check if src was extracted
+    if (html.find("<img") != string::npos) {
+      if (md.find("image.png") == string::npos) {
+        cerr << "Failed to extract SRC from uppercase attributes: " << html
+             << "\n";
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
+
+bool testMixedCaseTags() {
+  testOption("mixedCaseTags");
+
+  vector<string> testCases = {"<DiV>Mixed case div</DiV>",
+                              "<p>Mixed case paragraph</p>",
+                              "<StRoNg>Mixed case strong</StRoNg>",
+                              "<eM>Mixed case em</eM>",
+                              "<h1>Mixed case h1</h1>",
+                              "<BlockQuote>Mixed case blockquote</BlockQuote>"};
+
+  for (const auto &html : testCases) {
+    html2md::Converter c(html);
+    auto md = c.convert();
+
+    if (md.empty()) {
+      cerr << "Failed to convert mixed case tag: " << html << "\n";
+      return false;
+    }
+
+    // Check that content was properly converted
+    if (md.find("Mixed case") == string::npos) {
+      cerr << "Content missing from mixed case tag conversion: " << html
+           << "\n";
+      return false;
+    }
+  }
+
+  return true;
+}
+
+bool testSelfClosingUppercaseTags() {
+  testOption("selfClosingUppercaseTags");
+
+  vector<string> testCases = {"<BR/>", "<HR/>", "<IMG SRC=\"image.png\"/>",
+                              "<INPUT TYPE=\"text\"/>"};
+
+  for (const auto &html : testCases) {
+    html2md::Converter c(html);
+    auto md = c.convert();
+
+    if (html.find("<IMG") != string::npos) {
+      // For images, we expect some output
+      if (md.empty()) {
+        cerr << "Failed to convert self-closing uppercase tag: " << html
+             << "\n";
+        return false;
+      }
+    } else {
+      // For other self-closing tags, empty output is acceptable
+      continue;
+    }
+  }
+
+  return true;
+}
+
 int main(int argc, const char **argv) {
   // List to store all markdown files in this dir
   vector<string> files;
@@ -250,8 +374,15 @@ int main(int argc, const char **argv) {
     runTest(file, &errorCount);
 
   // Test the options
-  auto tests = {&testDisableTitle, &testUnorderedList, &testOrderedList,
-                &testFormatTable, &testAttributeWhitespace};
+  auto tests = {&testDisableTitle,
+                &testUnorderedList,
+                &testOrderedList,
+                &testFormatTable,
+                &testAttributeWhitespace,
+                &testUppercaseTags,
+                &testUppercaseAttributes,
+                &testMixedCaseTags,
+                &testSelfClosingUppercaseTags};
 
   for (const auto &test : tests)
     if (!test()) {
