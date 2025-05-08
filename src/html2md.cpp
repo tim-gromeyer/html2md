@@ -431,7 +431,14 @@ bool Converter::ParseCharInTag(char ch) {
       current_tag_.pop_back();
     }
     skipping_leading_whitespace = true; // Reset for next tag
-    return OnHasLeftTag();
+    if (!is_self_closing_tag_)
+      return OnHasLeftTag();
+    else {
+      OnHasLeftTag();
+      is_self_closing_tag_ = false;
+      is_closing_tag_ = true;
+      return OnHasLeftTag();
+    }
   }
 
   if (ch == '"') {
@@ -484,7 +491,7 @@ bool Converter::OnHasLeftTag() {
   if (!is_closing_tag_) {
     tag->OnHasLeftOpeningTag(this);
   }
-  if (is_closing_tag_ || is_self_closing_tag_) {
+  else {
     is_closing_tag_ = false;
 
     tag->OnHasLeftClosingTag(this);

@@ -352,6 +352,20 @@ bool testWhitespaceTags() {
   return true;
 }
 
+// Test self closing tags <a href=\"http://example1.com/\">First</a>  <br/> then <a href=\"http://example2.com\">second</a>
+bool testSelfClosingTags() {
+  testOption("selfClosingTags");
+
+  string html = "<a href=\"http://example1.com/\">First</a>  <br/> then <a href=\"http://example2.com\">second</a>";
+
+  html2md::Converter c(html);
+  auto md = c.convert();
+
+  return md.find("[First](http://example1.com/)") != string::npos &&
+         md.find("[second](http://example2.com)") != string::npos &&
+         md.find("  \n") != string::npos;
+}
+
 int main(int argc, const char **argv) {
   // List to store all markdown files in this dir
   vector<string> files;
@@ -409,7 +423,8 @@ int main(int argc, const char **argv) {
                 &testUppercaseAttributes,
                 &testMixedCaseTags,
                 &testSelfClosingUppercaseTags,
-                &testWhitespaceTags
+                &testWhitespaceTags,
+                &testSelfClosingTags,
               };
 
   for (const auto &test : tests)
