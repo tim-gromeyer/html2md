@@ -416,21 +416,28 @@ Converter *Converter::UpdatePrevChFromMd() {
 }
 
 bool Converter::ParseCharInTag(char ch) {
+  static bool skipping_leading_whitespace = true;
+
   if (ch == '/' && !is_in_attribute_value_) {
     is_closing_tag_ = current_tag_.empty();
     is_self_closing_tag_ = !is_closing_tag_;
-
+    skipping_leading_whitespace = true; // Reset for next tag
     return true;
   }
 
-  if (ch == '>')
+  if (ch == '>') {
+    // Trim trailing whitespace by removing characters from current_tag_
+    while (!current_tag_.empty() && std::isspace(current_tag_.back())) {
+      current_tag_.pop_back();
+    }
+    skipping_leading_whitespace = true; // Reset for next tag
     return OnHasLeftTag();
+  }
 
   if (ch == '"') {
     if (is_in_attribute_value_) {
       is_in_attribute_value_ = false;
     } else {
-      // Look backwards for '=' possibly with whitespace after it
       size_t pos = current_tag_.length();
       while (pos > 0 && isspace(current_tag_[pos - 1])) {
         pos--;
@@ -439,12 +446,18 @@ bool Converter::ParseCharInTag(char ch) {
         is_in_attribute_value_ = true;
       }
     }
+    skipping_leading_whitespace = false; // Stop skipping after attribute
     return true;
   }
 
-  // Convert tag characters to lowercase as we build them
-  current_tag_ += tolower(ch);
+  // Handle whitespace: skip leading whitespace, keep others
+  if (isspace(ch) && skipping_leading_whitespace) {
+    return true; // Ignore leading whitespace
+  }
 
+  // Once we encounter a non-whitespace character, stop skipping
+  skipping_leading_whitespace = false;
+  current_tag_ += tolower(ch);
   return false;
 }
 

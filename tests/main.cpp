@@ -326,6 +326,32 @@ bool testSelfClosingUppercaseTags() {
   return true;
 }
 
+bool testWhitespaceTags() {
+  testOption("whitespaceTags");
+
+  // Test cases with various tags containing whitespace
+  vector<std::pair<string, string>> testCases = {
+      // { HTML input, Expected Markdown output }
+      {"< p >Hello</ p >", "Hello\n"},
+      {"< p>Text</  p >", "Text\n"},
+      {"<p >Text</p  >", "Text\n"}
+  };
+
+  for (const auto &[html, expectedMd] : testCases) {
+    html2md::Converter c(html);
+    auto md = c.convert();
+
+    if (md != expectedMd) {
+      cout << "Failed to convert whitespace tag: " << html << "\n"
+           << "Expected Markdown: " << expectedMd << "\n"
+           << "Generated Markdown: " << md << "\n";
+      return false;
+    }
+  }
+
+  return true;
+}
+
 int main(int argc, const char **argv) {
   // List to store all markdown files in this dir
   vector<string> files;
@@ -382,7 +408,9 @@ int main(int argc, const char **argv) {
                 &testUppercaseTags,
                 &testUppercaseAttributes,
                 &testMixedCaseTags,
-                &testSelfClosingUppercaseTags};
+                &testSelfClosingUppercaseTags,
+                &testWhitespaceTags
+              };
 
   for (const auto &test : tests)
     if (!test()) {
