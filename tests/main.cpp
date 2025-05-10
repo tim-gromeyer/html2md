@@ -366,6 +366,45 @@ bool testSelfClosingTags() {
          md.find("  \n") != string::npos;
 }
 
+bool testZeroWidthSpaceWithBlockquote() {
+  testOption("zeroWidthSpaceWithBlockquote");
+
+  std::vector<std::pair<std::string, std::string>> testCases = {
+      // { HTML input, Expected Markdown output }
+      {"<html><body>Text<span>\xe2\x80\x8b</span><blockquote>a</blockquote></"
+       "body></html>",
+       "Text\u200ba\n"},
+      {"<html><body>Text<span> </span><blockquote>a</blockquote></body></html>",
+       "Text a\n"},
+      {"<html><body>Text<blockquote>a\nb</blockquote></body></html>",
+       "Text\n> a\n> b\n"}};
+
+  for (const auto &[html, expectedMd] : testCases) {
+    html2md::Converter c(html);
+    auto md = c.convert();
+
+    if (md != expectedMd) {
+      cout << "Failed to convert HTML with zero-width space and blockquote: "
+           << html << "\n"
+           << "Expected Markdown: " << expectedMd << "\n"
+           << "Generated Markdown: " << md << "\n";
+      return false;
+    }
+
+    // Verify that the output is valid UTF-8 by checking for non-continuation
+    // bytes
+    for (size_t i = 0; i < md.size(); ++i) {
+      if ((md[i] & 0xC0) == 0x80) {
+        std::cout << "Invalid UTF-8 sequence in output for: " << html << "\n" << 
+                     "Generated Markdown: " << md << "\n";
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
+
 int main(int argc, const char **argv) {
   // List to store all markdown files in this dir
   vector<string> files;
@@ -425,6 +464,7 @@ int main(int argc, const char **argv) {
                 &testSelfClosingUppercaseTags,
                 &testWhitespaceTags,
                 &testSelfClosingTags,
+                &testZeroWidthSpaceWithBlockquote,
               };
 
   for (const auto &test : tests)

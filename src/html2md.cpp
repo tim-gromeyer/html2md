@@ -1002,7 +1002,11 @@ void Converter::TagBlockquote::OnHasLeftOpeningTag(Converter *c) {
 
 void Converter::TagBlockquote::OnHasLeftClosingTag(Converter *c) {
   --c->index_blockquote;
-  c->ShortenMarkdown(2); // Remove the '> '
+  // Only shorten if a "> " was added (i.e., a newline was processed in the blockquote)
+  if (!c->md_.empty() && c->md_.length() >= 2 &&
+      c->md_.substr(c->md_.length() - 2) == "> ") {
+    c->ShortenMarkdown(2); // Remove the '> ' only if it exists
+  }
 }
 
 void Converter::reset() {
