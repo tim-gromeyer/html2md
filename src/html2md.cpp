@@ -92,6 +92,7 @@ Converter::Converter(const string *html, Options *options) : html_(*html) {
   if (options)
     option = *options;
 
+  md_.reserve(html->size() * 0.8);
   tags_.reserve(41);
 
   // non-printing tags
@@ -153,6 +154,26 @@ Converter::Converter(const string *html, Options *options) : html_(*html) {
 }
 
 void Converter::CleanUpMarkdown() {
+  std::string buffer;
+  buffer.reserve(md_.size());
+
+  // Replace HTML symbols during the initial pass
+  for (size_t i = 0; i < md_.size();) {
+    bool replaced = false;
+    for (const auto &[symbol, replacement] : htmlSymbolConversions_) {
+      if (md_.compare(i, symbol.size(), symbol) == 0) {
+        buffer += replacement;
+        i += symbol.size();
+        replaced = true;
+        break;
+      }
+    }
+    if (!replaced) {
+      buffer += md_[i++];
+    }
+  }
+
+  md_ = std::move(buffer);
   TidyAllLines(&md_);
 
   ReplaceAll(&md_, " , ", ", ");
@@ -161,12 +182,6 @@ void Converter::CleanUpMarkdown() {
   ReplaceAll(&md_, "\n↵\n", " ↵\n");
   ReplaceAll(&md_, "\n*\n", "\n");
   ReplaceAll(&md_, "\n. ", ".\n");
-
-  // Replace using the conversions map
-  for (const auto &conversion : htmlSymbolConversions_) {
-    ReplaceAll(&md_, conversion.first, conversion.second);
-  }
-
   ReplaceAll(&md_, "\t\t  ", "\t\t");
 }
 
