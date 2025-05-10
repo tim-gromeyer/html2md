@@ -160,29 +160,38 @@ void Converter::CleanUpMarkdown() {
   // Replace HTML symbols during the initial pass
   for (size_t i = 0; i < md_.size();) {
     bool replaced = false;
-    for (const auto &[symbol, replacement] : htmlSymbolConversions_) {
+
+    // C++11 compatible iteration over htmlSymbolConversions_
+    for (const auto &symbol_replacement : htmlSymbolConversions_) {
+      const std::string &symbol = symbol_replacement.first;
+      const std::string &replacement = symbol_replacement.second;
+
       if (md_.compare(i, symbol.size(), symbol) == 0) {
-        buffer += replacement;
+        buffer.append(replacement);
         i += symbol.size();
         replaced = true;
         break;
       }
     }
+
     if (!replaced) {
-      buffer += md_[i++];
+      buffer.push_back(md_[i++]);
     }
   }
 
-  md_ = std::move(buffer);
+  // Use swap instead of move assignment for better pre-C++11 compatibility
+  md_.swap(buffer);
   TidyAllLines(&md_);
 
-  ReplaceAll(&md_, " , ", ", ");
+  // Optimized replacement sequence
+  const char *replacements[][2] = {
+      {" , ", ", "},   {"\n.\n", ".\n"},   {"\n↵\n", " ↵\n"}, {"\n*\n", "\n"},
+      {"\n. ", ".\n"}, {"\t\t  ", "\t\t"},
+  };
 
-  ReplaceAll(&md_, "\n.\n", ".\n");
-  ReplaceAll(&md_, "\n↵\n", " ↵\n");
-  ReplaceAll(&md_, "\n*\n", "\n");
-  ReplaceAll(&md_, "\n. ", ".\n");
-  ReplaceAll(&md_, "\t\t  ", "\t\t");
+  for (const auto &replacement : replacements) {
+    ReplaceAll(&md_, replacement[0], replacement[1]);
+  }
 }
 
 Converter *Converter::appendToMd(char ch) {
