@@ -119,7 +119,11 @@ def test_html_entities():
     html = """
     <p>&quot;Double quotes&quot; &lt;less than&gt; &gt;greater than&lt; &amp; ampersand &nbsp; non-breaking space &rarr; right arrow</p>
     """
-    result = pyhtml2md.convert(html)
+    options = pyhtml2md.Options()
+    options.splitLines = False
+    converter = pyhtml2md.Converter(html, options)
+    result = converter.convert()
+    
     assert '"Double quotes"' in result
     assert "<less than>" in result
     assert ">greater than<" in result

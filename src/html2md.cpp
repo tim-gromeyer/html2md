@@ -154,6 +154,7 @@ Converter::Converter(const string *html, Options *options) : html_(*html) {
 }
 
 void Converter::CleanUpMarkdown() {
+  TidyAllLines(&md_);
   std::string buffer;
   buffer.reserve(md_.size());
 
@@ -181,7 +182,6 @@ void Converter::CleanUpMarkdown() {
 
   // Use swap instead of move assignment for better pre-C++11 compatibility
   md_.swap(buffer);
-  TidyAllLines(&md_);
 
   // Optimized replacement sequence
   const char *replacements[][2] = {

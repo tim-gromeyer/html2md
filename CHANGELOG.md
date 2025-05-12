@@ -2,6 +2,15 @@
 
 [TOC]
 
+## 1.7.0
+- Added API to add/remove HTML symbol conversions
+- Added HTML symbol conversion API to Python bindings
+- Fixed attribute parsing with whitespace around equals sign
+- Added full support for uppercase tags/attributes
+- Supported whitespace around tag names
+- Fixed issues with self-closing tags
+- Improved performance
+
 ## 1.6.6
 - Python: Fix wheels not uploaded
 
