@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['convert_0',['Convert',['../namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c',1,'html2md::Convert(std::string &amp;html, bool *ok=nullptr)'],['../namespacehtml2md.html#a573931f1bc7baee04e41f84fa1f00cc2',1,'html2md::Convert(std::string &amp;&amp;html, bool *ok=nullptr)']]],
-  ['convert_1',['convert',['../classhtml2md_1_1Converter.html#a1607991893247c9b26525135cc4a0e50',1,'html2md::Converter']]],
-  ['converter_2',['Converter',['../classhtml2md_1_1Converter.html#a3dac7e7aadfdf82f468bf9da602c13fa',1,'html2md::Converter']]]
+  ['clearhtmlsymbolconversions_0',['clearHtmlSymbolConversions',['../classhtml2md_1_1Converter.html#aa394fdc1ecedafcf33ed75dcf4442b70',1,'html2md::Converter']]],
+  ['convert_1',['Convert',['../namespacehtml2md.html#a1bf2f4e402cbc69fe4b593feecd4cc26',1,'html2md::Convert(const std::string &amp;html, bool *ok=nullptr)'],['../namespacehtml2md.html#a7723df490a990d61e440f659c827205b',1,'html2md::Convert(const std::string &amp;&amp;html, bool *ok=nullptr)']]],
+  ['convert_2',['convert',['../classhtml2md_1_1Converter.html#a1607991893247c9b26525135cc4a0e50',1,'html2md::Converter']]],
+  ['converter_3',['Converter',['../classhtml2md_1_1Converter.html#a873a6023c96dfe317bcd44d6a582230d',1,'html2md::Converter']]]
 ];

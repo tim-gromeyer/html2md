@@ -69,7 +69,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">html2md
-   &#160;<span id="projectnumber">v1.6.6</span>
+   &#160;<span id="projectnumber">v1.7.0</span>
    </div>
    <div id="projectbrief">Simple and fast HTML to Markdown converter</div>
   </td>
@@ -153,9 +153,9 @@ $(function(){initNavTree('classhtml2md_1_1Converter.html',''); initResizable(tru
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a3dac7e7aadfdf82f468bf9da602c13fa" id="r_a3dac7e7aadfdf82f468bf9da602c13fa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3dac7e7aadfdf82f468bf9da602c13fa">Converter</a> (std::string &amp;html, struct <a class="el" href="structhtml2md_1_1Options.html">Options</a> *options=nullptr)</td></tr>
-<tr class="memdesc:a3dac7e7aadfdf82f468bf9da602c13fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Standard initializer, takes HTML as parameter. Also prepares everything.  <br /></td></tr>
-<tr class="separator:a3dac7e7aadfdf82f468bf9da602c13fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a873a6023c96dfe317bcd44d6a582230d" id="r_a873a6023c96dfe317bcd44d6a582230d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a873a6023c96dfe317bcd44d6a582230d">Converter</a> (const std::string &amp;html, struct <a class="el" href="structhtml2md_1_1Options.html">Options</a> *options=nullptr)</td></tr>
+<tr class="memdesc:a873a6023c96dfe317bcd44d6a582230d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Standard initializer, takes HTML as parameter. Also prepares everything.  <br /></td></tr>
+<tr class="separator:a873a6023c96dfe317bcd44d6a582230d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1607991893247c9b26525135cc4a0e50" id="r_a1607991893247c9b26525135cc4a0e50"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1607991893247c9b26525135cc4a0e50">convert</a> ()</td></tr>
 <tr class="memdesc:a1607991893247c9b26525135cc4a0e50"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert HTML into Markdown.  <br /></td></tr>
 <tr class="separator:a1607991893247c9b26525135cc4a0e50"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -171,6 +171,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a27e12c1966c7285969bfe069f9132c03" id="r_a27e12c1966c7285969bfe069f9132c03"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classhtml2md_1_1Converter.html">Converter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a27e12c1966c7285969bfe069f9132c03">appendBlank</a> ()</td></tr>
 <tr class="memdesc:a27e12c1966c7285969bfe069f9132c03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends a ' ' in certain cases.  <br /></td></tr>
 <tr class="separator:a27e12c1966c7285969bfe069f9132c03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e0dcfdfd9d5843ac4c4c8657770595b" id="r_a1e0dcfdfd9d5843ac4c4c8657770595b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1e0dcfdfd9d5843ac4c4c8657770595b">addHtmlSymbolConversion</a> (const std::string &amp;htmlSymbol, const std::string &amp;replacement)</td></tr>
+<tr class="memdesc:a1e0dcfdfd9d5843ac4c4c8657770595b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an HTML symbol conversion.  <br /></td></tr>
+<tr class="separator:a1e0dcfdfd9d5843ac4c4c8657770595b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a555075a1077ac6c31f662ae5aee72059" id="r_a555075a1077ac6c31f662ae5aee72059"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a555075a1077ac6c31f662ae5aee72059">removeHtmlSymbolConversion</a> (const std::string &amp;htmlSymbol)</td></tr>
+<tr class="memdesc:a555075a1077ac6c31f662ae5aee72059"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove an HTML symbol conversion.  <br /></td></tr>
+<tr class="separator:a555075a1077ac6c31f662ae5aee72059"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa394fdc1ecedafcf33ed75dcf4442b70" id="r_aa394fdc1ecedafcf33ed75dcf4442b70"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aa394fdc1ecedafcf33ed75dcf4442b70">clearHtmlSymbolConversions</a> ()</td></tr>
+<tr class="memdesc:aa394fdc1ecedafcf33ed75dcf4442b70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clear all HTML symbol conversions.  <br /></td></tr>
+<tr class="separator:aa394fdc1ecedafcf33ed75dcf4442b70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34437fc31922f996799afc0441ac68b1" id="r_a34437fc31922f996799afc0441ac68b1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a34437fc31922f996799afc0441ac68b1">ok</a> () const</td></tr>
 <tr class="memdesc:a34437fc31922f996799afc0441ac68b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if everything was closed properly(in the HTML).  <br /></td></tr>
 <tr class="separator:a34437fc31922f996799afc0441ac68b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -188,7 +197,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class for converting HTML to Markdown. </p>
-<p>This class converts HTML to Markdown. There is also a static wrapper for this class (see <a class="el" href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c" title="Static wrapper around the Converter class.">html2md::Convert</a>).</p>
+<p>This class converts HTML to Markdown. There is also a static wrapper for this class (see <a class="el" href="namespacehtml2md.html#a1bf2f4e402cbc69fe4b593feecd4cc26" title="Static wrapper around the Converter class.">html2md::Convert</a>).</p>
 <h2><a class="anchor" id="autotoc_md0"></a>
 Usage example</h2>
 <p>Option 1: Use the class:</p>
@@ -202,9 +211,9 @@ Usage example</h2>
 </div><!-- fragment --><p>Option 2: Use the static wrapper:</p>
 <div class="fragment"><div class="line">std::string html = <span class="stringliteral">&quot;&lt;h1&gt;example&lt;/h1&gt;&quot;</span>;</div>
 <div class="line"> </div>
-<div class="line"><span class="keyword">auto</span> md = <a class="code hl_function" href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">html2md::Convert</a>(html);</div>
+<div class="line"><span class="keyword">auto</span> md = <a class="code hl_function" href="namespacehtml2md.html#a1bf2f4e402cbc69fe4b593feecd4cc26">html2md::Convert</a>(html);</div>
 <div class="line">std::cout &lt;&lt; md;</div>
-<div class="ttc" id="anamespacehtml2md_html_af7fb981c863efed5049ce51d91ee5b0c"><div class="ttname"><a href="namespacehtml2md.html#af7fb981c863efed5049ce51d91ee5b0c">html2md::Convert</a></div><div class="ttdeci">std::string Convert(std::string &amp;html, bool *ok=nullptr)</div><div class="ttdoc">Static wrapper around the Converter class.</div><div class="ttdef"><b>Definition</b> <a href="html2md_8h_source.html#l00597">html2md.h:597</a></div></div>
+<div class="ttc" id="anamespacehtml2md_html_a1bf2f4e402cbc69fe4b593feecd4cc26"><div class="ttname"><a href="namespacehtml2md.html#a1bf2f4e402cbc69fe4b593feecd4cc26">html2md::Convert</a></div><div class="ttdeci">std::string Convert(const std::string &amp;html, bool *ok=nullptr)</div><div class="ttdoc">Static wrapper around the Converter class.</div><div class="ttdef"><b>Definition</b> <a href="html2md_8h_source.html#l00634">html2md.h:634</a></div></div>
 </div><!-- fragment --><p>Advanced: use <a class="el" href="structhtml2md_1_1Options.html" title="Options for the conversion from HTML to Markdown.">Options</a>:</p>
 <div class="fragment"><div class="line">std::string html = <span class="stringliteral">&quot;&lt;h1&gt;example&lt;/h1&gt;&quot;</span>;</div>
 <div class="line"> </div>
@@ -220,8 +229,8 @@ Usage example</h2>
 </div><!-- fragment --> 
 <p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00159">159</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a3dac7e7aadfdf82f468bf9da602c13fa" name="a3dac7e7aadfdf82f468bf9da602c13fa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3dac7e7aadfdf82f468bf9da602c13fa">&#9670;&#160;</a></span>Converter()</h2>
+<a id="a873a6023c96dfe317bcd44d6a582230d" name="a873a6023c96dfe317bcd44d6a582230d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a873a6023c96dfe317bcd44d6a582230d">&#9670;&#160;</a></span>Converter()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -232,7 +241,7 @@ Usage example</h2>
         <tr>
           <td class="memname">html2md::Converter::Converter </td>
           <td>(</td>
-          <td class="paramtype">std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>html</em></span>, </td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>html</em></span>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -264,6 +273,49 @@ Usage example</h2>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a1e0dcfdfd9d5843ac4c4c8657770595b" name="a1e0dcfdfd9d5843ac4c4c8657770595b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e0dcfdfd9d5843ac4c4c8657770595b">&#9670;&#160;</a></span>addHtmlSymbolConversion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void html2md::Converter::addHtmlSymbolConversion </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>htmlSymbol</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>replacement</em></span>&#160;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Add an HTML symbol conversion. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">htmlSymbol</td><td>The HTML symbol to convert </td></tr>
+    <tr><td class="paramname">replacement</td><td>The replacement string </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>This is useful for converting HTML entities to their Markdown equivalents. For example, you can add a conversion for "&amp;nbsp;" to " " (space) or "&amp;lt;" to "&lt;" (less than). </dd>
+<dd>
+This is not a standard feature of the <a class="el" href="classhtml2md_1_1Converter.html" title="Class for converting HTML to Markdown.">Converter</a> class, but it can be added to the class to allow for more flexibility in the conversion process. You can use this feature to add custom conversions for any HTML symbol that you want to convert to a specific Markdown representation. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00232">232</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
+
+</div>
+</div>
 <a id="a27e12c1966c7285969bfe069f9132c03" name="a27e12c1966c7285969bfe069f9132c03"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a27e12c1966c7285969bfe069f9132c03">&#9670;&#160;</a></span>appendBlank()</h2>
 
@@ -286,7 +338,7 @@ Usage example</h2>
 <li>md does not end with <code>\n</code> aka newline </li>
 </ul>
 
-<p class="definition">Definition at line <a class="el" href="html2md_8cpp_source.html#l00207">207</a> of file <a class="el" href="html2md_8cpp_source.html">html2md.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="html2md_8cpp_source.html#l00238">238</a> of file <a class="el" href="html2md_8cpp_source.html">html2md.cpp</a>.</p>
 
 </div>
 </div>
@@ -314,7 +366,7 @@ Usage example</h2>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns a copy of the instance with the char appended. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="html2md_8cpp_source.html#l00165">165</a> of file <a class="el" href="html2md_8cpp_source.html">html2md.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="html2md_8cpp_source.html#l00196">196</a> of file <a class="el" href="html2md_8cpp_source.html">html2md.cpp</a>.</p>
 
 </div>
 </div>
@@ -342,7 +394,7 @@ Usage example</h2>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns a copy of the instance with the char* appended. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="html2md_8cpp_source.html#l00189">189</a> of file <a class="el" href="html2md_8cpp_source.html">html2md.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="html2md_8cpp_source.html#l00220">220</a> of file <a class="el" href="html2md_8cpp_source.html">html2md.cpp</a>.</p>
 
 </div>
 </div>
@@ -382,6 +434,36 @@ Usage example</h2>
 
 </div>
 </div>
+<a id="aa394fdc1ecedafcf33ed75dcf4442b70" name="aa394fdc1ecedafcf33ed75dcf4442b70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa394fdc1ecedafcf33ed75dcf4442b70">&#9670;&#160;</a></span>clearHtmlSymbolConversions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void html2md::Converter::clearHtmlSymbolConversions </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Clear all HTML symbol conversions. </p>
+<dl class="section note"><dt>Note</dt><dd>This is useful for clearing the conversion map (it's empty afterwards). </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00251">251</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
+
+</div>
+</div>
 <a id="a1607991893247c9b26525135cc4a0e50" name="a1607991893247c9b26525135cc4a0e50"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a1607991893247c9b26525135cc4a0e50">&#9670;&#160;</a></span>convert()</h2>
 
@@ -409,7 +491,7 @@ Usage example</h2>
 <dl class="section return"><dt>Returns</dt><dd>Returns the converted Markdown.</dd></dl>
 <p>This function actually converts the HTML into Markdown. It also cleans up the Markdown so you don't have to do anything. </p>
 
-<p class="definition">Definition at line <a class="el" href="html2md_8cpp_source.html#l00360">360</a> of file <a class="el" href="html2md_8cpp_source.html">html2md.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="html2md_8cpp_source.html#l00392">392</a> of file <a class="el" href="html2md_8cpp_source.html">html2md.cpp</a>.</p>
 
 </div>
 </div>
@@ -440,7 +522,7 @@ Usage example</h2>
 <dl class="section return"><dt>Returns</dt><dd>Returns false if there is a unclosed tag. </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>As long as you have not called <a class="el" href="#a1607991893247c9b26525135cc4a0e50" title="Convert HTML into Markdown.">convert()</a>, it always returns true. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="html2md_8cpp_source.html#l00217">217</a> of file <a class="el" href="html2md_8cpp_source.html">html2md.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="html2md_8cpp_source.html#l00248">248</a> of file <a class="el" href="html2md_8cpp_source.html">html2md.cpp</a>.</p>
 
 </div>
 </div>
@@ -469,7 +551,7 @@ Usage example</h2>
 
 <p>Returns <a class="el" href="#a34437fc31922f996799afc0441ac68b1" title="Checks if everything was closed properly(in the HTML).">ok()</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00246">246</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00279">279</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
 
 </div>
 </div>
@@ -496,7 +578,7 @@ Usage example</h2>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00239">239</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00272">272</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
 
 </div>
 </div>
@@ -532,7 +614,43 @@ Usage example</h2>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the HTML and options matches otherwise false </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00237">237</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00270">270</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
+
+</div>
+</div>
+<a id="a555075a1077ac6c31f662ae5aee72059" name="a555075a1077ac6c31f662ae5aee72059"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a555075a1077ac6c31f662ae5aee72059">&#9670;&#160;</a></span>removeHtmlSymbolConversion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void html2md::Converter::removeHtmlSymbolConversion </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>htmlSymbol</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel inline">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Remove an HTML symbol conversion. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">htmlSymbol</td><td>The HTML symbol to remove </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section note"><dt>Note</dt><dd>This is useful for removing custom conversions that you have added previously. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00243">243</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
 
 </div>
 </div>
@@ -553,7 +671,7 @@ Usage example</h2>
 
 <p>Reset the generated Markdown. </p>
 
-<p class="definition">Definition at line <a class="el" href="html2md_8cpp_source.html#l00972">972</a> of file <a class="el" href="html2md_8cpp_source.html">html2md.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="html2md_8cpp_source.html#l01035">1035</a> of file <a class="el" href="html2md_8cpp_source.html">html2md.cpp</a>.</p>
 
 </div>
 </div>
