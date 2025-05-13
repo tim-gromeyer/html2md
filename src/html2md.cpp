@@ -420,6 +420,7 @@ string Converter::convert() {
 void Converter::OnHasEnteredTag() {
   offset_lt_ = index_ch_in_html_;
   is_in_tag_ = true;
+  is_closing_tag_ = false;
   prev_tag_ = current_tag_;
   current_tag_ = "";
 
