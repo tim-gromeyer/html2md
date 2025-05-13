@@ -373,9 +373,9 @@ bool testZeroWidthSpaceWithBlockquote() {
       // { HTML input, Expected Markdown output }
       {"<html><body>Text<span>\xe2\x80\x8b</span><blockquote>a</blockquote></"
        "body></html>",
-       "Text\u200ba\n"},
+       "Text\u200b\n> a\n"},
       {"<html><body>Text<span> </span><blockquote>a</blockquote></body></html>",
-       "Text a\n"},
+       "Text\n> a\n"},
       {"<html><body>Text<blockquote>a\nb</blockquote></body></html>",
        "Text\n> a\n> b\n"}};
 
@@ -390,15 +390,49 @@ bool testZeroWidthSpaceWithBlockquote() {
            << "Generated Markdown: " << md << "\n";
       return false;
     }
+  }
 
-    // Verify that the output is valid UTF-8 by checking for non-continuation
-    // bytes
-    for (size_t i = 0; i < md.size(); ++i) {
-      if ((md[i] & 0xC0) == 0x80) {
-        std::cout << "Invalid UTF-8 sequence in output for: " << html << "\n" << 
-                     "Generated Markdown: " << md << "\n";
-        return false;
-      }
+  return true;
+}
+
+bool testInvalidTags() {
+  testOption("invalidTags");
+
+  // Test cases with various invalid tags
+  vector<string>
+      testCases =
+          {
+              "<p>Valid <invalid>tag</invalid></p>",
+              "<p>Self-closing <invalid/></p>",
+              "<p>Nested "
+              "<invalid><moreinvalid>tags</moreinvalid></invalid></p>",
+              "<p>V<sub>i</sub> <a "
+              "href=\"http://example.com/\">example</a></p>", // The specific
+                                                              // test case from
+                                                              // the issue
+              "<p>Text with <123invalid>tag</123invalid></p>",
+              "<p>Text with <invalid@tag>content</invalid@tag></p>"};
+
+  vector<string> expectedOutputs = {
+      "Valid tag\n",
+      "Self-closing\n",
+      "Nested tags\n",
+      "Vi [example](http://example.com/)\n", // Expected output for
+                                                        // the specific test
+                                                        // case
+      "Text with tag\n",
+      "Text with content\n"};
+
+  for (size_t i = 0; i < testCases.size(); i++) {
+    html2md::Converter c(testCases[i]);
+    auto md = c.convert();
+
+    if (md != expectedOutputs[i]) {
+      cout << "Failed to handle invalid tags:\n"
+           << "Input: " << testCases[i] << "\n"
+           << "Expected: " << expectedOutputs[i] << "\n"
+           << "Got: " << md << "\n";
+      return false;
     }
   }
 
@@ -465,6 +499,7 @@ int main(int argc, const char **argv) {
                 &testWhitespaceTags,
                 &testSelfClosingTags,
                 &testZeroWidthSpaceWithBlockquote,
+                &testInvalidTags,
               };
 
   for (const auto &test : tests)
