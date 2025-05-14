@@ -154,7 +154,7 @@ string readAll(const string &name) {
 int main() {
   using namespace markdown;
   BenchmarkRunner runner;
-  const int iterations = 1000; // Number of iterations per test
+  const int iterations = 10000; // Number of iterations per test
 
   // Add tests for Markdown files in the directory
   vector<string> files;
