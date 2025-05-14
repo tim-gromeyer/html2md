@@ -1023,6 +1023,8 @@ void Converter::TagTableData::OnHasLeftClosingTag(Converter *c) {}
 
 void Converter::TagBlockquote::OnHasLeftOpeningTag(Converter *c) {
   ++c->index_blockquote;
+  c->appendToMd("\n");
+  c->appendToMd(Repeat("> ", c->index_blockquote));
 }
 
 void Converter::TagBlockquote::OnHasLeftClosingTag(Converter *c) {
