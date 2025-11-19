@@ -115,11 +115,21 @@ struct Options {
    */
   bool forceLeftTrim = false;
 
+  /*!
+   * \brief Whether to compress whitespace (tabs, multiple spaces) into a single
+   * space
+   *
+   * Whether to compress whitespace (tabs, multiple spaces) into a single space.
+   * Default is false.
+   */
+  bool compressWhitespace = false;
+
   inline bool operator==(html2md::Options o) const {
     return splitLines == o.splitLines && unorderedList == o.unorderedList &&
            orderedList == o.orderedList && includeTitle == o.includeTitle &&
            softBreak == o.softBreak && hardBreak == o.hardBreak &&
-           formatTable == o.formatTable && forceLeftTrim == o.forceLeftTrim;
+           formatTable == o.formatTable && forceLeftTrim == o.forceLeftTrim &&
+           compressWhitespace == o.compressWhitespace;
   };
 };
 

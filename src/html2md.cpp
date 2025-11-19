@@ -546,6 +546,17 @@ bool Converter::ParseCharInTagContent(char ch) {
     return true;
   }
 
+  if (option.compressWhitespace && !is_in_pre_) {
+    if (ch == '\t')
+      ch = ' ';
+
+    if (ch == ' ') {
+      UpdatePrevChFromMd();
+      if (prev_ch_in_md_ == ' ' || prev_ch_in_md_ == '\n')
+        return true;
+    }
+  }
+
   if (IsInIgnoredTag() || current_tag_ == kTagLink) {
     prev_ch_in_html_ = ch;
 

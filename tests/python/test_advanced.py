@@ -159,5 +159,19 @@ def test_nested_structures():
     assert "*italic*" in result
     assert "**list**" in result
 
+def test_compress_whitespace():
+    html = """
+    <p>
+        <strong>1. Title</strong></p>
+    <p>
+        paragraph   with tabs	and    spaces</p>
+    """
+    options = pyhtml2md.Options()
+    options.compressWhitespace = True
+    converter = pyhtml2md.Converter(html, options)
+    result = converter.convert()
+    
+    assert result == "**1. Title**\n\nparagraph with tabs and spaces\n"
+
 if __name__ == "__main__":
     pytest.main([__file__])

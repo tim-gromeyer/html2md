@@ -26,6 +26,9 @@ PYBIND11_MODULE(pyhtml2md, m) {
                      "Whether to format Markdown Tables")
       .def_readwrite("forceLeftTrim", &html2md::Options::forceLeftTrim,
                      "Whether to force left trim")
+      .def_readwrite("compressWhitespace", &html2md::Options::compressWhitespace,
+                     "Whether to compress whitespace (tabs, multiple spaces) "
+                     "into a single space")
       .def("__eq__", &html2md::Options::operator==);
 
   py::class_<html2md::Converter>(m, "Converter")
