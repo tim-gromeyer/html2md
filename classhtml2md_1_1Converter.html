@@ -69,7 +69,7 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">html2md
-   &#160;<span id="projectnumber">v1.7.0</span>
+   &#160;<span id="projectnumber">v1.8.0</span>
    </div>
    <div id="projectbrief">Simple and fast HTML to Markdown converter</div>
   </td>
@@ -207,13 +207,13 @@ Usage example</h2>
 <div class="line"> </div>
 <div class="line"><span class="keywordflow">if</span> (!c.ok()) std::cout &lt;&lt; <span class="stringliteral">&quot;There was something wrong in the HTML\n&quot;</span>;</div>
 <div class="line">std::cout &lt;&lt; md; <span class="comment">// # example</span></div>
-<div class="ttc" id="aclasshtml2md_1_1Converter_html"><div class="ttname"><a href="classhtml2md_1_1Converter.html">html2md::Converter</a></div><div class="ttdoc">Class for converting HTML to Markdown.</div><div class="ttdef"><b>Definition</b> <a href="html2md_8h_source.html#l00159">html2md.h:159</a></div></div>
+<div class="ttc" id="aclasshtml2md_1_1Converter_html"><div class="ttname"><a href="classhtml2md_1_1Converter.html">html2md::Converter</a></div><div class="ttdoc">Class for converting HTML to Markdown.</div><div class="ttdef"><b>Definition</b> <a href="html2md_8h_source.html#l00179">html2md.h:179</a></div></div>
 </div><!-- fragment --><p>Option 2: Use the static wrapper:</p>
 <div class="fragment"><div class="line">std::string html = <span class="stringliteral">&quot;&lt;h1&gt;example&lt;/h1&gt;&quot;</span>;</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">auto</span> md = <a class="code hl_function" href="namespacehtml2md.html#a1bf2f4e402cbc69fe4b593feecd4cc26">html2md::Convert</a>(html);</div>
 <div class="line">std::cout &lt;&lt; md;</div>
-<div class="ttc" id="anamespacehtml2md_html_a1bf2f4e402cbc69fe4b593feecd4cc26"><div class="ttname"><a href="namespacehtml2md.html#a1bf2f4e402cbc69fe4b593feecd4cc26">html2md::Convert</a></div><div class="ttdeci">std::string Convert(const std::string &amp;html, bool *ok=nullptr)</div><div class="ttdoc">Static wrapper around the Converter class.</div><div class="ttdef"><b>Definition</b> <a href="html2md_8h_source.html#l00634">html2md.h:634</a></div></div>
+<div class="ttc" id="anamespacehtml2md_html_a1bf2f4e402cbc69fe4b593feecd4cc26"><div class="ttname"><a href="namespacehtml2md.html#a1bf2f4e402cbc69fe4b593feecd4cc26">html2md::Convert</a></div><div class="ttdeci">std::string Convert(const std::string &amp;html, bool *ok=nullptr)</div><div class="ttdoc">Static wrapper around the Converter class.</div><div class="ttdef"><b>Definition</b> <a href="html2md_8h_source.html#l00654">html2md.h:654</a></div></div>
 </div><!-- fragment --><p>Advanced: use <a class="el" href="structhtml2md_1_1Options.html" title="Options for the conversion from HTML to Markdown.">Options</a>:</p>
 <div class="fragment"><div class="line">std::string html = <span class="stringliteral">&quot;&lt;h1&gt;example&lt;/h1&gt;&quot;</span>;</div>
 <div class="line"> </div>
@@ -225,9 +225,9 @@ Usage example</h2>
 <div class="line"><span class="keyword">auto</span> md = c.convert();</div>
 <div class="line"><span class="keywordflow">if</span> (!c.ok()) std::cout &lt;&lt; <span class="stringliteral">&quot;There was something wrong in the HTML\n&quot;</span>;</div>
 <div class="line">std::cout &lt;&lt; md; <span class="comment">// # example</span></div>
-<div class="ttc" id="astructhtml2md_1_1Options_html"><div class="ttname"><a href="structhtml2md_1_1Options.html">html2md::Options</a></div><div class="ttdoc">Options for the conversion from HTML to Markdown.</div><div class="ttdef"><b>Definition</b> <a href="html2md_8h_source.html#l00038">html2md.h:38</a></div></div>
+<div class="ttc" id="astructhtml2md_1_1Options_html"><div class="ttname"><a href="structhtml2md_1_1Options.html">html2md::Options</a></div><div class="ttdoc">Options for the conversion from HTML to Markdown.</div><div class="ttdef"><b>Definition</b> <a href="html2md_8h_source.html#l00039">html2md.h:39</a></div></div>
 </div><!-- fragment --> 
-<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00159">159</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00179">179</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a873a6023c96dfe317bcd44d6a582230d" name="a873a6023c96dfe317bcd44d6a582230d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a873a6023c96dfe317bcd44d6a582230d">&#9670;&#160;</a></span>Converter()</h2>
@@ -268,7 +268,7 @@ Usage example</h2>
 <p>This is the default initializer.<br  />
  You can use <a class="el" href="#a22de58b843063c394993552a255052cd" title="Append a char to the Markdown.">appendToMd()</a> to append something to the beginning of the generated output. </p>
 
-<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00173">173</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00193">193</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
 
 </div>
 </div>
@@ -312,7 +312,7 @@ Usage example</h2>
 <dd>
 This is not a standard feature of the <a class="el" href="classhtml2md_1_1Converter.html" title="Class for converting HTML to Markdown.">Converter</a> class, but it can be added to the class to allow for more flexibility in the conversion process. You can use this feature to add custom conversions for any HTML symbol that you want to convert to a specific Markdown representation. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00232">232</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00252">252</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
 
 </div>
 </div>
@@ -430,7 +430,7 @@ This is not a standard feature of the <a class="el" href="classhtml2md_1_1Conver
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Returns a copy of the instance with the string appended. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00206">206</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00226">226</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
 
 </div>
 </div>
@@ -460,7 +460,7 @@ This is not a standard feature of the <a class="el" href="classhtml2md_1_1Conver
 <p>Clear all HTML symbol conversions. </p>
 <dl class="section note"><dt>Note</dt><dd>This is useful for clearing the conversion map (it's empty afterwards). </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00251">251</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00271">271</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
 
 </div>
 </div>
@@ -551,7 +551,7 @@ This is not a standard feature of the <a class="el" href="classhtml2md_1_1Conver
 
 <p>Returns <a class="el" href="#a34437fc31922f996799afc0441ac68b1" title="Checks if everything was closed properly(in the HTML).">ok()</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00279">279</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00299">299</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
 
 </div>
 </div>
@@ -578,7 +578,7 @@ This is not a standard feature of the <a class="el" href="classhtml2md_1_1Conver
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00272">272</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00292">292</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
 
 </div>
 </div>
@@ -614,7 +614,7 @@ This is not a standard feature of the <a class="el" href="classhtml2md_1_1Conver
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>true if the HTML and options matches otherwise false </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00270">270</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00290">290</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
 
 </div>
 </div>
@@ -650,7 +650,7 @@ This is not a standard feature of the <a class="el" href="classhtml2md_1_1Conver
 </dl>
 <dl class="section note"><dt>Note</dt><dd>This is useful for removing custom conversions that you have added previously. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00243">243</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="html2md_8h_source.html#l00263">263</a> of file <a class="el" href="html2md_8h_source.html">html2md.h</a>.</p>
 
 </div>
 </div>
@@ -671,7 +671,7 @@ This is not a standard feature of the <a class="el" href="classhtml2md_1_1Conver
 
 <p>Reset the generated Markdown. </p>
 
-<p class="definition">Definition at line <a class="el" href="html2md_8cpp_source.html#l01039">1039</a> of file <a class="el" href="html2md_8cpp_source.html">html2md.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="html2md_8cpp_source.html#l01050">1050</a> of file <a class="el" href="html2md_8cpp_source.html">html2md.cpp</a>.</p>
 
 </div>
 </div>

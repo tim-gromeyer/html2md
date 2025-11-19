@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['formattable_0',['formatTable',['../structhtml2md_1_1Options.html#a8dbde00c2ebf71db101a191c43d27803',1,'html2md::Options']]]
+  ['compresswhitespace_0',['compressWhitespace',['../structhtml2md_1_1Options.html#a3209bc6cffe65c166fdef1cbd5c69bc1',1,'html2md::Options']]]
 ];
