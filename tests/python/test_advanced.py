@@ -31,6 +31,19 @@ def test_options():
     assert result.startswith('* First')
     assert converter.ok()
 
+def test_forceLeftTrimOption():
+    html = """
+    <p>
+	         <strong>1. Title</strong></p>
+    <p>
+	    paragraph   with tabs	and    spaces</p>
+    """
+    options = pyhtml2md.Options()
+    options.forceLeftTrim = True
+    converter = pyhtml2md.Converter(html, options)
+    result = converter.convert()
+    assert result == "**1. Title**\n\nparagraph   with tabs\tand    spaces\n\n"
+
 def test_complex_formatting():
     html = """
     <h1>Main Title</h1>

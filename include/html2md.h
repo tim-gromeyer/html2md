@@ -107,10 +107,19 @@ struct Options {
    */
   bool formatTable = true;
 
+  /*!
+   * \brief Whether to force left trim of lines in the final Markdown output
+   *
+   * Whether to force left trim of lines in the final Markdown output.
+   * Default is false.
+   */
+  bool forceLeftTrim = false;
+
   inline bool operator==(html2md::Options o) const {
     return splitLines == o.splitLines && unorderedList == o.unorderedList &&
            orderedList == o.orderedList && includeTitle == o.includeTitle &&
-           softBreak == o.softBreak && hardBreak == o.hardBreak;
+           softBreak == o.softBreak && hardBreak == o.hardBreak &&
+           formatTable == o.formatTable && forceLeftTrim == o.forceLeftTrim;
   };
 };
 

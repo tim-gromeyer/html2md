@@ -274,7 +274,7 @@ Converter *Converter::RTrim(string *s, bool trim_only_blank) {
 // NOTE: Pay attention when changing one of the trim functions. It can break the
 // output!
 Converter *Converter::Trim(string *s) {
-  if (!startsWith(*s, "\t"))
+  if (!startsWith(*s, "\t") || option.forceLeftTrim)
     LTrim(s);
 
   if (!(startsWith(*s, "  "), endsWith(*s, "  ")))

@@ -24,6 +24,8 @@ PYBIND11_MODULE(pyhtml2md, m) {
                      "beginning of the markdown")
       .def_readwrite("formatTable", &html2md::Options::formatTable,
                      "Whether to format Markdown Tables")
+      .def_readwrite("forceLeftTrim", &html2md::Options::forceLeftTrim,
+                     "Whether to force left trim")
       .def("__eq__", &html2md::Options::operator==);
 
   py::class_<html2md::Converter>(m, "Converter")
