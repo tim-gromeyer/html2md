@@ -124,12 +124,22 @@ struct Options {
    */
   bool compressWhitespace = false;
 
+  /*!
+   * \brief Whether to escape numbered lists (e.g. "4." -> "4\.") to prevent them
+   * from being interpreted as lists in Markdown.
+   *
+   * Whether to escape numbered lists.
+   * Default is true.
+   */
+  bool escapeNumberedList = true;
+
   inline bool operator==(html2md::Options o) const {
     return splitLines == o.splitLines && unorderedList == o.unorderedList &&
            orderedList == o.orderedList && includeTitle == o.includeTitle &&
            softBreak == o.softBreak && hardBreak == o.hardBreak &&
            formatTable == o.formatTable && forceLeftTrim == o.forceLeftTrim &&
-           compressWhitespace == o.compressWhitespace;
+           compressWhitespace == o.compressWhitespace &&
+           escapeNumberedList == o.escapeNumberedList;
   };
 };
 

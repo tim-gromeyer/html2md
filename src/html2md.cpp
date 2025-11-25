@@ -583,6 +583,35 @@ bool Converter::ParseCharInTagContent(char ch) {
   case '\\':
     appendToMd("\\\\");
     break;
+  case '.': {
+    bool is_ordered_list_start = false;
+    if (chars_in_curr_line_ > 0) {
+      size_t start_idx = md_.length() - chars_in_curr_line_;
+      size_t idx = start_idx;
+      // Skip spaces
+      while (idx < md_.length() && isspace(md_[idx])) {
+        idx++;
+      }
+      // Check digits
+      bool has_digits = false;
+      while (idx < md_.length() && isdigit(md_[idx])) {
+        has_digits = true;
+        idx++;
+      }
+      // If we reached the end and had digits, it's a match
+      if (has_digits && idx == md_.length()) {
+        is_ordered_list_start = true;
+      }
+    }
+
+    if (is_ordered_list_start && option.escapeNumberedList) {
+      appendToMd("\\.");
+    } else {
+      md_ += ch;
+      ++chars_in_curr_line_;
+    }
+    break;
+  }
   default:
     md_ += ch;
     ++chars_in_curr_line_;

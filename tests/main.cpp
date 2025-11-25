@@ -439,6 +439,26 @@ bool testInvalidTags() {
   return true;
 }
 
+bool testEscapingNumberedList() {
+  testOption("escapingNumberedList");
+
+  string html = "4.<br />\nPlease implement as requested.";
+
+  html2md::Converter c(html);
+  auto md = c.convert();
+
+  string expected = "4\\.  \nPlease implement as requested.\n";
+
+  if (md != expected) {
+    cout << "Failed to escape numbered list:\n"
+         << "Input: " << html << "\n"
+         << "Expected: " << expected << "\n"
+         << "Got: " << md << "\n";
+    return false;
+  }
+  return true;
+}
+
 int main(int argc, const char **argv) {
   // List to store all markdown files in this dir
   vector<string> files;
@@ -500,6 +520,7 @@ int main(int argc, const char **argv) {
                 &testSelfClosingTags,
                 &testZeroWidthSpaceWithBlockquote,
                 &testInvalidTags,
+                &testEscapingNumberedList,
               };
 
   for (const auto &test : tests)

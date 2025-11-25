@@ -29,6 +29,8 @@ PYBIND11_MODULE(pyhtml2md, m) {
       .def_readwrite("compressWhitespace", &html2md::Options::compressWhitespace,
                      "Whether to compress whitespace (tabs, multiple spaces) "
                      "into a single space")
+      .def_readwrite("escapeNumberedList", &html2md::Options::escapeNumberedList,
+                     "Whether to escape numbered lists (e.g. '4.' -> '4\\.')")
       .def("__eq__", &html2md::Options::operator==);
 
   py::class_<html2md::Converter>(m, "Converter")
