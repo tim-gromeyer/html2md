@@ -5,6 +5,7 @@
 #include "table.h"
 
 #include <algorithm>
+#include <cctype>
 #include <cstring>
 #include <memory>
 #include <sstream>
@@ -67,8 +68,13 @@ string Repeat(const string &str, size_t amount) {
   else if (amount == 1)
     return str;
 
-  string out;
+  // Optimize for single-character strings (common case for blockquotes, etc.)
+  if (str.size() == 1)
+    return string(amount, str[0]);
 
+  // For multi-character strings, reserve space upfront
+  string out;
+  out.reserve(str.size() * amount);
   for (size_t i = 0; i < amount; ++i)
     out.append(str);
 
@@ -92,7 +98,7 @@ Converter::Converter(const string *html, Options *options) : html_(*html) {
   if (options)
     option = *options;
 
-  md_.reserve(html->size() * 0.8);
+  md_.reserve(html->size() * 1.2);
   tags_.reserve(41);
 
   // non-printing tags
@@ -184,6 +190,10 @@ void Converter::CleanUpMarkdown() {
   md_.swap(buffer);
 
   // Optimized replacement sequence
+  // Note: Multiple simple passes are faster than one complex pass due to:
+  // - Better branch prediction
+  // - Better cache locality
+  // - Simpler instruction patterns
   const char *replacements[][2] = {
       {" , ", ", "},   {"\n.\n", ".\n"},   {"\n↵\n", " ↵\n"}, {"\n*\n", "\n"},
       {"\n. ", ".\n"}, {"\t\t  ", "\t\t"},
@@ -225,8 +235,9 @@ Converter *Converter::appendToMd(const char *str) {
   md_ += str;
 
   auto str_len = strlen(str);
-
-  for (auto i = 0; i < str_len; ++i) {
+  
+  // Efficiently update chars_in_curr_line_ by scanning for last newline
+  for (size_t i = 0; i < str_len; ++i) {
     if (str[i] == '\n')
       chars_in_curr_line_ = 0;
     else
@@ -284,35 +295,107 @@ Converter *Converter::Trim(string *s) {
 }
 
 void Converter::TidyAllLines(string *str) {
-  auto lines = Split(*str, '\n');
-  string res;
+  if (str->empty())
+    return;
+
+  // Ensure input ends with newline to simplify logic
+  if (str->back() != '\n') {
+    str->push_back('\n');
+  }
+
+  size_t read = 0;
+  size_t write = 0;
+  size_t len = str->size();
 
   uint8_t amount_newlines = 0;
   bool in_code_block = false;
 
-  for (auto line : lines) {
-    if (startsWith(line, "```") || startsWith(line, "~~~"))
-      in_code_block = !in_code_block;
-    if (in_code_block) {
-      res += line + '\n';
-      continue;
+  while (read < len) {
+    size_t line_start = read;
+    size_t line_end = read;
+
+    // Find end of line
+    while (line_end < len && (*str)[line_end] != '\n') {
+      line_end++;
     }
 
-    Trim(&line);
+    size_t line_len = line_end - line_start;
 
-    if (line.empty()) {
-      if (amount_newlines < 2 && !res.empty()) {
-        res += '\n';
-        amount_newlines++;
+    // Check for code block markers
+    if (line_len >= 3) {
+      char c1 = (*str)[line_start];
+      char c2 = (*str)[line_start + 1];
+      char c3 = (*str)[line_start + 2];
+      if ((c1 == '`' && c2 == '`' && c3 == '`') ||
+          (c1 == '~' && c2 == '~' && c3 == '~')) {
+        in_code_block = !in_code_block;
       }
-    } else {
-      amount_newlines = 0;
-
-      res += line + '\n';
     }
+
+    if (in_code_block) {
+      // Copy line as-is
+      if (write != line_start) {
+        for (size_t i = 0; i < line_len; ++i) {
+          (*str)[write + i] = (*str)[line_start + i];
+        }
+      }
+      write += line_len;
+      (*str)[write++] = '\n';
+    } else {
+      // Trim logic
+      size_t trim_start = line_start;
+      size_t trim_end = line_end;
+
+      // Trim leading whitespace
+      if (option.forceLeftTrim ||
+          (trim_start < trim_end && (*str)[trim_start] != '\t')) {
+        while (trim_start < trim_end &&
+               std::isspace((unsigned char)(*str)[trim_start])) {
+          ++trim_start;
+        }
+      }
+
+      // Trim trailing whitespace, preserve "  "
+      bool has_line_break = false;
+      if (trim_end >= trim_start + 2 && (*str)[trim_end - 1] == ' ' &&
+          (*str)[trim_end - 2] == ' ') {
+        has_line_break = true;
+        trim_end -= 2;
+      }
+
+      while (trim_end > trim_start &&
+             std::isspace((unsigned char)(*str)[trim_end - 1])) {
+        --trim_end;
+      }
+
+      if (has_line_break) {
+        trim_end += 2;
+      }
+
+      size_t trimmed_len = trim_end - trim_start;
+
+      if (trimmed_len == 0) {
+        // Empty line
+        if (amount_newlines < 2 && write > 0) {
+          (*str)[write++] = '\n';
+          amount_newlines++;
+        }
+      } else {
+        amount_newlines = 0;
+        if (write != trim_start) {
+          for (size_t i = 0; i < trimmed_len; ++i) {
+            (*str)[write + i] = (*str)[trim_start + i];
+          }
+        }
+        write += trimmed_len;
+        (*str)[write++] = '\n';
+      }
+    }
+
+    read = line_end + 1;
   }
 
-  *str = res;
+  str->resize(write);
 }
 
 string Converter::ExtractAttributeFromTagLeftOf(const string &attr) {
@@ -414,6 +497,11 @@ string Converter::convert() {
 
   CleanUpMarkdown();
 
+  // Remove trailing double newline if present (keep only single newline)
+  if (md_.size() >= 2 && md_[md_.size() - 1] == '\n' && md_[md_.size() - 2] == '\n') {
+    md_.pop_back();
+  }
+
   return md_;
 }
 
@@ -502,11 +590,14 @@ bool Converter::OnHasLeftTag() {
     if (TagContainsAttributesToHide(&current_tag_))
       return true;
 
-  auto cut_tags = Split(current_tag_, ' ');
-  if (cut_tags.empty())
+  // Extract tag name without Split() - just find first space
+  size_t space_pos = current_tag_.find(' ');
+  if (space_pos != string::npos) {
+    current_tag_ = current_tag_.substr(0, space_pos);
+  }
+  
+  if (current_tag_.empty())
     return true;
-
-  current_tag_ = cut_tags[0];
 
   auto tag = tags_[current_tag_];
 

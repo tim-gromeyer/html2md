@@ -42,7 +42,7 @@ def test_forceLeftTrimOption():
     options.forceLeftTrim = True
     converter = pyhtml2md.Converter(html, options)
     result = converter.convert()
-    assert result == "**1. Title**\n\nparagraph   with tabs\tand    spaces\n\n"
+    assert result == "**1. Title**\n\nparagraph   with tabs\tand    spaces\n"
 
 def test_complex_formatting():
     html = """
