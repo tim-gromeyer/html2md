@@ -995,7 +995,7 @@ void Converter::TagSeperator::OnHasLeftClosingTag(Converter *c) {}
 void Converter::TagTable::OnHasLeftOpeningTag(Converter *c) {
   c->is_in_table_ = true;
   c->appendToMd('\n');
-  c->table_start = c->md_.length();
+  c->table_start = c->md_.length(); // Set start AFTER the newline
 }
 
 void Converter::TagTable::OnHasLeftClosingTag(Converter *c) {
@@ -1012,25 +1012,26 @@ void Converter::TagTable::OnHasLeftClosingTag(Converter *c) {
 }
 
 void Converter::TagTableRow::OnHasLeftOpeningTag(Converter *c) {
-  c->appendToMd('\n');
+  // Don't add newline here - it creates empty rows
+  // The newline is added by the closing tag of the previous row
 }
 
 void Converter::TagTableRow::OnHasLeftClosingTag(Converter *c) {
   c->UpdatePrevChFromMd();
-  if (c->prev_ch_in_md_ == '|')
-    c->appendToMd('\n'); // There's a bug
-  else
-    c->appendToMd('|');
+  
+  // Always close the row with a pipe and space, then newline
+  if (c->prev_ch_in_md_ != '|') {
+    c->appendToMd(" |");
+  }
+  c->appendToMd('\n');
 
   if (!c->tableLine.empty()) {
-    if (c->prev_ch_in_md_ != '\n')
-      c->appendToMd('\n');
-
     c->tableLine.append("|\n");
     c->appendToMd(c->tableLine);
     c->tableLine.clear();
   }
 }
+
 
 void Converter::TagTableHeader::OnHasLeftOpeningTag(Converter *c) {
   auto align = c->ExtractAttributeFromTagLeftOf(kAttrinuteAlign);
@@ -1052,14 +1053,20 @@ void Converter::TagTableHeader::OnHasLeftOpeningTag(Converter *c) {
   c->appendToMd("| ");
 }
 
-void Converter::TagTableHeader::OnHasLeftClosingTag(Converter *c) {}
-
-void Converter::TagTableData::OnHasLeftOpeningTag(Converter *c) {
-  if (c->prev_prev_ch_in_md_ != '|')
-    c->appendToMd("| ");
+void Converter::TagTableHeader::OnHasLeftClosingTag(Converter *c) {
+  c->appendToMd(" ");
 }
 
-void Converter::TagTableData::OnHasLeftClosingTag(Converter *c) {}
+
+void Converter::TagTableData::OnHasLeftOpeningTag(Converter *c) {
+  c->appendToMd("| ");
+}
+
+
+void Converter::TagTableData::OnHasLeftClosingTag(Converter *c) {
+  c->appendToMd(" ");
+}
+
 
 void Converter::TagBlockquote::OnHasLeftOpeningTag(Converter *c) {
   ++c->index_blockquote;

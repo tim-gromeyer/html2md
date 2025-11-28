@@ -459,6 +459,80 @@ bool testEscapingNumberedList() {
   return true;
 }
 
+bool testTableFormatting() {
+  testOption("tableFormatting");
+
+  // Test case from the bug report - table with thead/tbody
+  string html = R"(<table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Alice</td>
+        <td>alice@example.com</td>
+        <td>Active</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Bob</td>
+        <td>bob@example.com</td>
+        <td>Inactive</td>
+      </tr>
+    </tbody>
+  </table>)";
+
+  html2md::Options o;
+  o.formatTable = true;
+
+  html2md::Converter c(html, &o);
+  auto md = c.convert();
+
+  // Verify the table has correct structure:
+  // 1. Should have 4 columns (ID, Name, Email, Status)
+  // 2. Should NOT have empty first column
+  // 3. Should have proper separator row
+  // 4. Should have 2 data rows
+
+  // Check that we don't have empty first column (would be "|   |" or "| |")
+  if (md.find("|   |") != string::npos || md.find("| |") != string::npos) {
+    cerr << "Table has empty first column!\n";
+    return false;
+  }
+
+  // Check for correct headers
+  if (md.find("| ID |") == string::npos ||
+      md.find("| Name") == string::npos ||
+      md.find("| Email") == string::npos ||
+      md.find("| Status") == string::npos) {
+    cerr << "Table headers are incorrect!\n";
+    return false;
+  }
+
+  // Check for separator row (should have dashes)
+  if (md.find("|----") == string::npos) {
+    cerr << "Table separator row is missing or malformed!\n";
+    return false;
+  }
+
+  // Check for data rows
+  if (md.find("| 1") == string::npos ||
+      md.find("| Alice") == string::npos ||
+      md.find("| 2") == string::npos ||
+      md.find("| Bob") == string::npos) {
+    cerr << "Table data rows are incorrect!\n";
+    return false;
+  }
+
+  return true;
+}
+
 int main(int argc, const char **argv) {
   // List to store all markdown files in this dir
   vector<string> files;
@@ -521,6 +595,7 @@ int main(int argc, const char **argv) {
                 &testZeroWidthSpaceWithBlockquote,
                 &testInvalidTags,
                 &testEscapingNumberedList,
+                &testTableFormatting,
               };
 
   for (const auto &test : tests)

@@ -56,8 +56,8 @@ string formatMarkdownTable(const string &inputTable) {
     vector<string> rowData;
 
     while (std::getline(lineStream, cell, '|')) {
-      if (!cell.empty()) {
-        removeLeadingTrailingSpaces(cell); // Use the trim function
+      removeLeadingTrailingSpaces(cell); // Trim first
+      if (!cell.empty()) { // Then check if empty
         rowData.push_back(cell);
       }
     }
