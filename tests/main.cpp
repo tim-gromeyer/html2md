@@ -533,6 +533,49 @@ bool testTableFormatting() {
   return true;
 }
 
+bool testPreserveNbsp() {
+  testOption("preserveNbsp");
+
+  string html = R"(<p class="" style="text-autospace:none"><span style="font-size:11.0pt;mso-fareast-language:EN-US">redacted1</span></p>
+<p class=""><span style="font-size:11.0pt;mso-fareast-language:EN-US">&nbsp;</span></p>
+<p class=""><span style="font-size:11.0pt;mso-fareast-language:EN-US">&nbsp;</span></p>
+<div>
+<p class=""><span style="font-size:11.0pt;mso-ligatures:standardcontextual;mso-fareast-language:EN-US">&nbsp;</span></p>
+<p class="" style="text-autospace:none"><b><span style="font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#244061"><img width="239" height="30" style="width: 2.493in; height: 0.3125in; max-width: 100%;" id="" src=""></span></b><b><span style="font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#244061"></span></b></p>
+<p class="" style="text-autospace:none"><b><span style="font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;color:#244061;mso-ligatures:standardcontextual">redacted2</span></b></p>)";
+
+  html2md::Options o;
+  o.splitLines = false;
+  o.keepHtmlEntities = true;
+
+  html2md::Converter c(html, &o);
+  auto md = c.convert();
+
+  // We expect the output to contain HTML non-breaking spaces preserved
+  size_t count = 0;
+  size_t pos = 0;
+  while ((pos = md.find("&nbsp;", pos)) != string::npos) {
+    ++count;
+    pos += 6;
+  }
+
+  if (count < 3) {
+    cout << "Failed preserve &nbsp;: only " << count << " occurrences found\n"
+         << "Generated Markdown:\n" << md << "\n";
+    return false;
+  }
+
+  // Also ensure that redacted1 and redacted2 are present in correct order
+  auto p1 = md.find("redacted1");
+  auto p2 = md.find("redacted2");
+  if (p1 == string::npos || p2 == string::npos || p1 >= p2) {
+    cout << "redacted texts missing or in wrong order\n" << md << "\n";
+    return false;
+  }
+
+  return true;
+}
+
 int main(int argc, const char **argv) {
   // List to store all markdown files in this dir
   vector<string> files;
@@ -596,6 +639,7 @@ int main(int argc, const char **argv) {
                 &testInvalidTags,
                 &testEscapingNumberedList,
                 &testTableFormatting,
+                &testPreserveNbsp,
               };
 
   for (const auto &test : tests)

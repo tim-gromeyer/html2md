@@ -164,26 +164,32 @@ void Converter::CleanUpMarkdown() {
   std::string buffer;
   buffer.reserve(md_.size());
 
-  // Replace HTML symbols during the initial pass
-  for (size_t i = 0; i < md_.size();) {
-    bool replaced = false;
+  // Replace HTML symbols during the initial pass unless the user requested
+  // to keep HTML entities intact (e.g. keep `&nbsp;`)
+  if (!option.keepHtmlEntities) {
+    for (size_t i = 0; i < md_.size();) {
+      bool replaced = false;
 
-    // C++11 compatible iteration over htmlSymbolConversions_
-    for (const auto &symbol_replacement : htmlSymbolConversions_) {
-      const std::string &symbol = symbol_replacement.first;
-      const std::string &replacement = symbol_replacement.second;
+      // C++11 compatible iteration over htmlSymbolConversions_
+      for (const auto &symbol_replacement : htmlSymbolConversions_) {
+        const std::string &symbol = symbol_replacement.first;
+        const std::string &replacement = symbol_replacement.second;
 
-      if (md_.compare(i, symbol.size(), symbol) == 0) {
-        buffer.append(replacement);
-        i += symbol.size();
-        replaced = true;
-        break;
+        if (md_.compare(i, symbol.size(), symbol) == 0) {
+          buffer.append(replacement);
+          i += symbol.size();
+          replaced = true;
+          break;
+        }
+      }
+
+      if (!replaced) {
+        buffer.push_back(md_[i++]);
       }
     }
-
-    if (!replaced) {
-      buffer.push_back(md_[i++]);
-    }
+  } else {
+    // Keep entities as-is: copy through without transforming
+    buffer.append(md_);
   }
 
   // Use swap instead of move assignment for better pre-C++11 compatibility

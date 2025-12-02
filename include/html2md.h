@@ -133,13 +133,22 @@ struct Options {
    */
   bool escapeNumberedList = true;
 
+  /*!
+   * \brief Whether to keep HTML entities (e.g. `&nbsp;`) in the output
+   *
+   * If true, the converter will not replace HTML entities configured in the
+   * internal conversion map. Default is false (current behaviour).
+   */
+  bool keepHtmlEntities = false;
+
   inline bool operator==(html2md::Options o) const {
     return splitLines == o.splitLines && unorderedList == o.unorderedList &&
            orderedList == o.orderedList && includeTitle == o.includeTitle &&
            softBreak == o.softBreak && hardBreak == o.hardBreak &&
            formatTable == o.formatTable && forceLeftTrim == o.forceLeftTrim &&
            compressWhitespace == o.compressWhitespace &&
-           escapeNumberedList == o.escapeNumberedList;
+           escapeNumberedList == o.escapeNumberedList &&
+           keepHtmlEntities == o.keepHtmlEntities;
   };
 };
 

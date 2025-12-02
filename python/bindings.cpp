@@ -31,6 +31,8 @@ PYBIND11_MODULE(pyhtml2md, m) {
                      "into a single space")
       .def_readwrite("escapeNumberedList", &html2md::Options::escapeNumberedList,
                      "Whether to escape numbered lists (e.g. '4.' -> '4\\.')")
+     .def_readwrite("keepHtmlEntities", &html2md::Options::keepHtmlEntities,
+                  "Whether to keep HTML entities (e.g. '&nbsp;') in the output")
       .def("__eq__", &html2md::Options::operator==);
 
   py::class_<html2md::Converter>(m, "Converter")

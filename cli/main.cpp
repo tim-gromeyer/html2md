@@ -60,16 +60,20 @@ constexpr const char *const DESCRIPTION =
     "  -r, --replace\tOverwrite the output file (if it already exists) without "
     "asking.\n";
 
+  constexpr const char *const EXTRA_OPTIONS =
+    "  -E, --preserve-entities\tKeep HTML entities (e.g. &nbsp;) in output.\n";
+
 struct Options {
   bool print = false;
   bool replace = false;
+  bool preserveEntities = false;
   string inputFile;
   string outputFile;
   string inputText;
 };
 
 void printHelp(const string &programName) {
-  cout << programName << DESCRIPTION;
+  cout << programName << DESCRIPTION << EXTRA_OPTIONS;
 }
 
 void printVersion() { cout << "Version " << VERSION << endl; }
@@ -115,6 +119,8 @@ Options parseCommandLine(int argc, char **argv) {
       options.print = true;
     } else if (arg == "-r" || arg == "--replace") {
       options.replace = true;
+    } else if (arg == "-E" || arg == "--preserve-entities") {
+      options.preserveEntities = true;
     } else if (arg == "-o" || arg == "--output") {
       if (i + 1 < argc) {
         options.outputFile = argv[i + 1];
@@ -153,7 +159,10 @@ int main(int argc, char **argv) {
     return EXIT_FAILURE;
   }
 
-  html2md::Converter converter(input);
+  // Pass CLI-driven option to the converter
+  html2md::Options copt;
+  copt.keepHtmlEntities = options.preserveEntities;
+  html2md::Converter converter(input, &copt);
   string md = converter.convert();
 
   if (options.print) {
